@@ -1,11 +1,11 @@
 import Link from "next/link"
 
 
-export default function Login() {
+export default function Register() {
   return (
     <div className="w-full h-screen flex justify-center items-center">
         <form className="card w-[30%] min-h-[50vh] bg-base-300 rounded-xl p-5">
-            <p className="text-2xl py-2 text-center font-bold">Prijavi se</p>
+            <p className="text-2xl py-2 text-center font-bold">Kreiraj profil</p>
 
             
             <div className="flex flex-col justify-center mt-10">
@@ -35,14 +35,13 @@ export default function Login() {
 
             <button 
             className="btn btn-info my-10 text-xl hover:text-white"
-            type="submit"
             >
-            Prijavi se
+              Prijavi se
             </button>
 
-            <p className="text-lg text-center">Nemas profil? 
-            <Link className="underline hover:text-white ml-2" href="/register">
-                Klikni ovdje da kreiras
+            <p className="text-lg text-center">Imate vec kreiran profil? 
+            <Link className="underline hover:text-white ml-2" href="/login">
+                Prijavite se ovdje
                 </Link></p>
            
 
