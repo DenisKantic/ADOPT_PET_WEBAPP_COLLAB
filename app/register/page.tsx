@@ -22,6 +22,18 @@ export default function Register() {
             <br />
 
             <label className="text-lg">
+                Username {"(Korisnicko ime)"}
+            </label>
+            <input
+            className="input mt-5 p-5 input-bordered text-lg"
+            name="username"
+            type="text"
+            required
+            placeholder="Upisite svoj username"
+            />
+            <br />
+
+            <label className="text-lg">
                 Password
             </label>
             <input
