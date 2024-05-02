@@ -1,7 +1,18 @@
+"use client"
 import Link from "next/link"
-
+import { useSession } from "next-auth/react"
+import SignInButton from "../SignInButton"
+import { redirect } from "next/navigation";
 
 export default function Register() {
+
+  const session = useSession();
+  const user = session.data?.user;
+
+  if(user){
+    redirect('/')
+  } 
+  
   return (
     <div className="w-full h-screen flex justify-center items-center">
         <form className="card w-[30%] min-h-[50vh] bg-base-300 rounded-xl p-5">
@@ -46,17 +57,20 @@ export default function Register() {
             </div>
 
             <button 
-            className="btn btn-info my-10 text-xl hover:text-white"
+            className="btn btn-info my-5 text-xl hover:text-white"
+            type="submit"
             >
               Prijavi se
             </button>
+
+            <label className="text-white text-center text-lg">Ili jos bolje. Koristi svoj Google Account</label>
+            <SignInButton />
+
 
             <p className="text-lg text-center">Imate vec kreiran profil? 
             <Link className="underline hover:text-white ml-2" href="/login">
                 Prijavite se ovdje
                 </Link></p>
-           
-
 
         </form>
     </div>
