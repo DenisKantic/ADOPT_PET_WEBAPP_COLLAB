@@ -37,7 +37,7 @@ export default async function Login() {
                 Email
             </label>
             <input
-            className="input input-bordered input-primary bg-white rounded-full mt-5 p-5  text-lg"
+            className="input input-bordered input-primary bg-white rounded-full mt-2 p-5  text-lg"
             name="email"
             type="email"
             placeholder="Upišite svoj mail"
@@ -49,16 +49,16 @@ export default async function Login() {
                 Password
             </label>
             <input
-            className="input input-bordered input-primary bg-white rounded-full mt-5 p-5  text-lg"
+            className="input input-bordered input-primary bg-white rounded-full mt-2 p-5  text-lg"
             type="password"
             name="password"
-            placeholder="Upišite svoju sifru"
+            placeholder="Upišite svoju šifru"
             required
             />
             </div>
 
             <button 
-            className="btn bg-[#2f5382] rounded-full mt-10 mb-5 text-xl text-white"
+            className="btn bg-[#2f5382] rounded-full mt-8 mb-5 text-xl text-white"
             type="submit"
             >
             Prijavi se
@@ -68,8 +68,8 @@ export default async function Login() {
             <SignInButton />
 
             <p className="text-md text-center mt-4">Nemaš profil? 
-            <Link className="underline hover:text-white ml-2" href="/register">
-                Klikni ovdje da kreiras
+            <Link className="underline hover:text-[#2f5382] ml-2" href="/register">
+                Klikni ovdje da kreiraš
                 </Link></p>
         </form>
     </div>
