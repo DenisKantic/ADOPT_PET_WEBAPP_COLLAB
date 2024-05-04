@@ -1,14 +1,7 @@
 import React from 'react'
-import { User } from "next-auth";
 import { signOut } from 'next-auth/react';
 
-
-
-interface UserButtonProps {
-    user: User;
-  }
-
-export default function UserButton({user}: UserButtonProps) {
+export default function UserButton() {
   return (
     <div className='dropdown dropdown-content'>
       <ul>

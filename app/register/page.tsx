@@ -1,7 +1,7 @@
 "use client"
 import Link from "next/link"
 import { useSession } from "next-auth/react"
-import SignInButton from "../SignInButton"
+import SignInButton from "../login/SignInButton"
 import { redirect } from "next/navigation";
 
 export default function Register() {
