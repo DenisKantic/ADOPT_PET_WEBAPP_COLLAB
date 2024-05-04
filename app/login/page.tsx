@@ -19,7 +19,7 @@ export default async function Login() {
   } 
 
   return (
-    <div className="w-full h-screen flex justify-center items-center bg-[#2f5382]">
+        <div className="w-full h-screen flex justify-center items-center bg-[#2f5382]">
         <form className="card bg-white rounded-xl p-5 text-black 
                         xxs:w-full xxs:h-screen xxs:overflow-y-scroll 
                         md:w-[500px] md:min-h-[50vh] md:h-auto md:overflow-hidden">

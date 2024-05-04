@@ -1,20 +1,12 @@
-"use client";
-import { signIn, useSession } from "next-auth/react";
-import Link from "next/link";
-import Navbar from "./globalComponents/navbar/Navbar";
-// import UserButton from "./UserButton";
+import Navbar from "./globalComponents/navbar/Navbar"
 
 export default function Home() {
-  const session = useSession();
-  const user = session.data?.user;
+
 
   return (
-   <>
+   <div className="h-screen bg-white">
    <Navbar />
-   </>
+   <h1>Test page</h1>
+   </div>
   );
-}
-
-function SignInButton() {
-  return <button className="btn btn-primary" onClick={() => signIn()}>Sign in</button>;
 }
