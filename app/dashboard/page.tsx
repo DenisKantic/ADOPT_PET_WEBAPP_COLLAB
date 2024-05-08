@@ -65,6 +65,20 @@ export default async function page() {
                     <h1>Test</h1>
             </div>
       </div>
+
+      <div className="mt-10 grid grid-cols-5 grid-rows-1 gap-10 w-full">
+        
+        <div className="col-span-3 bg-red-400">
+        <h1>Najnoviji ljubimci</h1>
+                <h1>ostale zivotinje</h1>
+        </div>
+
+        <div className="col-span-2 bg-red-200">
+            <h1>Vet stanice</h1>
+        </div>
+      </div>
+
+      
     </div>
   )
 }
