@@ -12,7 +12,7 @@ export default async function Navbar() {
 
 
   return (
-    <div className="navbar bg-[#F0F0F0] px-10 py-1">
+    <div className="navbar bg-[#F0F0F0] px-10 py-1 fixed">
         <div className="flex-1">
                 <Image
                 src="/images/logo.png"
@@ -41,11 +41,12 @@ export default async function Navbar() {
       </div>
       <ul tabIndex={0} className="mt-3 z-[1] p-4 shadow menu menu-sm border-[1px] border-[#2f5382] dropdown-content bg-white rounded-box w-[250px]">
         <li>
-          <p className='badge rounded-xl border-none bg-[#F0F0F0] text-black text-start flex flex-row justify-between py-5 px-4 text-md w-full'>
+          <p className='badge rounded-xl border-none bg-[#F0F0F0] text-black text-start flex flex-row justify-between my-2 py-5 px-4 text-md w-full'>
             {user ? "Moj profil" : <Link href="/login">Prijavi se</Link>}
             <span className={user ? "block py-1 px-3 badge-neutral rounded-full text-center bg-[#2f5382] text-white" : "hidden"}>{user?.name?.substring(0,10)+"..."}</span>
           </p>
         </li>
+        <li className={user ? "block" : "hidden"}><Link href="/dashboard" className='my-2 badge rounded-xl border-none bg-[#F0F0F0] text-black text-start flex justify-start py-5 px-4 text-md w-full'>Dashboard</Link></li>
         <li className={user ? "block" : "hidden"}><a className='my-2 badge rounded-xl border-none bg-[#F0F0F0] text-black text-start flex justify-start py-5 px-4 text-md w-full'>Postavke</a></li>
         <li className={user ? "block" : "hidden"}><a className='mt-3 py-1 btn bg-[#2f5382] w-full rounded-full text-white'>Objavi oglas</a></li>
         <li className={user ? "block" : "hidden"}><SignOut /></li>
