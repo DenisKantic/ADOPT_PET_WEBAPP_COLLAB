@@ -1,13 +1,15 @@
 import Link from "next/link"
-import { auth } from "@/auth";
+import getSession from "@/lib/getSession";
 import SignInButton from "./SignInButton";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 
 export default async function Register() {
 
-  const session = await auth();
+  const session = await getSession();
   const user = session?.user;
+
+  console.log("testing REGISTER STATE")
 
   if(user){
     redirect('/')

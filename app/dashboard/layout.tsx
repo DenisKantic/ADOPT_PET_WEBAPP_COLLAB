@@ -1,10 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { SessionProvider } from "next-auth/react";
 import Navbar from "../globalComponents/navbar/Navbar";
-
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -17,11 +12,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <SessionProvider>
+      <body>
                 <Navbar />
                 {children}
-        </SessionProvider>
         </body>
     </html>
   );

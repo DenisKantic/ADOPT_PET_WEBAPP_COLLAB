@@ -2,7 +2,7 @@ import Link from "next/link"
 import Image from "next/image"
 import SignInButton from "./SignInButton"
 import { Metadata } from "next";
-import {auth} from '@/auth'
+import getSession from "@/lib/getSession";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default async function Login() {
 
-  const session = await auth();
+  const session = await getSession();
   const user = session?.user;
 
   if(user){

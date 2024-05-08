@@ -1,13 +1,13 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import {auth} from '@/auth'
+import getSession from "@/lib/getSession";
 import userImage from '../../../public/images/user.png'
 import SignOut from './SignOut'
 
 export default async function Navbar() {
 
-    const session = await auth()
+    const session = await getSession()
     const user = session?.user;
 
 
@@ -41,12 +41,11 @@ export default async function Navbar() {
       </div>
       <ul tabIndex={0} className="mt-3 z-[1] p-4 shadow menu menu-sm border-[1px] border-[#2f5382] dropdown-content bg-white rounded-box w-[250px]">
         <li>
-          <p className='badge rounded-xl border-none bg-[#F0F0F0] text-black text-start flex flex-row justify-between my-2 py-5 px-4 text-md w-full'>
+          <Link href="/dashboard" className='badge rounded-xl border-none bg-[#F0F0F0] text-black text-start flex flex-row justify-between my-2 py-5 px-4 text-md w-full'>
             {user ? "Moj profil" : <Link href="/login">Prijavi se</Link>}
             <span className={user ? "block py-1 px-3 badge-neutral rounded-full text-center bg-[#2f5382] text-white" : "hidden"}>{user?.name?.substring(0,10)+"..."}</span>
-          </p>
+          </Link>
         </li>
-        <li className={user ? "block" : "hidden"}><Link href="/dashboard" className='my-2 badge rounded-xl border-none bg-[#F0F0F0] text-black text-start flex justify-start py-5 px-4 text-md w-full'>Dashboard</Link></li>
         <li className={user ? "block" : "hidden"}><a className='my-2 badge rounded-xl border-none bg-[#F0F0F0] text-black text-start flex justify-start py-5 px-4 text-md w-full'>Postavke</a></li>
         <li className={user ? "block" : "hidden"}><a className='mt-3 py-1 btn bg-[#2f5382] w-full rounded-full text-white'>Objavi oglas</a></li>
         <li className={user ? "block" : "hidden"}><SignOut /></li>
