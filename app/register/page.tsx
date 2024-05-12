@@ -1,24 +1,68 @@
+"use client"
 import Link from "next/link"
-import getSession from "@/lib/getSession";
+import { useFormStatus } from "react-dom";
+import { useState } from "react";
+import { auth } from "@/auth";
 import SignInButton from "./SignInButton";
 import { redirect } from "next/navigation";
 import Image from "next/image";
+import { useFormik } from "formik";
+import { schema } from "@/app/schemas/schema";
+import { useRouter } from "next/navigation";
 
-export default async function Register() {
 
-  const session = await getSession();
-  const user = session?.user;
+export default function Register() {
 
-  console.log("testing REGISTER STATE")
+  const [isLoading, setIsLoading] = useState(false);
+  const { pending } = useFormStatus();
+  const router = useRouter(); 
+  // const session = await auth();
+  // const user = session?.user;
 
-  if(user){
-    redirect('/')
-  } 
+  // if(user){
+  //   redirect('/')
+  // }
+  
+  // use formik hook
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      name: "",
+      password: ""
+    },
+    validationSchema: schema,
+    onSubmit: async (values) => {
+      setIsLoading(true);
+
+      const response = await fetch('/api/user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: values.email,
+          name: values.name,
+          password: values.password
+        })
+      })
+
+      if(response.ok) {
+        router.push('/login');
+      } else {
+        console.error('Registration failed!');
+      }
+
+    }
+  })
+
+  // deconstruct Formik object
+  const { errors, touched, values, handleChange, handleSubmit } = formik;
   
   return (
     <div className="w-full h-screen flex justify-center items-center">
         <div className="w-full h-screen flex justify-center items-center bg-[#2f5382]">
-        <form className="card bg-white rounded-xl p-5 text-black 
+        <form onSubmit={handleSubmit}
+        className="card bg-white rounded-xl p-5 text-black 
                         xxs:w-full xxs:h-screen xxs:overflow-y-scroll 
                         md:w-[500px] md:min-h-[50vh] md:h-auto md:overflow-hidden">
           <Image
@@ -35,41 +79,63 @@ export default async function Register() {
                 Email
             </label>
             <input
+            disabled={isLoading}
             className="input input-bordered input-primary bg-white rounded-full mt-2 p-5  text-lg"
             name="email"
             type="email"
+            value={values.email}
+            onChange={handleChange}
             placeholder="Upišite svoj mail"
-            required
             />
+            {touched.email && errors.email && 
+            <div className="text-red-500 text-[14px] p-1">
+              {errors.email}
+            </div>
+            }
             <br />
 
             <label className="text-lg">
                 Username {"(Korisničko ime)"}
             </label>
             <input
+            disabled={isLoading}
             className="input input-bordered input-primary bg-white rounded-full mt-2 p-5  text-lg"
-            name="email"
-            type="email"
+            name="name"
+            type="text"
+            value={values.name}
+            onChange={handleChange}
             placeholder="Upišite svoj username"
-            required
             />
+            {touched.name && errors.name && 
+              <div className="text-red-500 text-[14px] p-1">
+                {errors.name}
+              </div>
+            }
             <br />
 
             <label className="text-lg">
                 Password
             </label>
             <input
+            disabled={isLoading}
             className="input input-bordered input-primary bg-white rounded-full mt-2 p-5  text-lg"
             type="password"
             name="password"
+            value={values.password}
+            onChange={handleChange}
             placeholder="Upišite svoju sifru"
-            required
             />
+            {touched.password && errors.password &&
+              <div className="text-red-500 text-[14px] p-1">
+                {errors.password}
+              </div>
+            }
             </div>
 
             <button 
             className="btn bg-[#2f5382] rounded-full mt-8 mb-5 text-xl text-white"
             type="submit"
+            aria-disabled={pending}
             >
             Kreiraj profil
             </button>
