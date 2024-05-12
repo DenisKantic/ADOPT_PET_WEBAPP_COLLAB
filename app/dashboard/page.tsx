@@ -1,9 +1,9 @@
-import { auth } from "@/auth";
+import getSession from "@/lib/getSession";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 
 export default async function page() {
-    const session = await auth()
+    const session = await getSession()
     const user = session?.user;
 
     if(!user){
