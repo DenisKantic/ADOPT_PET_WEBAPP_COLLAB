@@ -1,14 +1,13 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-//import getSession from "@/lib/getSession";
-import { auth } from '@/auth'
+import getSession from "@/lib/getSession";
 import userImage from '../../../public/images/user.png'
 import SignOut from './SignOut'
 
 export default async function Navbar() {
 
-    const session = await auth()
+    const session = await getSession();
     const user = session?.user;
 
 
