@@ -8,7 +8,7 @@ export default async function page() {
     const user = session?.user;
 
     if(!user){
-        redirect("/login")
+        redirect("/")
     }
 
   return (
