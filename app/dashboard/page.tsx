@@ -1,6 +1,12 @@
 import getSession from "@/lib/getSession";
 import { redirect } from "next/navigation";
 import Image from "next/image";
+import type { Metadata } from "next";
+
+
+export const metadata: Metadata = {
+    title: "Dashboard",
+  };
 
 export default async function page() {
     const session = await getSession()
