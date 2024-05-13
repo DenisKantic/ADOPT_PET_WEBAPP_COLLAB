@@ -16,6 +16,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  createPost    AdoptAnimal[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -58,3 +59,19 @@ model Session {
 }
  
  
+// MODELS FOR CREATING POST
+
+//Animal post create 
+model AdoptAnimal{
+    id           String   @id @default(auto()) @map("_id") @db.ObjectId
+    // name        String
+    // imageUrl    String
+    vakcina     String
+    cipovan     String
+    pasos       String
+    spol        String
+    starost     String
+
+    user User @relation(fields: [id], references: [id])
+    @@map("adoptAnimalPost")
+}
