@@ -2,15 +2,23 @@ import getSession from "@/lib/getSession";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import type { Metadata } from "next";
+import { prisma } from "@/lib/prisma"
 
 
 export const metadata: Metadata = {
     title: "Dashboard",
   };
 
-export default async function page() {
+export default async function Dashboard() {
+
     const session = await getSession()
     const user = session?.user;
+    const getUserId = session?.user?.id;
+
+    const adoptPost = await prisma.adoptAnimal.findMany({
+        orderBy: {id: "desc"}
+    })
+
 
     if(!user){
         redirect("/")
@@ -83,7 +91,11 @@ export default async function page() {
         </div>
       </div>
 
-      
+        {adoptPost.map(item=>(
+            <div key={item.id}>
+                <span>Cipovan?:{item.cipovan}</span>
+            </div>
+        ))}     
     </div>
   )
 }

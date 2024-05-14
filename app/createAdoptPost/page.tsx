@@ -18,22 +18,22 @@ const cities = [
 async function createPost(formData: FormData){
     "use server"
 
-   // const name = formData.get("name")?.toString();
-   // const imageUrl = formData.get("imageUrl")?.toString();
+    const name = formData.get("name")?.toString();
+    const imageUrl = formData.get("imageUrl")?.toString();
     const vakcina = formData.get("vakcinisan")?.toString();
     const cipovan = formData.get("cipovan")?.toString();
     const pasos = formData.get("pasos")?.toString();
     const spol = formData.get("spol")?.toString();
     const starost = formData.get("starost")?.toString();
 
-    if(!vakcina || !cipovan || !pasos || !spol || !starost){
+    if(!name || !imageUrl || !vakcina || !cipovan || !pasos || !spol || !starost){
         console.log("vakcina:" ,vakcina, "cipovan:", cipovan, "pasos", pasos, "spol", spol, "starost",starost )
         throw Error("Missing required fields")
 
     }
 
     await prisma.adoptAnimal.create({
-        data: {vakcina, cipovan, pasos, spol, starost}
+        data: {name, imageUrl, vakcina, cipovan, pasos, spol, starost}
     })
 }
 
@@ -52,7 +52,7 @@ export default async function CreateAdoptPost() {
 
             <form action={createPost} className='flex flex-col items-start w-full text-black p-5'>
 
-            {/* <label className="text-lg" htmlFor='name'>
+            <label className="text-lg" htmlFor='name'>
                 Ime ljubimca
             </label>
             <input
@@ -74,7 +74,7 @@ export default async function CreateAdoptPost() {
             placeholder="Upišite URL"
             required
             />
-            <br /> */}
+            <br /> 
 
             <div className="flex flex-col items-start">
 
