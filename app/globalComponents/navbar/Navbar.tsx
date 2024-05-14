@@ -55,8 +55,13 @@ export default async function Navbar() {
           </Link>
         )}
         </li>
-        <li className={user ? "block" : "hidden"}><a className='my-2 badge rounded-xl border-none bg-[#F0F0F0] text-black text-start flex justify-start py-5 px-4 text-md w-full'>Postavke</a></li>
-        <li className={user ? "block" : "hidden"}><Link href="/createAdoptPost" className='mt-3 py-1 btn bg-[#2f5382] w-full rounded-full text-white'>Objavi oglas</Link></li>
+        <li className={user ? "block" : "hidden"}>
+          <a className='my-2 badge rounded-xl border-none bg-[#F0F0F0] text-black text-start 
+          flex justify-start py-5 px-4 text-md w-full'>
+            <Link href="/profile-settings">Postavke</Link>
+          </a>
+        </li>
+        <li className={user ? "block" : "hidden"}><a className='mt-3 py-1 btn bg-[#2f5382] w-full rounded-full text-white'>Objavi oglas</a></li>
         <li className={user ? "block" : "hidden"}><SignOut /></li>
       </ul>
     </div>
