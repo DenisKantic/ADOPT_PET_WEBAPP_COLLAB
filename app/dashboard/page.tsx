@@ -2,7 +2,7 @@ import getSession from "@/lib/getSession";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import type { Metadata } from "next";
-import { prisma } from "@/lib/prisma"
+import {prisma} from "@/lib/prisma"
 
 
 export const metadata: Metadata = {
@@ -13,16 +13,18 @@ export default async function Dashboard() {
 
     const session = await getSession()
     const user = session?.user;
-    const getUserId = session?.user?.id;
-
-    const adoptPost = await prisma.adoptAnimal.findMany({
-        orderBy: {id: "desc"}
-    })
+    const userId = session?.user?.id;
 
 
     if(!user){
         redirect("/")
     }
+
+    const oglasi = await prisma.adoptAnimal.findMany({
+      where:{
+        post_id: userId
+      }
+    })
 
   return (
     <div className='h-screen w-full bg-gray-200 px-10 py-20'>
@@ -89,13 +91,19 @@ export default async function Dashboard() {
         <div className="col-span-2 bg-red-200">
             <h1>Vet stanice</h1>
         </div>
-      </div>
+      </div>   
 
-        {adoptPost.map(item=>(
-            <div key={item.id}>
-                <span>Cipovan?:{item.cipovan}</span>
-            </div>
-        ))}     
+      <div className="h-[30vh] w-full bg-gray-500 text-white">
+        <h1>ADOPT PET OGLAS</h1>
+
+        {oglasi.map(item=>(
+          <div key={item.id}>
+            <span>Vakcinisan: {item.vakcina}</span> <br />
+            <textarea className="textarea disabled bg-white text-black h-[20vh] w-full">{item.description}</textarea>
+          </div>
+        ))}
+
+      </div>
     </div>
   )
 }

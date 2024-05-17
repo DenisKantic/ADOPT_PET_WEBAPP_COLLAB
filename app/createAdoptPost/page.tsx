@@ -3,37 +3,34 @@ import { Metadata } from 'next';
 import getSession from '@/lib/getSession';
 import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma'
+
 export const metadata: Metadata = {
     title: "Kreiraj objavu",
   };
 
-const cities = [
-    "Tuzla",
-    "Sarajevo",
-    "Zenica",
-    "Mostar",
-    "Lukavac"
-]
 
 async function createPost(formData: FormData){
     "use server"
 
-    const name = formData.get("name")?.toString();
-    const imageUrl = formData.get("imageUrl")?.toString();
+    const session = await getSession()
+    const post_id = session?.user?.id;
+
+    const petName = formData.get("name")?.toString();
     const vakcina = formData.get("vakcinisan")?.toString();
     const cipovan = formData.get("cipovan")?.toString();
     const pasos = formData.get("pasos")?.toString();
     const spol = formData.get("spol")?.toString();
     const starost = formData.get("starost")?.toString();
+    const phoneNumber = formData.get("phoneNumber")?.toString();
+    const description = formData.get("description")?.toString();
 
-    if(!name || !imageUrl || !vakcina || !cipovan || !pasos || !spol || !starost){
-        console.log("vakcina:" ,vakcina, "cipovan:", cipovan, "pasos", pasos, "spol", spol, "starost",starost )
+    if(!post_id || !petName || !vakcina || !cipovan || !pasos || !spol || !starost || !phoneNumber || !description ){
         throw Error("Missing required fields")
 
     }
 
     await prisma.adoptAnimal.create({
-        data: {name, imageUrl, vakcina, cipovan, pasos, spol, starost}
+        data: {post_id, petName, vakcina, cipovan, pasos, spol, starost, phoneNumber, description}
     })
 }
 
@@ -46,13 +43,13 @@ export default async function CreateAdoptPost() {
         redirect("/")
     }
   return (
-    <div className='h-screen w-full bg-gray-200 px-10 py-20'>
-        <div className='w-[50%] bg-gray-100 mx-auto min-h-[50vh]'>
-            <h1 className='text-2xl text-center py-10 font-bold tracking-wide'>Kreiraj objavu</h1>
+    <div className='min-h-screen w-full bg-gray-200 px-10 py-20'>
+        <div className='w-[50%] bg-gray-100 mx-auto min-h-[50vh] shadow-2xl rounded-md'>
+            <h1 className='text-2xl text-black text-center py-10 font-bold tracking-wide'>Kreiraj objavu</h1>
 
             <form action={createPost} className='flex flex-col items-start w-full text-black p-5'>
 
-            <label className="text-lg" htmlFor='name'>
+             <label className="text-lg" htmlFor='name'>
                 Ime ljubimca
             </label>
             <input
@@ -63,18 +60,6 @@ export default async function CreateAdoptPost() {
             required
             />
             <br />
-
-            <label className="text-lg" htmlFor='imageUrl'>
-                    URL Slike
-            </label>
-            <input
-            className="input input-bordered input-primary bg-white rounded-full mt-2 p-5 w-[50%] text-lg"
-            name="imageUrl"
-            type="url"
-            placeholder="Upišite URL"
-            required
-            />
-            <br /> 
 
             <div className="flex flex-col items-start">
 
@@ -139,6 +124,32 @@ export default async function CreateAdoptPost() {
             </div>
                
             <br />
+
+            <label className="text-lg" htmlFor='phoneNumber'>
+                Broj telefona <span className='text-sm text-gray-600'>{"(061 - xxx -...)"}</span>
+            </label>
+            <input
+            className="input input-bordered input-primary bg-white rounded-full mt-2 p-5 w-[50%] text-lg"
+            name="phoneNumber"
+            type='text'
+            placeholder="Upišite broj telefona"
+            required
+            maxLength={15}
+            />
+            <br />
+
+            <label className="text-lg" htmlFor='description'>
+                Kratak opis
+            </label>
+            <textarea 
+            required 
+            name='description'
+            maxLength={2000}
+            className="textarea bg-white textarea-info mt-3 w-full h-[20vh]" 
+            placeholder="Unesite kratak opis"/>
+            <br />
+
+            
 
             <button type='submit' className='btn btn-primary mx-auto'>Submit</button>
             </form>
