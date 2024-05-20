@@ -6,10 +6,12 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import Credentials from "@auth/core/providers/credentials"
 import { compare } from "bcrypt";
 
+
 const prisma = new PrismaClient()
 
 export const {handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
+<<<<<<< HEAD
   pages: {
     signIn: '/login',
   },
@@ -48,3 +50,7 @@ export const {handlers, signIn, signOut, auth } = NextAuth({
 ],
 secret: process.env.NEXT_PUBLIC_SECRET,
 })
+=======
+  providers: [Google]
+})
+>>>>>>> dbc1e31d930e5bcbeee749048d963abaeb7fd5ae
