@@ -53,16 +53,10 @@ model Session {
   userId       String   @db.ObjectId
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-<<<<<<< HEAD
- 
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-=======
   userSession  AdoptAnimal[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
->>>>>>> dbc1e31d930e5bcbeee749048d963abaeb7fd5ae
   @@map("sessions")
 }
  
