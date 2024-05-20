@@ -6,6 +6,7 @@ import {prisma} from "@/lib/prisma"
 import Link from "next/link";
 import { IoIosMale } from "react-icons/io";
 import { IoMaleFemale } from "react-icons/io5";
+import AllAnimals from "./AllAnimals";
 
 export const metadata: Metadata = {
     title: "Dashboard",
@@ -31,7 +32,7 @@ export default async function Dashboard() {
     let postCounter = oglasi.length;
 
   return (
-    <div className='h-screen w-full bg-white px-14 py-20'>
+    <div className='min-h-screen w-full bg-white px-14 py-20'>
       <div className="grid grid-cols-5 gap-14 grid-rows-4">
             <div className="bg-white rounded-xl h-full col-span-2 row-span-4 p-5 shadow-xl">
                     <h1 className="text-xl text-black">Vaši oglasi <span className="text-md font-bold text-gray-700">{postCounter}</span></h1>
@@ -62,22 +63,23 @@ export default async function Dashboard() {
                           ))}
                     </div>
             </div>
-            <div className="col-span-3 row-span-2 p-5 rounded-2xl shadow-2xl text-black">
-                  <div className="flex flex-col justify-between h-full">
-                    <p className="text-2xl row-span-1">Kako udomiti?</p>
+            <div className="col-span-3 row-span-2 p-5 place-content-center rounded-2xl shadow-2xl text-black">
+                  <div className="grid grid-cols-2 row-span-2  gap-10 ">
+                    <div className="h-full flex justify-center items-center flex-col">
+                    <p className="text-2xl row-span-1"><span className="text-red font-bold text-red-600">SOS</span> oglas</p>
+                    <Link 
+                                href={`/dashboard/sosPost/`}
+                                className="btn bg-red-600 text-lg border-none text-white rounded-full mt-5">Kreiraj SOS oglas</Link>
 
-                    <p className="py-5 text-md  h-auto">Proces udomljena ljubimca je jednostavan - pregledajte profile ljubimaca, pronađite svog idealnog saputnika i kontaktirajte
-                      vlasnika za više informacija
-                    </p>
-                      <Link 
-                          href="/"
-                          className="btn text-lg bg-blue-600 w-[12em] text-white rounded-full mt-5">
-                            Pogledaj vodič
-                            </Link>
-
-                            </div>
-
-            </div>
+                    </div>
+                    <div className="h-full flex justify-center items-center flex-col">
+                    <p className="text-2xl row-span-1"><span className="text-red font-bold">Donacijski</span> oglas</p>
+                    <Link 
+                                href={`/dashboard/donationPost/`}
+                                className="btn bg-white text-lg text-blue-600 rounded-full mt-5">Kreiraj donaciju</Link>
+                    </div>
+              </div>
+              </div>
 
 
             <div className="col-span-3 row-span-2 p-5 rounded-2xl shadow-xl text-black w-full">
@@ -122,29 +124,21 @@ export default async function Dashboard() {
             </div>
       </div>
 
-      <div className="mt-10 grid grid-cols-5 grid-rows-1 gap-10 w-full">
+      <div className="mt-10 grid grid-cols-5 grid-rows-1 gap-10 w-full rounded-2xl shadow-xl text-black">
         
-        <div className="col-span-3 bg-red-400">
-        <h1>Najnoviji ljubimci</h1>
-                <h1>ostale zivotinje</h1>
+        <div className="col-span-3 row-span-2 p-5">
+        <p>Najnoviji ljubimci</p>
+        <div className="grid grid-cols-3 gap-20">
+            <AllAnimals />
+        </div>
+               
         </div>
 
-        <div className="col-span-2 bg-red-200">
+        <div className="col-span-2 bg-red-200 p-5">
             <h1>Vet stanice</h1>
         </div>
       </div>   
 
-      <div className="h-[30vh] w-full bg-gray-500 text-white">
-        <h1>ADOPT PET OGLAS</h1>
-
-        {oglasi.map(item=>(
-          <div key={item.id}>
-            <span>Vakcinisan: {item.vakcina}</span> <br />
-            <textarea className="textarea disabled bg-white text-black h-[20vh] w-full">{item.description}</textarea>
-          </div>
-        ))}
-
-      </div>
     </div>
   )
 }

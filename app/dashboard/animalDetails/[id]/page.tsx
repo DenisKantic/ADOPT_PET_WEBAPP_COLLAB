@@ -13,8 +13,7 @@ type Props = {
 
 const getAnimal = cache(async (id: string)=>{
     const animal = await prisma.adoptAnimal.findUnique({where: {id}})
-
-    console.log("EVO ID:", id)
+    
     if(!animal) notFound();
     
     return animal;
@@ -24,8 +23,6 @@ export default async function AnimalDetails({params: {id}} : Props) {
 
     const session = await getSession()
     const user = session?.user;
-
-    console.log("EVO ID:", id)
 
     if(!user){
         redirect("/")
