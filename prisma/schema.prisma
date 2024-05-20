@@ -77,7 +77,7 @@ model AdoptAnimal{
     description   String
 
     postId      Session    @relation(fields: [post_id], references: [id], onDelete: Cascade)
-
+ 
 
     createdAt   DateTime @default(now()) 
     updatedAt   DateTime @updatedAt 
