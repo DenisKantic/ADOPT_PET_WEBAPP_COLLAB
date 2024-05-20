@@ -32,8 +32,8 @@ export default async function Dashboard() {
 
   return (
     <div className='h-screen w-full bg-white px-14 py-20'>
-      <div className="grid grid-cols-5 gap-14 grid-rows-3">
-            <div className="bg-white rounded-xl h-[50vh] col-span-2 row-span-4 p-5 shadow-xl">
+      <div className="grid grid-cols-5 gap-14 grid-rows-4">
+            <div className="bg-white rounded-xl h-full col-span-2 row-span-4 p-5 shadow-xl">
                     <h1 className="text-xl text-black">Vaši oglasi <span className="text-md font-bold text-gray-700">{postCounter}</span></h1>
                     <div className="grid grid-cols-2 gap-10">
                       {oglasi.map(item=>(
@@ -62,12 +62,63 @@ export default async function Dashboard() {
                           ))}
                     </div>
             </div>
-            <div className="bg-gray-300 col-span-3 row-span-2">
-                    <h1>Test</h1>
+            <div className="col-span-3 row-span-2 p-5 rounded-2xl shadow-2xl text-black">
+                  <div className="flex flex-col justify-between h-full">
+                    <p className="text-2xl row-span-1">Kako udomiti?</p>
+
+                    <p className="py-5 text-md  h-auto">Proces udomljena ljubimca je jednostavan - pregledajte profile ljubimaca, pronađite svog idealnog saputnika i kontaktirajte
+                      vlasnika za više informacija
+                    </p>
+                      <Link 
+                          href="/"
+                          className="btn text-lg bg-blue-600 w-[12em] text-white rounded-full mt-5">
+                            Pogledaj vodič
+                            </Link>
+
+                            </div>
+
             </div>
 
-            <div className="bg-gray-300 col-span-3 row-span-2">
-                    <h1>Test</h1>
+
+            <div className="col-span-3 row-span-2 p-5 rounded-2xl shadow-xl text-black w-full">
+              <p className="text-start text-2xl pb-4">Pronađi svog ljubimca</p>
+                <div className="w-full grid grid-cols-3">
+                      <Link href="/" className="h-[5vh] w-[10em] flex flex-col">
+                      <Image
+                              src="/images/dog_photo.jpg"
+                              alt="dog_logo"
+                              height={50}
+                              width={50}
+                              unoptimized
+                              className="object-cover rounded-2xl w-[10em]"
+                              />
+                              <p className="py-2 text-center">PSI</p>
+                      </Link>
+
+                      <Link href="/" className="h-[5vh] w-[10em] flex flex-col">
+                      <Image
+                              src="/images/cat.jpg"
+                              alt="dog_logo"
+                              height={50}
+                              width={50}
+                              unoptimized
+                              className="object-cover rounded-2xl w-[10em]"
+                              />
+                              <p className="py-2 text-center">MAČKE</p>
+                      </Link>
+
+                      <Link href="/" className="h-[5vh] w-[10em] flex flex-col">
+                      <Image
+                              src="/images/dog_photo.jpg"
+                              alt="dog_logo"
+                              height={50}
+                              width={50}
+                              unoptimized
+                              className="object-cover rounded-2xl w-[10em]"
+                              />
+                              <p className="py-2 text-center">OSTALI LJUBIMCI</p>
+                      </Link>
+                </div>
             </div>
       </div>
 
