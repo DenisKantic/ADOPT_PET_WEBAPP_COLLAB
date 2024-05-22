@@ -3,6 +3,7 @@ import getSession from '@/lib/getSession'
 import { notFound, redirect } from 'next/navigation'
 import {prisma} from '@/lib/prisma'
 import Image from 'next/image'
+import DeleteAnimal from './DeleteAnimal'
 
 
 type Props = {
@@ -19,6 +20,14 @@ const getAnimal = cache(async (id: string)=>{
     
     return animal;
 })
+
+const deleteAnimal = async (id: string)=>{
+    const animal = await prisma.adoptAnimal.delete({where: {id}})
+
+    if(!animal) notFound();
+
+    return animal;
+}
 
 export default async function AnimalDetails({params: {id}} : Props) {
 
@@ -99,7 +108,7 @@ export default async function AnimalDetails({params: {id}} : Props) {
                 </div>
                 <div className='w-full shadow-2xl min-h-[10vh]'>
                         <p className='text-xl text-black border-b-[1px] border-black'>Detaljan opis:</p>
-                        <textarea className='w-full h-[40vh] text-lg bg-white resize-none text-black overflow-hidden' disabled>{animal.description}</textarea>
+                        <textarea value={animal.description} className='w-full h-[40vh] text-lg bg-white resize-none text-black overflow-hidden' disabled />
                     </div>
                 
 
@@ -116,7 +125,7 @@ export default async function AnimalDetails({params: {id}} : Props) {
 
                         <div className={ user ? 'w-full flex flex-col justify-between gap-5 pt-5' : "hidden"}>
                             <button className='btn btn-info w-full rounded-full text-xl text-white'>Uredi oglas</button>
-                            <button className='btn btn-error w-full rounded-full text-xl text-white'>Obriši oglas</button>
+                            <DeleteAnimal postId={animal.id} />
                         </div>
                  </div>
             </div>
