@@ -72,6 +72,7 @@ model VerificationToken {
 model AdoptAnimal {
   id          String @id @default(auto()) @map("_id") @db.ObjectId
   post_id     String @map("post_id") @db.ObjectId
+  category    String
   petName     String
   vakcina     String
   cipovan     String

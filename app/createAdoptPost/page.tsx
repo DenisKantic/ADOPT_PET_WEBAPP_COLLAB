@@ -1,13 +1,21 @@
 import React from 'react'
 import { Metadata } from 'next';
 import getSession from '@/lib/getSession';
-import { redirect } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { prisma } from '@/lib/prisma'
+import FormSubmitButton from '../globalComponents/FormSubmitButton';
 
 export const metadata: Metadata = {
     title: "Kreiraj objavu",
   };
 
+const cities = [
+    "Tuzla",
+    "Sarajevo",
+    "Mostar",
+    "Zenica",
+    "Banja Luka"
+]
 
 async function createPost(formData: FormData){
     "use server"
@@ -15,6 +23,7 @@ async function createPost(formData: FormData){
     const session = await getSession()
     const post_id = session?.user?.id;
 
+    const category = formData.get("category")?.toString()
     const petName = formData.get("name")?.toString();
     const vakcina = formData.get("vakcinisan")?.toString();
     const cipovan = formData.get("cipovan")?.toString();
@@ -24,14 +33,15 @@ async function createPost(formData: FormData){
     const phoneNumber = formData.get("phoneNumber")?.toString();
     const description = formData.get("description")?.toString();
 
-    if(!post_id || !petName || !vakcina || !cipovan || !pasos || !spol || !starost || !phoneNumber || !description ){
+    if(!post_id || !category || !petName || !vakcina || !cipovan || !pasos || !spol || !starost || !phoneNumber || !description ){
         throw Error("Missing required fields")
 
     }
 
     await prisma.adoptAnimal.create({
-        data: {post_id, petName, vakcina, cipovan, pasos, spol, starost, phoneNumber, description}
+        data: {post_id, category, petName, vakcina, cipovan, pasos, spol, starost, phoneNumber, description}
     })
+    redirect("/dashboard")
 }
 
 export default async function CreateAdoptPost() {
@@ -42,6 +52,7 @@ export default async function CreateAdoptPost() {
     if(!user){
         redirect("/")
     }
+
   return (
     <div className='min-h-screen w-full bg-gray-200 px-10 py-20'>
         <div className='w-[50%] bg-gray-100 mx-auto min-h-[50vh] shadow-2xl rounded-md'>
@@ -49,7 +60,21 @@ export default async function CreateAdoptPost() {
 
             <form action={createPost} className='flex flex-col items-start w-full text-black p-5'>
 
-             <label className="text-lg" htmlFor='name'>
+            <div className='flex flex-col py-3'>
+                    <label htmlFor="category" className="py-2">Kategorija:</label>
+                        <div className="flex items-center py-2">
+                            <input type="radio" name="category" value="pas" className="radio radio-info" />
+                            <label htmlFor="category" className="ml-3">Pas</label>
+                            
+                            <input type="radio" name="category" value="macka" className="radio radio-error ml-5" />
+                            <label htmlFor="category" className="ml-3">Mačka</label>
+
+                            <input type="radio" name="category" value="ostalo" className="radio radio-error ml-5" />
+                            <label htmlFor="category" className="ml-3">Ostalo</label>
+                    </div>
+                </div>
+
+             <label className="text-lg pt-2" htmlFor='name'>
                 Ime ljubimca
             </label>
             <input
@@ -151,7 +176,7 @@ export default async function CreateAdoptPost() {
 
             
 
-            <button type='submit' className='btn btn-primary mx-auto'>Submit</button>
+            <FormSubmitButton className='mx-auto'>Kreiraj Oglas</FormSubmitButton>
             </form>
         </div>
     </div>
