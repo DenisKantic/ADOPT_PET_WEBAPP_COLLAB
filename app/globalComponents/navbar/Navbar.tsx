@@ -12,7 +12,7 @@ export default async function Navbar() {
 
 
   return (
-    <div className="navbar bg-[#F0F0F0] px-10 py-1 fixed">
+    <div className="navbar bg-[#F0F0F0] px-14 py-1 fixed">
         <div className="flex-1">
                 <Image
                 src="/images/logo.png"
@@ -59,7 +59,7 @@ export default async function Navbar() {
             <Link className='my-2 badge rounded-xl border-none bg-[#F0F0F0] text-black text-start 
           flex justify-start py-5 px-4 text-md w-full' href="/profile-settings">Postavke</Link>
         </li>
-        <li className={user ? "block" : "hidden"}><a className='mt-3 py-1 btn bg-[#2f5382] w-full rounded-full text-white'>Objavi oglas</a></li>
+        <li className={user ? "block" : "hidden"}><Link href='/createAdoptPost' className='mt-3 py-1 btn bg-[#2f5382] w-full rounded-full text-white'>Objavi oglas</Link></li>
         <li className={user ? "block" : "hidden"}><SignOut /></li>
       </ul>
     </div>
