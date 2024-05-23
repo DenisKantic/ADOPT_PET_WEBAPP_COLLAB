@@ -125,7 +125,7 @@ export default async function AnimalDetails({params: {id}} : Props) {
 
                         <div className={ user ? 'w-full flex flex-col justify-between gap-5 pt-5' : "hidden"}>
                             <button className='btn btn-info w-full rounded-full text-xl text-white'>Uredi oglas</button>
-                            <DeleteAnimal postId={animal.id} />
+                            <DeleteAnimal id={animal.id} />
                         </div>
                  </div>
             </div>

@@ -1,21 +1,35 @@
 "use client"
 import React from 'react'
-import {prisma} from "@/lib/prisma"
-import { notFound } from 'next/navigation'
+import { useRouter } from 'next/navigation'
+import { revalidatePath } from 'next/cache'
 
-
-const deleteAnimalPost = (id: string)=>{
-  const animal = prisma.adoptAnimal.delete({where: {id}})
-
-  if(!animal) notFound();
-
-  return animal;
+type Props = {
+  id: string;
 }
 
-export default function deleteAnimal({postId}) {
+
+export default function DeleteAnimal({id}: Props) {
+
+  const router = useRouter();
+
+  async function handleDelete(){
+    try{
+    const res = await fetch(`/api/post/${id}`, {
+      method: "DELETE"
+    });
+    if(res.ok){
+        router.push("/dashboard")
+        revalidatePath('/dashboard')
+    }
+  } catch(e){
+    console.log("ERROR IN DELETE ANIMAL")
+  }
+    
+  }
   return (
     <> 
-    <button onClick={()=>deleteAnimalPost(postId.id)} className='btn btn-error w-full rounded-full text-xl text-white'>Obriši oglas</button>
+
+    <button onClick={handleDelete} className='btn btn-error w-full rounded-full text-xl text-white'>Obriši oglas</button>
     </>
   )
 }
