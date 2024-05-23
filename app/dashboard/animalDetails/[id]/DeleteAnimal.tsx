@@ -7,7 +7,6 @@ type Props = {
   id: string;
 }
 
-
 export default function DeleteAnimal({id}: Props) {
 
   const router = useRouter();
