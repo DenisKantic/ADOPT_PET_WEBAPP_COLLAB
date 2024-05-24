@@ -1,17 +1,20 @@
-import Navbar from "./globalComponents/navbar/Navbar"
-import Image from "next/image";
-
+import CardItem from '@/app/globalComponents/CardItem'
+import {prisma} from "@/lib/prisma"
 
 
 export default async function Home() {
 
-
   return (
-   <div className="h-screen bg-white">
-   <Navbar />
-   <h1>Test page</h1>
+   <div className="h-screen bg-white text-black px-14">
+   <h1 className="pt-20">Test page</h1>
 
-   
-        </div>
+   <div className="w-full bg-red-200 h-[10vh]">
+      <p className="text-2xl text-center">Category</p>
+   </div>
+
+    <div className="grid grid-cols-5 gap-10">
+        <CardItem  />
+    </div>
+    </div>
   );
 }
