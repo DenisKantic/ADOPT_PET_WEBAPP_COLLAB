@@ -1,20 +1,24 @@
+"use client"
 import CardItem from '@/app/globalComponents/CardItem'
-import {prisma} from "@/lib/prisma"
+import AnimalFilter from "@/app/globalComponents/AnimalFilter"
+import React,{useState} from 'react';
 
+type Props = {
+  filter:string
+}
 
-export default async function Home() {
+export default function Home() {
+
 
   return (
-   <div className="h-screen bg-white text-black px-14">
-   <h1 className="pt-20">Test page</h1>
+    <div className="min-h-screen bg-white text-black px-14">
+      <h1 className="pt-20">Test page</h1>
 
-   <div className="w-full bg-red-200 h-[10vh]">
-      <p className="text-2xl text-center">Category</p>
-   </div>
+      <AnimalFilter />
 
-    <div className="grid grid-cols-6 gap-10">
-        <CardItem  />
-    </div>
+      <div className="grid gap-10 xxs:grid-cols-1 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 xxl:grid-cols-5">
+          
+      </div>
     </div>
   );
 }

@@ -1,8 +1,8 @@
-import React, {cache} from 'react'
+"use server"
 import Image from 'next/image';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
 import {prisma} from "@/lib/prisma"
+import { notFound } from 'next/navigation';
 import { IoIosMale } from "react-icons/io";
 import { IoMaleFemale } from "react-icons/io5";
 import { IoLocationOutline } from "react-icons/io5";
@@ -11,19 +11,19 @@ import { PiDogBold } from "react-icons/pi";
 import { FaCat } from "react-icons/fa";
 import { SiAnimalplanet } from "react-icons/si";
 
-async function getAnimals(){
+type Props = {
+    filter: string
+}
+
+async function getAnimals({filter}:Props){
     const animals = await prisma.adoptAnimal.findMany({
+        where:{
+            category: `${filter}`
+        },
         orderBy:{
-            id: "desc"
+            createdAt: "desc"
         }
     })
-
-
-    // const animals = await prisma.adoptAnimal.findMany({
-    //     where:{
-    //         category: "pas"
-    //     }
-    // }) this is for fetching certain data fields 
     
     if(!animals) notFound();
 
@@ -31,9 +31,9 @@ async function getAnimals(){
 }
 
 
-export default async function CardItem() {
+export default async function CardItem({filter}:Props) {
     
-    const animals = await getAnimals();
+    const animals = await getAnimals({filter})
 
   return (
         <>

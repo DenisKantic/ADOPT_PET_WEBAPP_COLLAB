@@ -6,6 +6,7 @@ import { NextResponse } from 'next/server';
 type Props = {
     params:{
         id: string
+        category: string
     }
 }
 
@@ -30,5 +31,27 @@ export async function DELETE(request: any, {params: {id}}: Props) {
             status: 500
         }
         )
+    }
+}
+
+export async function GET(req: any, {params: {category}}: Props){
+    try{
+        await prisma.adoptAnimal.findMany({
+             where:{
+                    category: `${category}`
+                },
+                orderBy:{
+                    createdAt: "desc"
+                }
+            }) // this is for fetching certain data fields 
+            revalidatePath('/')
+            return NextResponse.json({
+                message: "Get method successfully"
+            })
+    }
+    catch(error){
+        return NextResponse.json({
+            message: "Failed to delete"
+        })
     }
 }
