@@ -115,7 +115,7 @@ export default async function AnimalDetails({params: {id}} : Props) {
 
                     <a href="/" className='btn btn-primary w-full text-xl text-white rounded-full'>Podijeli oglas</a>
 
-                        <div className={ user ? 'w-full flex flex-col justify-between gap-5 pt-5' : "hidden"}>
+                        <div className={ (user?.id == animal.post_id) ? 'w-full flex flex-col justify-between gap-5 pt-5' : "hidden"}>
                             <button className='btn btn-info w-full rounded-full text-xl text-white'>Uredi oglas</button>
                             <DeleteAnimal id={animal.id} />
                         </div>
