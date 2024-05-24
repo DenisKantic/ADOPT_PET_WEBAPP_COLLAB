@@ -12,7 +12,7 @@ export default async function Home() {
       <p className="text-2xl text-center">Category</p>
    </div>
 
-    <div className="grid grid-cols-5 gap-10">
+    <div className="grid grid-cols-6 gap-10">
         <CardItem  />
     </div>
     </div>
