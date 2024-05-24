@@ -10,8 +10,16 @@ import { IoMaleFemale } from "react-icons/io5";
 
 async function getAnimals(){
     const animals = await prisma.adoptAnimal.findMany({
-        orderBy: {id: "desc"}
+        orderBy:{
+            id: "desc"
+        }
     })
+
+    // const animals = await prisma.adoptAnimal.findMany({
+    //     where:{
+    //         category: "pas"
+    //     }
+    // }) this is for fetching certain data fields 
     
     if(!animals) notFound();
     
