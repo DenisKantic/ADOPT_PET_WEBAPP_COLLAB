@@ -21,14 +21,6 @@ const getAnimal = cache(async (id: string)=>{
     return animal;
 })
 
-const deleteAnimal = async (id: string)=>{
-    const animal = await prisma.adoptAnimal.delete({where: {id}})
-
-    if(!animal) notFound();
-
-    return animal;
-}
-
 export default async function AnimalDetails({params: {id}} : Props) {
 
     const session = await getSession()
