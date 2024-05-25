@@ -4,6 +4,13 @@ import { notFound, redirect } from 'next/navigation'
 import {prisma} from '@/lib/prisma'
 import Image from 'next/image'
 import DeleteAnimal from '@/app/dashboard/animalDetails/[id]/DeleteAnimal'
+import { IoIosMale } from "react-icons/io";
+import { IoMaleFemale } from "react-icons/io5";
+import { IoLocationOutline } from "react-icons/io5";
+import { MdOutlinePets } from "react-icons/md";
+import { PiSyringe } from "react-icons/pi";
+import { GrCircleInformation } from "react-icons/gr";
+import { TbEPassport } from "react-icons/tb";
 
 
 type Props = {
@@ -44,57 +51,63 @@ export default async function AnimalDetails({params: {id}} : Props) {
                 />
                 
                     <div className='grid grid-rows-2 grid-cols-3 gap-10 w-full py-5'>
-                        <div className='col-span-1 flex flex-row justify-between items-center bg-[#2F53821F] text-black p-5 rounded-full'>
-                            <div>
-                                <span>Ime:</span>
+                       
+                        <div className='flex flex-row justify-between items-center bg-[#2F53821F] text-black p-5 h-[3rem] rounded-full'>
+                            <div className='flex items-center'>
+                                 <MdOutlinePets/>
+                                <span className='ml-2'>Ime</span>
                             </div>
                             <div>
-                                <span>{animal.petName}</span>
-                            </div>
-                        </div>
-
-                        <div className='flex flex-row justify-between items-center bg-[#2F53821F] text-black p-5 rounded-full'>
-                            <div>
-                                <span>Vakcinisan:</span>
-                            </div>
-                            <div>
-                                <span>{animal.vakcina}</span>
+                                <span className='font-bold text-[#2F5382]'>{animal.petName}</span>
                             </div>
                         </div>
 
-                        <div className='flex flex-row justify-between items-center bg-[#2F53821F] text-black p-5 rounded-full'>
-                            <div>
-                                <span>Starost:</span>
+                        <div className='flex flex-row justify-between items-center bg-[#2F53821F] text-black p-5 h-[3rem] rounded-full'>
+                            <div className='flex items-center'>
+                                <PiSyringe />
+                                <span className='ml-2'>Vakcinisan</span>
                             </div>
                             <div>
-                                <span>{animal.starost}</span>
-                            </div>
-                        </div>
-
-                        <div className='flex flex-row justify-between items-center bg-[#2F53821F] text-black p-5 rounded-full'>
-                            <div>
-                                <span>Pasoš:</span>
-                            </div>
-                            <div>
-                                <span>{animal.pasos}</span>
+                                <span  className='font-bold text-[#2F5382]'>{animal.vakcina}</span>
                             </div>
                         </div>
 
-                        <div className='flex flex-row justify-between items-center bg-[#2F53821F] text-black p-5 rounded-full'>
-                            <div>
-                                <span>Spol:</span>
+                        <div className='flex flex-row justify-between items-center bg-[#2F53821F] text-black p-5 h-[3rem] rounded-full'>
+                            <div className='flex items-center'>
+                            <GrCircleInformation />
+                                <span className='ml-2'>Starost</span>
                             </div>
                             <div>
-                                <span>{animal.spol}</span>
+                                <span className='font-bold text-[#2F5382]'>{animal.starost}</span>
                             </div>
                         </div>
 
-                        <div className='flex flex-row justify-between items-center bg-[#2F53821F] text-black p-5 rounded-full'>
-                            <div>
-                                <span>Lokacija:</span>
+                        <div className='flex flex-row justify-between items-center bg-[#2F53821F] text-black p-5 h-[3rem] rounded-full'>
+                            <div className='flex items-center'>
+                                 <TbEPassport />
+                                <span className='ml-2'>Pasoš</span>
                             </div>
                             <div>
-                                <span>Sarajevo</span>
+                                <span  className='font-bold text-[#2F5382]'>{animal.pasos}</span>
+                            </div>
+                        </div>
+
+                        <div className='flex flex-row justify-between items-center bg-[#2F53821F] text-black p-5 h-[3rem] rounded-full'>
+                            <div className='flex items-center'>
+                                {(animal.spol == "musko" ? <IoIosMale /> : <IoMaleFemale/>)}
+                                <span className='ml-2'>Spol</span>
+                            </div>
+                            <div>
+                                <span  className='font-bold text-[#2F5382]'>{animal.spol}</span>
+                            </div>
+                        </div>
+
+                        <div className='flex flex-row justify-between items-center bg-[#2F53821F] text-black p-5 h-[3rem] rounded-full'>
+                            <div className='flex items-center'>
+                                <span className='ml-2'>Lokacija</span>
+                            </div>
+                            <div>
+                                <span  className='font-bold text-[#2F5382]'>Sarajevo</span>
                             </div>
                         </div>
                 </div>
@@ -108,15 +121,17 @@ export default async function AnimalDetails({params: {id}} : Props) {
 
             <div className='w-[30%] h-full rounded-2xl shadow-2xl'>
                  <div className='w-full h-full p-5 flex flex-col justify-between items-start text-black'>
-                    <p>{user?.name}</p>
-                    <p>{user?.email}</p>
-                    <p>{animal.phoneNumber}</p>
-                    <p className='pb-5'>Kreirano: {animal.createdAt.toDateString()}</p>
-
-                    <a href="/" className='btn btn-primary w-full text-xl text-white rounded-full'>Podijeli oglas</a>
+                    <p>Ime korisnika: {}</p>
+                    <p>Broj telefona: {animal.phoneNumber}</p>
+                    <p className='pb-5'>Kreirano: {animal.createdAt.toLocaleDateString('bs-BA',{
+                                            year:'numeric',
+                                            month: 'short',
+                                            day: 'numeric'
+                                        })}</p>
 
                         <div className={ (user?.id == animal.post_id) ? 'w-full flex flex-col justify-between gap-5 pt-5' : "hidden"}>
-                            <button className='btn btn-info w-full rounded-full text-xl text-white'>Uredi oglas</button>
+                            <button className="btn bg-[#2F5382] text-lg text-white rounded-full w-full mt-5
+                                        hover:bg-white hover:border-[#2F5382] hover:text-[#2F5382]">Uredi oglas</button>
                             <DeleteAnimal id={animal.id} />
                         </div>
                  </div>

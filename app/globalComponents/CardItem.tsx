@@ -11,15 +11,10 @@ import { PiDogBold } from "react-icons/pi";
 import { FaCat } from "react-icons/fa";
 import { SiAnimalplanet } from "react-icons/si";
 
-type Props = {
-    filter: string
-}
 
-async function getAnimals({filter}:Props){
+export default async function CardItem() {
+    
     const animals = await prisma.adoptAnimal.findMany({
-        where:{
-            category: `${filter}`
-        },
         orderBy:{
             createdAt: "desc"
         }
@@ -27,13 +22,6 @@ async function getAnimals({filter}:Props){
     
     if(!animals) notFound();
 
-    return animals;
-}
-
-
-export default async function CardItem({filter}:Props) {
-    
-    const animals = await getAnimals({filter})
 
   return (
         <>

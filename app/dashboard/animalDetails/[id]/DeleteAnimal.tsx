@@ -17,8 +17,8 @@ export default function DeleteAnimal({id}: Props) {
       method: "DELETE"
     });
     if(res.ok){
-        router.push("/dashboard")
-        revalidatePath('/dashboard')
+      router.push("/dashboard")
+      router.refresh();
     }
   } catch(e){
     console.log("ERROR IN DELETE ANIMAL")
