@@ -1,4 +1,3 @@
-"use server"
 import Image from 'next/image';
 import Link from 'next/link';
 import {prisma} from "@/lib/prisma"
@@ -14,14 +13,9 @@ import { SiAnimalplanet } from "react-icons/si";
 
 export default async function CardItem() {
     
-    const animals = await prisma.adoptAnimal.findMany({
-        orderBy:{
-            createdAt: "desc"
-        }
-    })
+    const animals = await prisma.adoptAnimal.findMany({})
     
     if(!animals) notFound();
-
 
   return (
         <>

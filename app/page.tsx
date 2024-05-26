@@ -12,10 +12,17 @@ export default function Home() {
       <div className='w-full h-full py-5 flex flex-row items-center justify-start'>
       </div>
 
+
+      <div className='h-[20vh]flex flex-row'>
+        <button className='btn btn-primary'>PAs</button>
+        <button className='btn btn-primary'>Macka</button>
+        <button className='btn btn-primary'>Ostlao</button>
+
+      </div>
     
 
       <div className="grid gap-10 xxs:grid-cols-1 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 xxl:grid-cols-5">
-          <CardItem /> 
+          <CardItem/> 
       </div>
     </div>
   );
