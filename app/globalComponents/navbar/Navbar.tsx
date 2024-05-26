@@ -24,11 +24,20 @@ export default async function Navbar() {
                 <Link href="/" className='border-b-2 border-[#2f5382] text-[#2f5382]'>Početna</Link>
                 <Link href="/aboutUs" className='ml-5'>O nama</Link>
                 <Link href="/help" className='ml-5'>Pomoć i podrška</Link>
-                <Link href="/vetStations" className='ml-5'>Veterinarske stanice</Link>
+                <Link href="/vetStations" className='ml-5'>Vet. stanice</Link>
+                <Link href="/vetStations" className='ml-5'>Izgubljene životinje</Link>
+                <Link href="/vetStations" className='ml-5'>Pomoć životinjama</Link>
+                <Link href="/vetStations" className='ml-5'>Blog</Link>
+                <Link href="/vetStations" className='ml-5'>Kontakt</Link>
             </div>
         </div>
   <div className="flex-none gap-2">
-    <div className="dropdown dropdown-end">
+    <Link href="/login" 
+    className={user ? "hidden" : "flex btn bg-[#2F5382] rounded-full text-white px-6 hover:bg-white hover:text-[#2F5382]"}
+    >
+      Prijavi se
+    </Link>
+    <div className={ user ? "dropdown dropdown-end" : "hidden"}>
       <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar flex flex-col">
         <div className="w-10 rounded-full">
                 <Image
@@ -42,18 +51,12 @@ export default async function Navbar() {
       </div>
      <ul tabIndex={0} className="mt-3 z-[1] p-4 shadow menu menu-sm border-[1px] border-[#2f5382] dropdown-content bg-white rounded-box w-[250px]">
         <li>
-        {user ? (
           <Link href="/dashboard" className='badge rounded-xl border-none bg-[#F0F0F0] text-black text-start flex flex-row justify-between my-2 py-5 px-4 text-md w-full'>
             <span>Moj profil</span>
             <span className="block py-1 px-3 badge-neutral rounded-full text-center bg-[#2f5382] text-white">
-              {user.name?.substring(0,10)+"..."}
+              {user?.name?.substring(0,10)+"..."}
             </span>
           </Link>
-        ) : (
-          <Link href="/login" className='badge rounded-xl border-none bg-[#F0F0F0] text-black text-start flex flex-row justify-between my-2 py-5 px-4 text-md w-full'>
-            <span>Prijavi se</span>
-          </Link>
-        )}
         </li>
         <li className={user ? "block" : "hidden"}>
             <Link className='my-2 badge rounded-xl border-none bg-[#F0F0F0] text-black text-start 
