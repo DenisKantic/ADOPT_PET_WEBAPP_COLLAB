@@ -1,7 +1,6 @@
 "use client"
 import React from 'react'
 import { useRouter } from 'next/navigation'
-import { revalidatePath } from 'next/cache'
 
 type Props = {
   id: string;
@@ -25,8 +24,10 @@ export default function DeleteAnimal({id}: Props) {
   }
     
   }
+
   return (
-    <> 
+    <>  
+
 
     <button onClick={handleDelete} className='btn btn-error w-full rounded-full text-xl text-white'>Obriši oglas</button>
     </>
