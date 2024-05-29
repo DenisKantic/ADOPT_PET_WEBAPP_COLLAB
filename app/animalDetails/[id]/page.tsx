@@ -1,6 +1,7 @@
 import React, { cache } from 'react'
+import type { Metadata } from 'next'
 import getSession from '@/lib/getSession'
-import { notFound, redirect } from 'next/navigation'
+import { notFound} from 'next/navigation'
 import {prisma} from '@/lib/prisma'
 import Image from 'next/image'
 import DeleteAnimal from '@/app/dashboard/animalDetails/[id]/DeleteAnimal'
@@ -11,6 +12,12 @@ import { MdOutlinePets } from "react-icons/md";
 import { PiSyringe } from "react-icons/pi";
 import { GrCircleInformation } from "react-icons/gr";
 import { TbEPassport } from "react-icons/tb";
+
+
+export const metadata: Metadata = {
+    title: "Animal Details",
+  };
+
 
 
 type Props = {

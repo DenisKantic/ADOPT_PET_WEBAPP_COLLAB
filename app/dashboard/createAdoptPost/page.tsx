@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import getSession from '@/lib/getSession';
 import { redirect, useRouter } from 'next/navigation';
 import { prisma } from '@/lib/prisma'
-import FormSubmitButton from '../globalComponents/FormSubmitButton';
+import FormSubmitButton from '@/app/globalComponents/FormSubmitButton';
 
 export const metadata: Metadata = {
     title: "Kreiraj objavu",
