@@ -2,19 +2,16 @@
 import Link from "next/link"
 import { useFormStatus } from "react-dom";
 import { useState } from "react";
-import { auth } from "@/auth";
-import SignInButton from "./SignInButton";
-import { redirect } from "next/navigation";
 import Image from "next/image";
 import { useFormik } from "formik";
 import { schema } from "@/app/schemas/schema";
 import { useRouter } from "next/navigation";
+import FormSubmitButton from "../globalComponents/FormSubmitButton";
 
 
 export default function Register() {
 
   const [isLoading, setIsLoading] = useState(false);
-  const { pending } = useFormStatus();
   const router = useRouter(); 
   // const session = await auth();
   // const user = session?.user;
@@ -34,7 +31,7 @@ export default function Register() {
     onSubmit: async (values) => {
       setIsLoading(true);
 
-      const response = await fetch('/api/user', {
+      const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -132,16 +129,8 @@ export default function Register() {
             }
             </div>
 
-            <button 
-            className="btn bg-[#2f5382] rounded-full mt-8 mb-5 text-xl text-white"
-            type="submit"
-            aria-disabled={pending}
-            >
-            Kreiraj profil
-            </button>
-
-            <p className="w-full text-center pb-5">ili nastavi sa Google Account</p>
-            <SignInButton />
+            <FormSubmitButton className="btn bg-[#2F5382] text-lg text-white  border-[#2F5382] rounded-full w-full mt-5
+                 hover:bg-white hover:text-[#2F5382]">Kreiraj Profil</FormSubmitButton>
 
             <p className="text-md text-center mt-4">Imaš profil? 
             <Link className="underline hover:text-[#2f5382] ml-2" href="/login">
