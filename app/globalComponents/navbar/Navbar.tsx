@@ -24,9 +24,6 @@ export default async function Navbar() {
                 <Link href="/" className='border-b-2 border-[#2f5382] text-[#2f5382]'>Početna</Link>
                 <Link href="/aboutUs" className='ml-5'>O nama</Link>
                 <Link href="/help" className='ml-5'>Pomoć i podrška</Link>
-                <Link href="/vetStations" className='ml-5'>Vet. stanice</Link>
-                <Link href="/vetStations" className='ml-5'>Izgubljene životinje</Link>
-                <Link href="/vetStations" className='ml-5'>Pomoć životinjama</Link>
                 <Link href="/vetStations" className='ml-5'>Blog</Link>
                 <Link href="/vetStations" className='ml-5'>Kontakt</Link>
             </div>
