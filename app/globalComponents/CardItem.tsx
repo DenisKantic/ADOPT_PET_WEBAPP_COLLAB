@@ -13,7 +13,9 @@ import { SiAnimalplanet } from "react-icons/si";
 
 export default async function CardItem() {
     
-    const animals = await prisma.adoptAnimal.findMany({})
+    const animals = await prisma.adoptAnimal.findMany({
+        take:5
+    })
     
     if(!animals) notFound();
 
