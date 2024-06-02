@@ -1,4 +1,5 @@
 "use client"
+import { useState } from "react";
 import Link from "next/link"
 import Image from "next/image"
 import { useFormik } from "formik";
@@ -9,14 +10,18 @@ import SignInButton from "../register/SignInButton";
 
 export default function Login() { 
 
+  const [isLoading, setIsLoading] = useState(false);
+
    // use formik hook
    const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: ""
-    },
-    validationSchema: schema,
-    onSubmit: async (values) => {
+   initialValues: {
+    email: "",
+    password: ""
+  },
+  validationSchema: schema,
+  onSubmit: async (values) => {
+    setIsLoading(true);
+    try {
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
@@ -26,15 +31,20 @@ export default function Login() {
           email: values.email,
           password: values.password
         })
-      })
+      });
 
-      if(response.ok) {
-        console.log("GREAT")
+      if (response.ok) {
+        console.log("GREAT");
+        window.location.href = "/dashboard";
       } else {
-        console.error('Registration failed!');
+        console.error('Login failed!');
       }
-
+    } catch (error) {
+      console.error('An error occurred:', error);
+    } finally {
+      setIsLoading(false);
     }
+  }
   })
     //   .then((callback) => {
     //     if (callback?.error) {
@@ -58,67 +68,72 @@ export default function Login() {
   const { errors, touched, values, handleChange, handleSubmit } = formik;
 
   return (
-        <div className="w-full h-screen flex flex-col justify-center items-center bg-[#2f5382]">
-          <Image
-          src="/images/logo.png"
-          alt="logo image"
-          height={120}
-          width={120}
-          className="mx-auto" />
-            <p className="text-2xl py-2 text-center font-bold">Prijavi se</p>
+    <div className="w-full h-screen flex justify-center items-center">
+    <div className="w-full h-screen flex justify-center items-center bg-[#2f5382]">
+    <form onSubmit={handleSubmit}
+    className="card bg-white rounded-xl p-5 text-black 
+                    xxs:w-full xxs:h-screen xxs:overflow-y-scroll 
+                    md:w-[500px] md:min-h-[50vh] md:h-auto md:overflow-hidden">
+      <Image
+      src="/images/logo.png"
+      alt="logo image"
+      height={120}
+      width={120}
+      className="mx-auto" />
+        <p className="text-2xl py-2 text-center font-bold">Kreiraj profil</p>
 
-            <form className="card bg-white rounded-xl p-5 text-black 
-                        xxs:w-full xxs:h-screen xxs:overflow-y-scroll 
-                        md:w-[500px] md:min-h-[50vh] md:h-auto md:overflow-hidden"
-              onSubmit={handleSubmit}>
-            <div className="flex flex-col justify-center mt-2">
-            <label className="text-lg">
-                Email
-            </label>
-            <input
-            className="input input-bordered input-primary bg-white rounded-full mt-2 p-5  text-lg"
-            name="email"
-            type="email"
-            placeholder="Upišite svoj mail"
-            value={values.email}
-            onChange={handleChange}
-            />
-            {touched.email && errors.email && 
-            <div className="text-red-500 text-[14px] p-1">
-              {errors.email}
-            </div>
-            }
-            <br />
+        
+        <div className="flex flex-col justify-center mt-2 mb-5">
+        <label className="text-lg">
+            Email
+        </label>
+        <input
+        disabled={isLoading}
+        className="input input-bordered input-primary bg-white rounded-full mt-2 p-5  text-lg"
+        name="email"
+        type="email"
+        value={values.email}
+        onChange={handleChange}
+        placeholder="Upišite svoj mail"
+        />
+        {touched.email && errors.email && 
+        <div className="text-red-500 text-[14px] p-1">
+          {errors.email}
+        </div>
+        }
+        <br />
 
-            <label className="text-lg">
-                Password
-            </label>
-            <input
-            className="input input-bordered input-primary bg-white rounded-full mt-2 p-5  text-lg"
-            type="password"
-            name="password"
-            placeholder="Upišite svoju šifru"
-            value={values.password}
-            onChange={handleChange}
-            />
-            {touched.password && errors.password && 
-            <div className="text-red-500 text-[14px] p-1">
-              {errors.password}
-            </div>
-            }
-            </div>
+        <label className="text-lg">
+            Password
+        </label>
+        <input
+        disabled={isLoading}
+        className="input input-bordered input-primary bg-white rounded-full mt-2 p-5  text-lg"
+        type="password"
+        name="password"
+        value={values.password}
+        onChange={handleChange}
+        placeholder="Upišite svoju sifru"
+        />
+        {touched.password && errors.password &&
+          <div className="text-red-500 text-[14px] p-1">
+            {errors.password}
+          </div>
+        }
+        </div>
 
-            {/* <FormSubmitButton className="btn bg-[#2F5382] text-lg text-white  border-[#2F5382] rounded-full w-full mt-5
-                 hover:bg-white hover:text-[#2F5382]">Prijavi se</FormSubmitButton> */}
-            
-            <SignInButton />
+        <SignInButton  />
+
+        <button type="submit" className="btn bg-[#2F5382] text-lg text-white  border-[#2F5382] rounded-full w-full mt-5
+             hover:bg-white hover:text-[#2F5382]">Prijavi se</button>
 
 
-            <p className="text-md text-center mt-4">Nemaš profil? 
-            <Link className="underline hover:text-[#2f5382] ml-2" href="/register">
-                Klikni ovdje da kreiraš
-                </Link></p>
-        </form>
-    </div>
+        <p className="text-md text-center mt-4">Imaš profil? 
+        <Link className="underline hover:text-[#2f5382] ml-2" href="/login">
+            Logiraj se ovdje
+            </Link></p>
+    </form>
+</div>
+</div>
   )
 }

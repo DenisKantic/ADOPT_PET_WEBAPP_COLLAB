@@ -22,16 +22,16 @@ export default async function CardItem() {
   return (
         <>
         {animals.map(item=>(
-        <div className="h-auto rounded-xl my-5 w-full pb-2" key={item.id}>
+        <div className="h-auto rounded-xl my-5 w-full pb-2 shadow-2xl" key={item.id}>
             <Image
             src="/images/dog_photo.jpg"
             alt={item.petName}
             height={50}
             width={50}
             unoptimized
-            className="object-cover rounded-2xl h-[15vh] bg-purple-400 w-full"
+            className="object-cover rounded-t-2xl h-[15vh] bg-purple-400 w-full"
             />
-            <div className="w-full">
+            <div className="w-full px-5">
                 <ul className="text-black mt-2 flex flex-col">
                     <li className="flex items-center">
                         {item.category == "pas" ? <PiDogBold  className='text-[#2F5382] text-lg' /> 

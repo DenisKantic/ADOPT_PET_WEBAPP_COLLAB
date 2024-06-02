@@ -2,9 +2,9 @@ import { connectToDatabase } from "@/app/helpers/server-helpers"
 import { NextResponse } from "next/server"
 import {prisma} from "@/lib/prisma"
 import bcrypt from 'bcrypt'
-import { redirect } from "next/navigation"
 
-export const POST = async (req: Request) => {
+export const POST = async (req:Request) => {
+  console.log("found user")
     try{
         const {email,password} = await req.json()
         if(!email || !password){
@@ -18,6 +18,7 @@ export const POST = async (req: Request) => {
                 email: email
             }
         })
+    
 
         if (!user || !user.hashedPassword) {
             return NextResponse.json({ message: "User not found" }, { status: 404 });
@@ -27,8 +28,8 @@ export const POST = async (req: Request) => {
       
           if (isMatch) {
             console.log("Success");
-            redirect('/dashboard')
-            return NextResponse.json({ message: "Login successful" }, { status: 200 });
+            window.location.href="/dashboard"
+            return console.log({ message: "Login successful" }, { status: 200 });
           } else {
             return NextResponse.json({ message: "Invalid credentials" }, { status: 401 });
           }

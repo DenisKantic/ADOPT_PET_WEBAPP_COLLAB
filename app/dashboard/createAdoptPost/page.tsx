@@ -22,6 +22,7 @@ async function createPost(formData: FormData){
 
     const session = await getSession()
     const post_id = session?.user?.id;
+    const username = session?.user?.name;
 
     const category = formData.get("category")?.toString()
     const petName = formData.get("name")?.toString();
@@ -33,13 +34,13 @@ async function createPost(formData: FormData){
     const phoneNumber = formData.get("phoneNumber")?.toString();
     const description = formData.get("description")?.toString();
 
-    if(!post_id || !category || !petName || !vakcina || !cipovan || !pasos || !spol || !starost || !phoneNumber || !description ){
+    if(!post_id || !username || !category || !petName || !vakcina || !cipovan || !pasos || !spol || !starost || !phoneNumber || !description ){
         throw Error("Missing required fields")
 
     }
 
     await prisma.adoptAnimal.create({
-        data: {post_id, category, petName, vakcina, cipovan, pasos, spol, starost, phoneNumber, description}
+        data: {post_id, username, category, petName, vakcina, cipovan, pasos, spol, starost, phoneNumber, description}
     })
     redirect("/dashboard")
 }
@@ -54,11 +55,12 @@ export default async function CreateAdoptPost() {
     }
 
   return (
-    <div className='min-h-screen w-full bg-gray-200 px-10 py-20'>
-        <div className='w-[50%] bg-gray-100 mx-auto min-h-[50vh] shadow-2xl rounded-md'>
+    <div className='min-h-screen w-full bg-gray-200 xxs:px-4 md:px-10 py-20'>
+        <div className='w-[50%] bg-gray-100 mx-auto min-h-[50vh] shadow-2xl rounded-md
+                        xxs:w-full md:w-[60%] xl:w-[50%]'>
             <h1 className='text-2xl text-black text-center py-10 font-bold tracking-wide'>Kreiraj objavu</h1>
 
-            <form action={createPost} className='flex flex-col items-start w-full text-black p-5'>
+            <form action={createPost} className='flex flex-col items-start w-full text-black p-5 xxs:text-sm md:text-lg'>
 
             <div className='flex flex-col py-3'>
                     <label htmlFor="category" className="py-2">Kategorija:</label>
@@ -66,10 +68,10 @@ export default async function CreateAdoptPost() {
                             <input type="radio" name="category" value="pas" className="radio radio-info" />
                             <label htmlFor="category" className="ml-3">Pas</label>
                             
-                            <input type="radio" name="category" value="macka" className="radio radio-error ml-5" />
+                            <input type="radio" name="category" value="macka" className="radio radio-info ml-5" />
                             <label htmlFor="category" className="ml-3">Mačka</label>
 
-                            <input type="radio" name="category" value="ostalo" className="radio radio-error ml-5" />
+                            <input type="radio" name="category" value="ostalo" className="radio radio-info ml-5" />
                             <label htmlFor="category" className="ml-3">Ostalo</label>
                     </div>
                 </div>
@@ -78,7 +80,9 @@ export default async function CreateAdoptPost() {
                 Ime ljubimca
             </label>
             <input
-            className="input input-bordered input-primary bg-white rounded-full mt-2 p-5 w-[50%] text-lg"
+            className="input input-bordered input-primary bg-white rounded-full mt-2 p-5
+                       xxs:w-full sm:w-[60%] text-lg"
+            maxLength={15}
             name="name"
             type='text'
             placeholder="Upišite ime ljubimca"
@@ -138,10 +142,10 @@ export default async function CreateAdoptPost() {
                             <input type="radio" name="starost" value="mladje" className="radio radio-info" />
                             <label htmlFor="starost" className="ml-3">Mlađe</label>
                             
-                            <input type="radio" name="starost" value="odraslo" className="radio radio-error ml-5" />
+                            <input type="radio" name="starost" value="odraslo" className="radio radio-info ml-5" />
                             <label htmlFor="starost" className="ml-3">Odraslo</label>
 
-                            <input type="radio" name="starost" value="starije" className="radio radio-error ml-5" />
+                            <input type="radio" name="starost" value="starije" className="radio radio-info ml-5" />
                             <label htmlFor="starost" className="ml-3">Starije</label>
                     </div>
                 </div>
@@ -154,12 +158,12 @@ export default async function CreateAdoptPost() {
                 Broj telefona <span className='text-sm text-gray-600'>{"(061 - xxx -...)"}</span>
             </label>
             <input
-            className="input input-bordered input-primary bg-white rounded-full mt-2 p-5 w-[50%] text-lg"
+            className="input input-bordered input-primary bg-white rounded-full mt-2 p-5 w-[50%] xxs:w-full sm:w-[60%] text-lg"
+            maxLength={15}
             name="phoneNumber"
             type='text'
             placeholder="Upišite broj telefona"
             required
-            maxLength={15}
             />
             <br />
 
