@@ -4,7 +4,6 @@ import { redirect } from 'next/navigation';
 import getSession from "@/lib/getSession"
 import Image from 'next/image';
 import Link from 'next/link';
-import CreateDonation from './CreateDonationPost/page'
 
 export default async function DonationPost() {
 

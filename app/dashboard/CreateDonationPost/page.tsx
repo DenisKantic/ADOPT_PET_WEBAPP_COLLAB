@@ -9,9 +9,6 @@ export const metadata: Metadata = {
     title: "Kreiraj objavu",
   };
 
-type Props = {
-    postCounter: Number;
-}
 
 async function createPost(formData: FormData){
     "use server"
@@ -37,7 +34,7 @@ async function createPost(formData: FormData){
     redirect("/dashboard")
 }
 
-export default async function DonationPost({postCounter}: Props) {
+export default async function DonationPost() {
 
     const session = await getSession()
     const user = session?.user;
@@ -46,12 +43,6 @@ export default async function DonationPost({postCounter}: Props) {
         redirect("/")
     }
 
-    const counter = await postCounter;
-
-    console.log("COUNTER:", counter)
-    if(counter == 2){
-        redirect("/dashboard")
-    }
 
   return (
     <div className='min-h-screen w-full bg-gray-200 px-10 py-20'>
