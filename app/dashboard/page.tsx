@@ -38,11 +38,11 @@ export default async function Dashboard() {
     let postCounter = oglasi.length;
 
   return (
-    <div className='min-h-screen w-full bg-white px-14 py-20'>
+    <div className='min-h-screen w-full bg-white xxs:px-4 md:px-14 py-20'>
       <div className="flex flex-col">
-            <div className="bg-white rounded-xl h-full col-span-2 row-span-4">
+            <div className="bg-white rounded-xl h-full col-span-2 row-span-4 xxs:col-span-4">
                     <h1 className="text-xl text-black">Vaši oglasi <span className="text-md font-bold text-gray-700">{postCounter}</span></h1>
-                    <div className="grid grid-cols-4 gap-10 shadow-2xl rounded-2xl p-5">
+                    <div className="grid gap-10 shadow-2xl rounded-2xl p-5 xxs:grid-cols-1 sm:grid-cols-2 xl:grid-cols-4">
                       {oglasi.map(item=>(
                         <div className="h-auto rounded-xl my-5 w-full pb-2" key={item.id}>
                             <Image
@@ -79,16 +79,22 @@ export default async function Dashboard() {
                         </div>
                 </div>   
                 ))}
+                 <div className='w-[90%] h-[90%] my-5 p-5 rounded-xl flex flex-col justify-center items-center border-[1px] text-black shadow-2xl border-[#2F5382]'>
+                      <Image
+                      src="/images/logo.png"
+                      alt="logo"
+                      height={100}
+                      width={100}
+                      unoptimized
+                      className='w-full object-cover'
+                      />
+                        <p>Vaše mjesto za reklamu</p>
+                        <p>Kontaktirajte nas..</p>
+                </div>
             </div>
            </div>
 
            <div className="bg-white rounded-xl h-full col-span-2 row-span-4 p-5 shadow-xl mt-10">
-                    <h1 className="text-xl text-black">Donacijski oglasi: <span className="text-md font-bold text-gray-700">{postCounter}</span></h1>
-                    <div className="grid grid-cols-4 gap-10 shadow-2xl">
-                    <Link 
-                                href={`/dashboard/CreateDonationPost`}
-                                className="btn bg-white text-lg text-blue-600 rounded-full mt-5">Kreiraj donaciju</Link>
-                    </div>
 
                     <DonationPost />
               </div>

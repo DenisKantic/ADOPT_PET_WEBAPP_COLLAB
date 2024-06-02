@@ -13,7 +13,8 @@ import { SiAnimalplanet } from "react-icons/si";
 export default async function AllAnimals() {
 
     const animalPost = await prisma.adoptAnimal.findMany({
-        orderBy: {id: "desc"}
+        orderBy: {id: "desc"},
+        take: 3
     });
 
 

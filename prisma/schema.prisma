@@ -8,14 +8,14 @@ generator client {
 }
 
 model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  name           String?
+  email          String?   @unique
+  emailVerified  DateTime?
+  image          String?
   hashedPassword String?
-  accounts      Account[]
-  sessions      Session[]
+  accounts       Account[]
+  sessions       Session[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -71,7 +71,7 @@ model VerificationToken {
 model AdoptAnimal {
   id          String @id @default(auto()) @map("_id") @db.ObjectId
   post_id     String @map("post_id") @db.ObjectId
-  username    String 
+  username    String
   category    String
   petName     String
   vakcina     String
@@ -93,6 +93,7 @@ model AdoptAnimal {
 model DonationPost {
   id             String  @id @default(auto()) @map("_id") @db.ObjectId
   post_id        String  @map("post_id") @db.ObjectId
+  username       String
   name           String
   category       String
   animalCategory String

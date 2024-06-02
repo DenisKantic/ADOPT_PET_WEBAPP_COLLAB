@@ -16,11 +16,12 @@ export default function FormSubmitButton({children, className, ...props}: FormSu
     return (
         <button
         {...props} // everything what we pass from the form will be passed here
-        className={`btn btn-warning ${className}`}
+        className={`btn px-6 bg-[#2F5382] text-md text-white rounded-full mt-5
+        hover:bg-white hover:border-[#2F5382] hover:text-[#2F5382] ${className}`}
         type="submit"
         disabled={pending}
         >
-            {pending && <span className="loading loading-dots loading-lg"></span>}
+            {pending && <span className="loading loading-dots loading-lg bg-[#2F5382]"></span>}
             {children}
         </button>
     )
