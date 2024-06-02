@@ -1,29 +1,80 @@
 import React from 'react';
 import CardItem from './globalComponents/CardItem';
+import Link from 'next/link';
+import Image from 'next/image';
+import SecondNavigation from './globalComponents/navbar/SecondNavigation';
 
 
 export default function Home() {
 
 
   return (
-    <div className="min-h-screen bg-white text-black px-14">
-      <h1 className="pt-20">Test page</h1>
+    <div className="min-h-screen bg-[#f1f4f5] w-full text-black xxs:px-5 md:px-14">
+      
+     <SecondNavigation />
 
-      <div className='w-full h-full py-5 flex flex-row items-center justify-start'>
-      </div>
-
-
-      <div className='h-[20vh]flex flex-row'>
-        <button className='btn btn-primary'>PAs</button>
-        <button className='btn btn-primary'>Macka</button>
-        <button className='btn btn-primary'>Ostlao</button>
-
-      </div>
     
-
-      <div className="grid gap-10 xxs:grid-cols-1 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 xxl:grid-cols-5">
+     <div className='flex justify-between items-center pt-20 xxs:flex-row'>
+        <p className='xxs:text-md md:text-2xl'>Udomi svog ljubimca</p>
+        <Link href="/Building"  
+        className="badge py-4 px-4 bg-[#2F5382] text-md text-white rounded-full
+                                    hover:bg-white hover:border-[#2F5382] hover:text-[#2F5382]">
+                                      Pogledaj sve
+        </Link>
+      </div>
+      <div className="grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 xxl:grid-cols-5">
+        <div className='w-[90%] h-[90%] my-5 p-5 rounded-xl flex flex-col justify-center items-center border-[1px] shadow-2xl border-[#2F5382]'>
+          <Image
+          src="/images/logo.png"
+          alt="logo"
+          height={100}
+          width={100}
+          unoptimized
+          className='w-full object-cover'
+          />
+          <p>Vaše mjesto za reklamu</p>
+          <p>Kontaktirajte nas..</p>
+          </div>
           <CardItem/> 
       </div>
+
+      <div className='flex justify-between items-center pt-10 xxs:flex-row'>
+        <p className='xxs:text-sm md:text-2xl'>Izgubljene zivotinje</p>
+        <Link href="/Building"  
+        className="badge py-4 px-4 bg-[#2F5382] text-md text-white rounded-full
+                                    hover:bg-white hover:border-[#2F5382] hover:text-[#2F5382]">
+                                      Pogledaj sve
+        </Link>
+      </div>
+      <div className="grid gap-10 xxs:grid-cols-1 sn:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 xxl:grid-cols-5">
+          <CardItem/> 
+      </div>
+
+      <div className='flex justify-between items-center pt-10 xxs:flex-row'>
+        <p className='xxs:text-md md:text-2xl'>Pomozi zivotinji:</p>
+        <Link href="/Building"  
+        className="badge py-4 px-4 bg-[#2F5382] text-md text-white rounded-full
+                                    hover:bg-white hover:border-[#2F5382] hover:text-[#2F5382]">
+                                      Pogledaj sve
+        </Link>
+      </div>
+      <div className="grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 xxl:grid-cols-5">
+          <CardItem/> 
+      </div>
+
+      <div className='flex justify-between items-center pt-10 xxs:flex-row'>
+        <p className='xxs:text-md md:text-2xl'>Donacije:</p>
+        <Link href="/Building"  
+        className="badge py-4 px-4 bg-[#2F5382] text-md text-white rounded-full
+                                    hover:bg-white hover:border-[#2F5382] hover:text-[#2F5382]">
+                                      Pogledaj sve
+        </Link>
+      </div>
+      <div className="grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 xxl:grid-cols-5">
+          <CardItem/> 
+      </div>
+
+      
     </div>
   );
 }
