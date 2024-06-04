@@ -1,5 +1,5 @@
 import React from 'react'
-import CardItem from '../globalComponents/CardItem'
+import CardItem from './CardItem'
 import Image from 'next/image'
 
 export default function AdoptPets() {
