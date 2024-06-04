@@ -63,7 +63,7 @@ export default async function CardItem() {
                    
                 </ul>
                 <Link 
-                href={`/adoptPet/${item.id}`}
+                href={`/donationPost/${item.id}`}
                 className="btn bg-white text-lg text-[#2F5382] border-[#2F5382] rounded-full w-full mt-5
                             hover:bg-[#2F5382] hover:text-white">Pogledaj detalje</Link>
                             <p className='text-sm text-center py-2 text-gray-600'>Objavljeno: {item.createdAt.toLocaleDateString('bs-BA',{
