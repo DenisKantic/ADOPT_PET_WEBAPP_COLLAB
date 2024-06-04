@@ -11,7 +11,6 @@ type Props = {
 }
 
 export async function DELETE(request: any, {params: {id}}:Props) {
-    console.log("ANIMAL ID:", id)
     try{
         await prisma.adoptAnimal.delete({
             where: {id}

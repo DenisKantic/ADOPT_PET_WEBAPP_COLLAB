@@ -94,10 +94,15 @@ export default async function Dashboard() {
             </div>
            </div>
 
-           <div className="bg-white rounded-xl h-full col-span-2 row-span-4 p-5 shadow-xl mt-10">
-
+    
+              <div className="mt-10 w-full rounded-2xl shadow-xl text-black p-5">
+                <p className="text-2xl">Donacijski oglasi:</p>
+                <div className="grid gap-20
+                                xxs:grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
                     <DonationPost />
+                </div>
               </div>
+                
 
       <div className="mt-10 grid grid-cols-5 grid-rows-1 gap-10 w-full rounded-2xl shadow-xl text-black">
         
