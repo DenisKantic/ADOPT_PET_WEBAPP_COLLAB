@@ -29,7 +29,7 @@ export default async function CardItem() {
             height={50}
             width={50}
             unoptimized
-            className="object-cover rounded-t-2xl h-[15vh] bg-purple-400 w-full"
+            className="object-cover rounded-t-2xl xxs:h-[30vh] md:h-[15vh] bg-purple-400 w-full"
             />
             <div className="w-full px-5">
                 <ul className="text-black mt-2 flex flex-col">
@@ -46,7 +46,7 @@ export default async function CardItem() {
                     <li className="flex items-center"><MdOutlinePets className='text-[#2F5382] text-lg'/><span className="pl-3">{item.starost}</span></li>
                 </ul>
                 <Link 
-                href={`/animalDetails/${item.id}`}
+                href={`/adoptPet/${item.id}`}
                 className="btn bg-white text-lg text-[#2F5382] border-[#2F5382] rounded-full w-full mt-5
                             hover:bg-[#2F5382] hover:text-white">Pogledaj detalje</Link>
                             <p className='text-sm text-center py-2 text-gray-600'>Objavljeno: {item.createdAt.toLocaleDateString('bs-BA',{

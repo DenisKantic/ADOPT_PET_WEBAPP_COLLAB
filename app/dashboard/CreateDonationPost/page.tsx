@@ -84,7 +84,7 @@ export default async function DonationPost() {
                 <div className='flex flex-col py-2'>
                     <label htmlFor="animalCategory" className="py-2">Za:</label>
                         <div className="flex items-center py-2">
-                            <input type="radio" name="animalCategory" value="macka" className="radio radio-info" />
+                            <input type="radio" name="animalCategory" value="mačka" className="radio radio-info" />
                             <label htmlFor="animalCategory" className="ml-3">Mačku</label>
                             
                             <input type="radio" name="animalCategory" value="pas" className="radio radio-info ml-5" />
