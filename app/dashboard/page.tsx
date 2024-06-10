@@ -1,4 +1,5 @@
-import getSession from "@/lib/getSession";
+import { authOptions } from '@/lib/AuthOptions'
+import { getServerSession } from 'next-auth'
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import type { Metadata } from "next";
@@ -14,14 +15,16 @@ import { FaCat } from "react-icons/fa";
 import { SiAnimalplanet } from "react-icons/si";
 import DonationPost from "./DonationPost";
 
+
 export const metadata: Metadata = {
     title: "Dashboard",
   };
 
 export default async function Dashboard() {
 
-    const session = await getSession()
-    const user = session?.user;
+    
+  const session = await getServerSession(authOptions);
+  const user = session?.user;
     const userId = session?.user?.id;
 
 

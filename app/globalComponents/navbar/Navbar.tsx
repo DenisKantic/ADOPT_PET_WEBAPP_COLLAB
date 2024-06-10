@@ -1,13 +1,14 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import getSession from "@/lib/getSession";
+import { authOptions } from '@/lib/AuthOptions'
+import { getServerSession } from 'next-auth'
 import userImage from '../../../public/images/user.png'
 import SignOut from './SignOut'
 
 export default async function Navbar() {
 
-    const session = await getSession();
+    const session = await getServerSession(authOptions);
     const user = session?.user;
 
 
@@ -29,7 +30,7 @@ export default async function Navbar() {
             </div>
         </div>
   <div className="flex-none gap-2">
-    <Link href="/login" 
+    <Link href="/signin" 
     className={user ? "hidden" : "flex btn bg-[#2F5382] rounded-full text-white px-6 hover:bg-white hover:text-[#2F5382]"}
     >
       Prijavi se
