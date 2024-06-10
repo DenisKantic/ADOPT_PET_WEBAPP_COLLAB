@@ -30,7 +30,7 @@ export default async function Navbar() {
             </div>
         </div>
   <div className="flex-none gap-2">
-    <Link href="/login" 
+    <Link href="/signin" 
     className={user ? "hidden" : "flex btn bg-[#2F5382] rounded-full text-white px-6 hover:bg-white hover:text-[#2F5382]"}
     >
       Prijavi se
@@ -52,7 +52,7 @@ export default async function Navbar() {
           <Link href="/dashboard" className='badge rounded-xl border-none bg-[#F0F0F0] text-black text-start flex flex-row justify-between my-2 py-5 px-4 text-md w-full'>
             <span>Moj profil</span>
             <span className="block py-1 px-3 badge-neutral rounded-full text-center bg-[#2f5382] text-white">
-              {user?.username?.substring(0,10)+"..."}
+              {user?.name?.substring(0,10)+"..."}
             </span>
           </Link>
         </li>

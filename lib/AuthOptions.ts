@@ -16,7 +16,7 @@ export const authOptions: AuthOptions = {
           throw new Error("Missing credentials");
         }
 
-        const user = await prisma.user.findFirst({
+        const user = await prisma.user.findUnique({
           where: {
             email: credentials.email
           }
@@ -26,7 +26,7 @@ export const authOptions: AuthOptions = {
           throw new Error("Invalid credentials");
         }
 
-        const correctPassword = (credentials.password, user.password);
+        const correctPassword = (credentials.password == user.password);
 
         if(!correctPassword){
           throw new Error("Invalid credentials");
@@ -36,6 +36,37 @@ export const authOptions: AuthOptions = {
       },
     })
   ],
+  callbacks: {
+    async session({ session, token, user }) {
+      if (!session.user?.email) {
+        console.error('User email is not available in session.');
+        return session;
+      }
+
+      // Fetch the user from the database using Prisma
+      const dbUser = await prisma.user.findFirst({
+        where: { email: session.user.email },
+      });
+
+      console.log('Database User:', dbUser); // Log the database user result
+
+      // Add id and username to the session object
+      if (dbUser) {
+        session.user.id = dbUser.id.toString();
+        session.user.name = dbUser.username;
+      } else {
+        console.error('No user found in database.');
+      }
+
+      return session;
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    }
+  },
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt"

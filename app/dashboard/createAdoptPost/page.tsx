@@ -1,9 +1,11 @@
 import React from 'react'
 import { Metadata } from 'next';
-import getSession from '@/lib/getSession';
-import { redirect, useRouter } from 'next/navigation';
+import { authOptions } from '@/lib/AuthOptions'
+import { getServerSession } from 'next-auth'
+import { redirect} from 'next/navigation';
 import { prisma } from '@/lib/prisma'
 import FormSubmitButton from '@/app/globalComponents/FormSubmitButton';
+
 
 export const metadata: Metadata = {
     title: "Kreiraj objavu",
@@ -19,10 +21,12 @@ const cities = [
 
 async function createPost(formData: FormData){
     "use server"
-
-    const session = await getSession()
-    const post_id = session?.user?.id;
-    const username = session?.user?.name;
+    
+    const session = await getServerSession(authOptions);
+    const user = session?.user;
+    const post_id = user?.id; // No error
+    const username = user?.name; // No error
+  
 
     const category = formData.get("category")?.toString()
     const petName = formData.get("name")?.toString();
@@ -47,8 +51,11 @@ async function createPost(formData: FormData){
 
 export default async function CreateAdoptPost() {
 
-    const session = await getSession()
+    const session = await getServerSession(authOptions);
     const user = session?.user;
+
+    console.log("username",user?.username)
+    console.log("post_id", user?.id)
   
     if(!user){
         redirect("/")
