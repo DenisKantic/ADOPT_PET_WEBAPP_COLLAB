@@ -1,19 +1,20 @@
 import React from 'react'
 import { Metadata } from 'next';
-import getSession from '@/lib/getSession';
+import { authOptions } from '@/lib/AuthOptions'
+import { getServerSession } from 'next-auth'
 import { redirect} from 'next/navigation';
 import { prisma } from '@/lib/prisma'
 import FormSubmitButton from '@/app/globalComponents/FormSubmitButton';
 
 export const metadata: Metadata = {
-    title: "Kreiraj objavu",
+    title: "Kreiraj Donaciju",
   };
 
 
 async function createPost(formData: FormData){
     "use server"
 
-    const session = await getSession()
+    const session = await getServerSession(authOptions);
     const post_id = session?.user?.id;
     const username = session?.user?.name;
 
@@ -36,7 +37,7 @@ async function createPost(formData: FormData){
 
 export default async function DonationPost() {
 
-    const session = await getSession()
+    const session = await getServerSession(authOptions);
     const user = session?.user;
   
     if(!user){

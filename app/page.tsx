@@ -13,7 +13,7 @@ export default function Home() {
       
      <SecondNavigation />
 
-     <div className='w-full p-5 mt-10 mb-5 bg-[#2F5382] text-xl text-center text-white font-bold uppercase flex justify-center items-center'>
+     <div className='w-full rounded-2xl shadow-2xl p-5 mt-10 mb-5 bg-[#2F5382] text-xl text-center text-white font-bold uppercase flex justify-center items-center'>
         <p className='xxs:mt-20 md:mt-0'>Web aplikacija je trenutno u beta {"(test)"} fazi. Molimo Vas za strpljenje <br /> 
           Ukoliko primjetite grešku, molimo Vas da nam se javite na  <br /> 
           <span className='text-red-600 lowercase'>denis.kantic18@gmail.com</span> <br />
