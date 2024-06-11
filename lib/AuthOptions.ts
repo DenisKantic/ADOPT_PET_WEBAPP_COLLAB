@@ -53,7 +53,7 @@ export const authOptions: AuthOptions = {
       // Add id and username to the session object
       if (dbUser) {
         session.user.id = dbUser.id.toString();
-        session.user.name = dbUser.username;
+        session.user.name = dbUser.name ;
       } else {
         console.error('No user found in database.');
       }

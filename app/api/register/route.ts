@@ -9,9 +9,9 @@ export async function POST(
 
     const body = await req.json();
 
-    const { email, password } = body;
+    const { email, password, username } = body;
     
-    if(!email || !password){
+    if(!email || !password || !username){
       return new NextResponse("Missing data", {status: 500});
     }
 
@@ -29,6 +29,7 @@ export async function POST(
       data: {
         email: email,
         password: password,
+        name: username
       }
     });
 
