@@ -1,21 +1,21 @@
 import { AuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import { prisma } from "@/lib/prisma";
 import bcrypt from "bcrypt";
 import GoogleProvider from "next-auth/providers/google";
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 export const authOptions: AuthOptions = {
+  adapter: PrismaAdapter(prisma),
+  pages: {
+    signIn: '/auth/signin'
+  },
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      authorization: {
-        params: {
-          prompt: "consent",
-          access_type: "offline",
-          response_type: "code",
-        },
-      },
     }),
     Credentials({
       name: "credentials",
@@ -24,7 +24,7 @@ export const authOptions: AuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
+        if (!credentials?.email && !credentials?.password) {
           throw new Error("Missing credentials");
         }
 
@@ -50,6 +50,8 @@ export const authOptions: AuthOptions = {
   ],
   callbacks: {
     async session({ session, token, user }) {
+
+      session.user.id = token.id;
       if (!session.user?.email) {
         console.error("User email is not available in session.");
         return session;
@@ -60,12 +62,12 @@ export const authOptions: AuthOptions = {
         where: { email: session.user.email },
       });
 
-      console.log("Database User:", dbUser); // Log the database user result
+      console.log("Database User list:", dbUser); // Log the database user result
 
       // Add id and username to the session object
       if (dbUser) {
         session.user.id = dbUser.id.toString();
-        session.user.name = dbUser.username;
+        session.user.name = dbUser.name || token.name;
       } else {
         console.error("No user found in database.");
       }
@@ -75,11 +77,11 @@ export const authOptions: AuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        token.username = user.name
       }
       return token;
     },
   },
-
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",

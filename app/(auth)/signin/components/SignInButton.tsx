@@ -7,7 +7,7 @@ export default function SignInButton() {
   return (
     <>
       <a
-        onClick={() => signIn()}
+        onClick={() => signIn('google')}
         className="btn btn-outline rounded-full text-lg text-black"
       >
         <FcGoogle className="text-3xl" />
