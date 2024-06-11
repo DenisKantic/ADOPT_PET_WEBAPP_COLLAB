@@ -44,7 +44,7 @@ export const authOptions: AuthOptions = {
       }
 
       // Fetch the user from the database using Prisma
-      const dbUser = await prisma.user.findFirst({
+      const dbUser = await prisma.user.findUnique({
         where: { email: session.user.email },
       });
 
