@@ -18,6 +18,7 @@ export default function RegisterForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const [loading, setLoading] = useState(false);
 
@@ -51,6 +52,15 @@ export default function RegisterForm() {
         onChange={(e) => setEmail(e.target.value)}
         disabled={loading}
       />
+      <div className="absolute right-1 top-20 ">
+        <Image
+          src="/images/paw-3.png"
+          alt="paw3"
+          height={50}
+          width={50}
+          className="p-2"
+        />
+      </div>
       <Input
         label="Username"
         value={username}
@@ -62,6 +72,13 @@ export default function RegisterForm() {
         label="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        disabled={loading}
+        type="password"
+      />
+      <Input
+        label="Confirm Password"
+        value={confirmPassword}
+        onChange={(e) => setConfirmPassword(e.target.value)}
         disabled={loading}
         type="password"
       />

@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function SignUpPage() {
   return (
-    <div className="h-screen w-full flex items-center justify-center bg-[#2f5382] ">
+    <div className="h-screen w-full flex items-center justify-center bg-[#2f5382]">
       <div
         className="card bg-white rounded-xl p-5 text-black 
                         xxs:w-full xxs:h-screen xxs:overflow-y-scroll 
@@ -23,9 +23,9 @@ export default function SignUpPage() {
           <Image
             src="/images/paw-2.png"
             alt="paw-2"
-            height={40}
+            height={50}
             width={50}
-            className="relative top-3"
+            className="relative top-3 -rotate-45"
           />
         </div>
         <br />
