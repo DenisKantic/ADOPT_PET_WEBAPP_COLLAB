@@ -12,8 +12,12 @@ export default function DeleteAnimal({id}: Props) {
 
   async function handleDelete(){
     try{
-    const res = await fetch(`/api/post/${id}`, {
-      method: "DELETE"
+    const res = await fetch(`/api/delete-post/${id}`, {
+      method: "DELETE",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id }),
     });
     if(res.ok){
       router.push("/dashboard")
