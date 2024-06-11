@@ -1,6 +1,7 @@
 import React, { cache } from 'react'
 import type { Metadata } from 'next'
-import getSession from '@/lib/getSession'
+import { authOptions } from '@/lib/AuthOptions'
+import { getServerSession } from 'next-auth'
 import { notFound} from 'next/navigation'
 import {prisma} from '@/lib/prisma'
 import Image from 'next/image'
@@ -11,7 +12,7 @@ import { GrCircleInformation } from "react-icons/gr";
 
 
 export const metadata: Metadata = {
-    title: "Donation Post",
+    title: "Donacijski Oglas",
   };
 
 
@@ -41,7 +42,7 @@ const usernameLenght = (user:string)=>{
 
 export default async function DonationDetails({params: {id}} : Props) {
 
-    const session = await getSession()
+    const session = await getServerSession(authOptions);
     const user = session?.user;
 
     const donation = await getDonation(id)

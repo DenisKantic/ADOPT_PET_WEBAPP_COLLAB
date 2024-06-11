@@ -15,7 +15,7 @@ import { TbEPassport } from "react-icons/tb";
 
 
 export const metadata: Metadata = {
-    title: "Animal Details",
+    title: "Detalji životinje",
   };
 
 
