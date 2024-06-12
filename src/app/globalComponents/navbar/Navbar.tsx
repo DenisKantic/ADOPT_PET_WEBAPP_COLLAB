@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { authOptions } from '@/lib/AuthOptions'
 import { getServerSession } from 'next-auth'
-import userImage from '../../../public/images/user.png'
+import userImage from '@public/public/images/user.png'
 import SignOut from './SignOut'
 
 export default async function Navbar() {

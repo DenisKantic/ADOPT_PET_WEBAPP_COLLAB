@@ -12,7 +12,7 @@ export default function DeleteAnimal({id}: Props) {
 
   async function handleDelete(){
     try{
-    const res = await fetch(`/api/delete-post/${id}`, {
+    const res = await fetch(`/api/delete-animal/${id}`, {
       method: "DELETE",
       headers: {
         'Content-Type': 'application/json',

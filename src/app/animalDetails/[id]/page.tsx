@@ -5,7 +5,7 @@ import { getServerSession } from 'next-auth'
 import { notFound} from 'next/navigation'
 import {prisma} from '@/lib/prisma'
 import Image from 'next/image'
-import DeleteAnimal from '@/app/dashboard/animalDetails/[id]/DeleteAnimal'
+import DeleteAnimal from '@/src/app/dashboard/animalDetails/[id]/DeleteAnimal'
 import { IoIosMale } from "react-icons/io";
 import { IoMaleFemale } from "react-icons/io5";
 import { MdOutlinePets } from "react-icons/md";
@@ -151,6 +151,20 @@ export default async function AnimalDetails({params: {id}} : Props) {
                             <DeleteAnimal id={animal.id} />
                         </div>
                  </div>
+
+                 <div className='w-[90%] h-[90%] text-black mt-10 mx-auto p-5 rounded-xl flex flex-col justify-center items-center'>
+                    <Image
+                        src="/images/logo.png"
+                        alt="logo"
+                        height={100}
+                        width={100}
+                        unoptimized
+                        className='w-full object-cover'
+                        />
+                            <p>Vaše mjesto za reklamu</p>
+                            <p>Kontaktirajte nas..</p>
+                </div>
+
             </div>
 
         </div>

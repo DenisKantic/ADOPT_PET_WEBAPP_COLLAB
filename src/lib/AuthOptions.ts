@@ -1,6 +1,6 @@
 import { AuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import {prisma} from "@/lib/prisma"
+import {prisma} from "./prisma"
 import bcrypt from "bcrypt"
 
 export const authOptions: AuthOptions = {
@@ -48,7 +48,7 @@ export const authOptions: AuthOptions = {
         where: { email: session.user.email },
       });
 
-      console.log('Database User:', dbUser); // Log the database user result
+   //   console.log('Database User:', dbUser); // Log the database user result
 
       // Add id and username to the session object
       if (dbUser) {

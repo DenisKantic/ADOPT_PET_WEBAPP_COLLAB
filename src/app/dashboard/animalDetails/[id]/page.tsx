@@ -5,7 +5,7 @@ import { getServerSession } from 'next-auth'
 import { notFound} from 'next/navigation'
 import {prisma} from '@/lib/prisma'
 import Image from 'next/image'
-import DeleteAnimal from '@/app/dashboard/animalDetails/[id]/DeleteAnimal'
+import DeleteAnimal from '../../../dashboard/animalDetails/[id]/DeleteAnimal'
 import { IoIosMale } from "react-icons/io";
 import { IoMaleFemale } from "react-icons/io5";
 import { MdOutlinePets } from "react-icons/md";
@@ -15,7 +15,7 @@ import { TbEPassport } from "react-icons/tb";
 
 
 export const metadata: Metadata = {
-    title: "Animal Details",
+    title: "Detalji životinje",
   };
 
 
@@ -45,10 +45,8 @@ const usernameLenght = (user:string)=>{
 
 export default async function AnimalDetails({params: {id}} : Props) {
 
-   
     const session = await getServerSession(authOptions);
     const user = session?.user;
-
 
     const animal = await getAnimal(id)
 
@@ -153,20 +151,6 @@ export default async function AnimalDetails({params: {id}} : Props) {
                             <DeleteAnimal id={animal.id} />
                         </div>
                  </div>
-
-                 <div className='w-[90%] h-[90%] text-black mt-10 mx-auto p-5 rounded-xl flex flex-col justify-center items-center'>
-                    <Image
-                        src="/images/logo.png"
-                        alt="logo"
-                        height={100}
-                        width={100}
-                        unoptimized
-                        className='w-full object-cover'
-                        />
-                            <p>Vaše mjesto za reklamu</p>
-                            <p>Kontaktirajte nas..</p>
-                </div>
-
             </div>
 
         </div>

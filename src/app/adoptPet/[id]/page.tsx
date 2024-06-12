@@ -5,7 +5,7 @@ import { getServerSession } from 'next-auth'
 import { notFound} from 'next/navigation'
 import {prisma} from '@/lib/prisma'
 import Image from 'next/image'
-import DeleteAnimal from '@/app/dashboard/animalDetails/[id]/DeleteAnimal'
+import DeleteAnimal from '../../dashboard/animalDetails/[id]/DeleteAnimal'
 import { IoIosMale } from "react-icons/io";
 import { IoMaleFemale } from "react-icons/io5";
 import { MdOutlinePets } from "react-icons/md";
@@ -15,7 +15,7 @@ import { TbEPassport } from "react-icons/tb";
 
 
 export const metadata: Metadata = {
-    title: "Detalji životinje",
+    title: "Animal Details",
   };
 
 
@@ -45,8 +45,10 @@ const usernameLenght = (user:string)=>{
 
 export default async function AnimalDetails({params: {id}} : Props) {
 
+   
     const session = await getServerSession(authOptions);
     const user = session?.user;
+
 
     const animal = await getAnimal(id)
 
