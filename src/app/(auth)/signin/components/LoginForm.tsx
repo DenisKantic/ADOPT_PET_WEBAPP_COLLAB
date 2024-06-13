@@ -1,6 +1,6 @@
 "use client";
 
-import Input from "@/components/Input";
+import Input from "../../../../../components/Input";
 import { signIn, signOut } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
