@@ -1,9 +1,8 @@
 import React from 'react'
 import { Metadata } from 'next';
-import { authOptions } from '@/lib/AuthOptions'
-import { getServerSession } from 'next-auth'
+import {auth} from "@public/auth"
 import { redirect} from 'next/navigation';
-import { prisma } from '@/lib/prisma'
+import { db } from '@public/lib/db'
 import FormSubmitButton from '../../../globalComponents/FormSubmitButton';
 
 
@@ -11,18 +10,11 @@ export const metadata: Metadata = {
     title: "Kreiraj objavu",
   };
 
-const cities = [
-    "Tuzla",
-    "Sarajevo",
-    "Mostar",
-    "Zenica",
-    "Banja Luka"
-]
 
 async function createPost(formData: FormData){
     "use server"
     
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     const user = session?.user;
     const post_id = user?.id; // No error
     const username = user?.name; // No error
@@ -43,23 +35,13 @@ async function createPost(formData: FormData){
 
     }
 
-    await prisma.adoptAnimal.create({
+    await db.adoptAnimal.create({
         data: {post_id, username, category, petName, vakcina, cipovan, pasos, spol, starost, phoneNumber, description}
     })
     redirect("/dashboard")
 }
 
 export default async function CreateAdoptPost() {
-
-    const session = await getServerSession(authOptions);
-    const user = session?.user;
-
-    console.log("username",user?.username)
-    console.log("post_id", user?.id)
-  
-    if(!user){
-        redirect("/")
-    }
 
   return (
     <div className='min-h-screen w-full bg-gray-200 xxs:px-4 md:px-10 py-20'>
