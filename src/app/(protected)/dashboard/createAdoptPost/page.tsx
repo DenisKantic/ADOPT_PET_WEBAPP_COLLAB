@@ -4,7 +4,7 @@ import { authOptions } from '@/lib/AuthOptions'
 import { getServerSession } from 'next-auth'
 import { redirect} from 'next/navigation';
 import { prisma } from '@/lib/prisma'
-import FormSubmitButton from '../../globalComponents/FormSubmitButton';
+import FormSubmitButton from '../../../globalComponents/FormSubmitButton';
 
 
 export const metadata: Metadata = {

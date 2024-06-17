@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import { notFound} from 'next/navigation'
 import {db} from "@public/lib/db"
 import Image from 'next/image'
-import DeleteAnimal from '../../../app/dashboard/animalDetails/[id]/DeleteAnimal'
+import DeleteAnimal from '../../(protected)/dashboard/animalDetails/[id]/DeleteAnimal'
 import { MdOutlinePets } from "react-icons/md";
 import { PiSyringe } from "react-icons/pi";
 import { GrCircleInformation } from "react-icons/gr";

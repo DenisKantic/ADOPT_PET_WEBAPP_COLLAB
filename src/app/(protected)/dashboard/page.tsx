@@ -27,12 +27,8 @@ export default async function Dashboard() {
   const user = session?.user;
   const userId = session?.user?.id;
 
-  console.log("user session")
+  console.log("user session", session)
 
-
-    if(!user){
-        redirect("/")
-    }
 
     const oglasi = await db.adoptAnimal.findMany({
       where:{

@@ -15,7 +15,7 @@ export const authRoutes = [
 ]
 
 export const protectedRoutes = [
-    "/api/delete-animal"
+    "/dashboard"
 ]
 
 
