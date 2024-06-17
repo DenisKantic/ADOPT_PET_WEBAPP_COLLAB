@@ -1,9 +1,9 @@
-import { authOptions } from '@/lib/AuthOptions'
-import { getServerSession } from 'next-auth'
+import React from 'react'
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import type { Metadata } from "next";
-import {prisma} from "@/lib/prisma"
+import {db} from "@public/lib/db"
+import {auth} from "@public/auth"
 import Link from "next/link";
 import AllAnimals from "./AllAnimals";
 import { IoIosMale } from "react-icons/io";
@@ -23,16 +23,18 @@ export const metadata: Metadata = {
 export default async function Dashboard() {
 
     
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   const user = session?.user;
   const userId = session?.user?.id;
+
+  console.log("user session")
 
 
     if(!user){
         redirect("/")
     }
 
-    const oglasi = await prisma.adoptAnimal.findMany({
+    const oglasi = await db.adoptAnimal.findMany({
       where:{
         post_id: userId
       }

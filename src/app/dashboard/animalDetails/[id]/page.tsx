@@ -1,11 +1,10 @@
 import React, { cache } from 'react'
 import type { Metadata } from 'next'
-import { authOptions } from '@/lib/AuthOptions'
-import { getServerSession } from 'next-auth'
+import {auth} from "@public/auth"
 import { notFound} from 'next/navigation'
-import {prisma} from '@/lib/prisma'
+import {db} from "@public/lib/db"
 import Image from 'next/image'
-import DeleteAnimal from '../../../dashboard/animalDetails/[id]/DeleteAnimal'
+import DeleteAnimal from './DeleteAnimal'
 import { IoIosMale } from "react-icons/io";
 import { IoMaleFemale } from "react-icons/io5";
 import { MdOutlinePets } from "react-icons/md";
@@ -28,7 +27,7 @@ type Props = {
 
 
 const getAnimal = cache(async (id: string)=>{
-    const animal = await prisma.adoptAnimal.findUnique({where: {id}})
+    const animal = await db.adoptAnimal.findUnique({where: {id}})
     
     if(!animal) notFound();
     
@@ -45,7 +44,7 @@ const usernameLenght = (user:string)=>{
 
 export default async function AnimalDetails({params: {id}} : Props) {
 
-    const session = await getServerSession(authOptions);
+    const session = await auth()
     const user = session?.user;
 
     const animal = await getAnimal(id)

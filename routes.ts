@@ -14,6 +14,10 @@ export const authRoutes = [
     "/register"
 ]
 
+export const protectedRoutes = [
+    "/api/delete-animal"
+]
+
 
 export const apiAuthPrefix = "/api/auth" // this needs to be enabled so users can login 
 

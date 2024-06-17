@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 // libs
-import { prisma } from "@/lib/prisma";
+import { db } from "@public/lib/db";
 // components
 import FilterMenu from "../globalComponents/FilterMenu";
 import CardItem from "../globalComponents/CardItem";
@@ -41,7 +41,7 @@ const AdoptPets: React.FC<HomePageProps> = async ({ searchParams }) => {
     filters.starost = { contains: starost, mode: "insensitive" };
   }
 
-  const results = await prisma.adoptAnimal.findMany({
+  const results = await db.adoptAnimal.findMany({
     where: filters,
   });
 

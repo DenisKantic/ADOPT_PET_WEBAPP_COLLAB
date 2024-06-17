@@ -1,5 +1,5 @@
 import React from 'react'
-import {prisma} from '@/lib/prisma'
+import {db} from "@public/lib/db"
 import Image from 'next/image';
 import Link from 'next/link';
 import { IoIosMale } from "react-icons/io";
@@ -12,7 +12,7 @@ import { SiAnimalplanet } from "react-icons/si";
 
 export default async function AllAnimals() {
 
-    const animalPost = await prisma.adoptAnimal.findMany({
+    const animalPost = await db.adoptAnimal.findMany({
         orderBy: {id: "desc"},
         take: 3
     });

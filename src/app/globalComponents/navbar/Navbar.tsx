@@ -2,12 +2,12 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import userImage from '@public/public/images/user.png'
+import {auth} from "@public/auth"
 import SignOut from './SignOut'
-
 export default async function Navbar() {
 
-  
-    const user = [""]
+    const session = await auth();
+    const user = session?.user;
 
 
   return (
@@ -28,7 +28,7 @@ export default async function Navbar() {
             </div>
         </div>
   <div className="flex-none gap-2">
-    <Link href="/signin" 
+    <Link href="/login" 
     className={user ? "hidden" : "flex btn bg-[#2F5382] rounded-full text-white px-6 hover:bg-white hover:text-[#2F5382]"}
     >
       Prijavi se
@@ -37,7 +37,7 @@ export default async function Navbar() {
       <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar flex flex-col">
         <div className="w-10 rounded-full">
                 <Image
-                src={ userImage }
+                src={user?.image || userImage }
                 alt="logo"
                 height={50}
                 width={50} 
@@ -50,7 +50,7 @@ export default async function Navbar() {
           <Link href="/dashboard" className='badge rounded-xl border-none bg-[#F0F0F0] text-black text-start flex flex-row justify-between my-2 py-5 px-4 text-md w-full'>
             <span>Moj profil</span>
             <span className="block py-1 px-3 badge-neutral rounded-full text-center bg-[#2f5382] text-white">
-              
+              {user?.name?.substring(0,10)+"..."}
             </span>
           </Link>
         </li>

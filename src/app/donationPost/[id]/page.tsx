@@ -1,14 +1,13 @@
 import React, { cache } from 'react'
 import type { Metadata } from 'next'
-import { authOptions } from '@/lib/AuthOptions'
-import { getServerSession } from 'next-auth'
 import { notFound} from 'next/navigation'
-import {prisma} from '@/lib/prisma'
+import {db} from "@public/lib/db"
 import Image from 'next/image'
 import DeleteAnimal from '../../../app/dashboard/animalDetails/[id]/DeleteAnimal'
 import { MdOutlinePets } from "react-icons/md";
 import { PiSyringe } from "react-icons/pi";
 import { GrCircleInformation } from "react-icons/gr";
+import { auth } from '@public/auth'
 
 
 export const metadata: Metadata = {
@@ -25,7 +24,7 @@ type Props = {
 
 
 const getDonation = cache(async (id: string)=>{
-    const donation = await prisma.donationPost.findUnique({where: {id}})
+    const donation = await db.donationPost.findUnique({where: {id}})
     
     if(!donation) notFound();
     
@@ -42,7 +41,7 @@ const usernameLenght = (user:string)=>{
 
 export default async function DonationDetails({params: {id}} : Props) {
 
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     const user = session?.user;
 
     const donation = await getDonation(id)
