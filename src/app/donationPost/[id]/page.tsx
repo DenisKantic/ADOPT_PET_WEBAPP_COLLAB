@@ -5,7 +5,7 @@ import { getServerSession } from 'next-auth'
 import { notFound} from 'next/navigation'
 import {prisma} from '@/lib/prisma'
 import Image from 'next/image'
-import DeleteAnimal from '@/src/app/dashboard/animalDetails/[id]/DeleteAnimal'
+import DeleteAnimal from '../../../app/dashboard/animalDetails/[id]/DeleteAnimal'
 import { MdOutlinePets } from "react-icons/md";
 import { PiSyringe } from "react-icons/pi";
 import { GrCircleInformation } from "react-icons/gr";

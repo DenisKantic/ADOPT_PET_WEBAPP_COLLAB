@@ -1,15 +1,13 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { authOptions } from '@/lib/AuthOptions'
-import { getServerSession } from 'next-auth'
 import userImage from '@public/public/images/user.png'
 import SignOut from './SignOut'
 
 export default async function Navbar() {
 
-    const session = await getServerSession(authOptions);
-    const user = session?.user;
+  
+    const user = [""]
 
 
   return (
@@ -39,7 +37,7 @@ export default async function Navbar() {
       <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar flex flex-col">
         <div className="w-10 rounded-full">
                 <Image
-                src={user?.image || userImage }
+                src={ userImage }
                 alt="logo"
                 height={50}
                 width={50} 
@@ -52,7 +50,7 @@ export default async function Navbar() {
           <Link href="/dashboard" className='badge rounded-xl border-none bg-[#F0F0F0] text-black text-start flex flex-row justify-between my-2 py-5 px-4 text-md w-full'>
             <span>Moj profil</span>
             <span className="block py-1 px-3 badge-neutral rounded-full text-center bg-[#2f5382] text-white">
-              {user?.name?.substring(0,10)+"..."}
+              
             </span>
           </Link>
         </li>
