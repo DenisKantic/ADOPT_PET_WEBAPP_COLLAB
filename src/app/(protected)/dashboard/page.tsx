@@ -1,5 +1,4 @@
 import React from 'react'
-import { redirect } from "next/navigation";
 import Image from "next/image";
 import type { Metadata } from "next";
 import {db} from "@public/lib/db"

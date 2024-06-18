@@ -1,9 +1,8 @@
 import React from 'react'
 import { Metadata } from 'next';
-import { authOptions } from '@/lib/AuthOptions'
-import { getServerSession } from 'next-auth'
+import { auth } from '@public/auth';
 import { redirect} from 'next/navigation';
-import { prisma } from '@/lib/prisma'
+import { db } from '@public/lib/db'
 import FormSubmitButton from '../../../globalComponents/FormSubmitButton';
 
 export const metadata: Metadata = {
@@ -14,7 +13,7 @@ export const metadata: Metadata = {
 async function createPost(formData: FormData){
     "use server"
 
-    const session = await getServerSession(authOptions);
+    const session = await auth()
     const post_id = session?.user?.id;
     const username = session?.user?.name;
 
@@ -29,21 +28,13 @@ async function createPost(formData: FormData){
 
     }
 
-    await prisma.donationPost.create({
+    await db.donationPost.create({
         data: {post_id, username, category, name, animalCategory, phoneNumber, description}
     })
     redirect("/dashboard")
 }
 
 export default async function DonationPost() {
-
-    const session = await getServerSession(authOptions);
-    const user = session?.user;
-  
-    if(!user){
-        redirect("/")
-    }
-
 
   return (
     <div className='min-h-screen w-full bg-gray-200 px-10 py-20'>
