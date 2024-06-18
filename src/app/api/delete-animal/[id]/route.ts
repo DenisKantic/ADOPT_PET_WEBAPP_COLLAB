@@ -1,7 +1,5 @@
 import { NextResponse } from 'next/server';
-import {prisma} from "@/lib/prisma"
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/AuthOptions';
+import {db} from "@public/lib/db"
 
 type Props = {
     params:{
@@ -18,19 +16,13 @@ export async function DELETE(
         return NextResponse.json({msg: "Method not allowed"})
     }
 
-    const session = await getServerSession(authOptions)
-
-    if(!session){
-        NextResponse.json({message: 'Not authorized'})
-    }
-
     if(!id){
         NextResponse.json({message: "Post ID is required"})
     }
 
 
     try{
-          const deletePost = await prisma.adoptAnimal.delete({
+         await db.adoptAnimal.delete({
             where: {id}
         })
         return NextResponse.json({message: "Deleted successfulyy"})

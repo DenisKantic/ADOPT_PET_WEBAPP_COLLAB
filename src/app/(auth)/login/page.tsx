@@ -33,7 +33,6 @@ export default function Register() {
       loginZod(values)
       .then((data)=>{
         setError(data?.error)
-        setSuccess(data?.success)
       })
     })
   

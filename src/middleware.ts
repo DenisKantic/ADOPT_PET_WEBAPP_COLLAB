@@ -5,7 +5,7 @@ import { DEFAULT_LOGIN_REDIRECT, publicRoutes, authRoutes, apiAuthPrefix } from 
 const {auth} = NextAuth(authConfig)
 
 export default auth((req) => {
-  console.log("middleware is running")
+  console.log("middleware is running on route:", req.nextUrl.pathname)
     const {nextUrl} = req;
     const isLoggedIn = !!req.auth;
 
@@ -14,14 +14,14 @@ export default auth((req) => {
     const isAuthRoute = authRoutes.includes(nextUrl.pathname)
 
     if(isApiAuthRoute){
-      return null;
+      return;
     }
 
     if(isAuthRoute){
       if(isLoggedIn){
         return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl)) // we need to include nextUrl so it can create absolute URL
       }
-      return null;
+      return;
     }
     /*this means that we will allow auth route, to login, but only if the user is logged off */
 
@@ -30,7 +30,7 @@ export default auth((req) => {
       return Response.redirect(new URL("/login", nextUrl))
     }
 
-    return null;
+    return;
 })
  
 // // Optionally, don't invoke Middleware on some paths
