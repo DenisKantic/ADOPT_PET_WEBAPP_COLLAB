@@ -13,11 +13,14 @@ const s3Client = new S3Client({
   });
   
  export async function uploadFileToS3(file: Buffer, fileName: string): Promise<string> {
+
+    const session = await auth();
+    const user_email = session?.user?.email
   
     const uniqueFileName = `${fileName}-${Date.now()}`
     const params:PutObjectCommandInput = {
       Bucket: process.env.AWS_S3_BUCKET_NAME!,
-      Key: `myFolder/${uniqueFileName}`,
+      Key: `${user_email}/${uniqueFileName}`,
       Body: file,
       ContentType: 'image/png',
     };
@@ -40,7 +43,7 @@ export async function createDonationPost(formData:FormData){
     const post_id = session?.user?.id;
     const username = session?.user?.name;
 
-    const files = formData.getAll('files') as File[];
+    const files = formData.getAll('file') as File[];
 
     console.log("FILES:", files)
     const category = formData.get("category")?.toString()
@@ -76,6 +79,7 @@ export async function createDonationPost(formData:FormData){
         })
     );
 
+    console.log("image URLS:", imageUrls)
 
     await db.donationPost.create({
         data: {post_id, imageUrls ,username, category, name, animalCategory, phoneNumber, description}

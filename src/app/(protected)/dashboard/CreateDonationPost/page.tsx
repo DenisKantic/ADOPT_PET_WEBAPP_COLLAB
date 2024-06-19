@@ -16,6 +16,7 @@ const ImageUpload: React.FC = () => {
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
           setSelectedFiles(Array.from(event.target.files));
+          console.log(selectedFiles);
         }
       };
     
@@ -57,17 +58,34 @@ const ImageUpload: React.FC = () => {
     //     } 
     //   };
 
+    const handleSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
+        setUploading(true);
+    
+        const formData = new FormData(event.target as HTMLFormElement);
+        selectedFiles.forEach((file) => formData.append('files', file));
+    
+        try {
+          await createDonationPost(formData);
+        } catch (err) {
+          console.error("Failed to create donation post", err);
+          setError("Failed to create donation post");
+        } finally {
+          setUploading(false);
+        }
+      };
+
   return (
     <div className='min-h-screen w-full bg-gray-200 px-10 py-20'>
        <div className='w-[50%] bg-gray-100 mx-auto min-h-[50vh] shadow-2xl rounded-md
                         xxs:w-full md:w-[60%] xl:w-[50%]'>
             <h1 className='text-2xl text-black text-center py-10 font-bold tracking-wide'>Kreiraj objavu</h1>
 
-            <form action={createDonationPost} className='flex flex-col items-start w-full text-black p-5'>
+            <form onSubmit={handleSubmit} className='flex flex-col items-start w-full text-black p-5'>
 
             <div className='flex flex-col py-3'>
 
-            <input type="file" name="files" accept="image/*" multiple onChange={handleFileChange} />
+            <input type="file" name="file" accept="image/*" multiple onChange={handleFileChange} />
 
             <label htmlFor="category" className="py-2">Kategorija:</label>
                         <div className="flex items-center py-2">
