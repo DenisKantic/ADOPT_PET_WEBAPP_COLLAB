@@ -1,40 +1,61 @@
-import React from 'react'
-import { Metadata } from 'next';
-import { auth } from '@public/auth';
-import { redirect} from 'next/navigation';
-import { db } from '@public/lib/db'
+"use client"
+import React, {useState} from 'react'
 import FormSubmitButton from '../../../globalComponents/FormSubmitButton';
+import { createDonationPost } from '@public/actions/createDonationPost';
 
-export const metadata: Metadata = {
-    title: "Kreiraj Donaciju",
-  };
+//export const metadata: Metadata = {
+//     title: "Kreiraj Donaciju",
+//   }; FIX THIS: IT DOESN'T WORK ON CLIENT SIDE, ONLY ON SERVER SIDE
 
+const ImageUpload: React.FC = () => {
+    const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+    const [uploading, setUploading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [uploadedUrls, setUploadedUrls] = useState<string[]>([]);
+  
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files) {
+          setSelectedFiles(Array.from(event.target.files));
+        }
+      };
+    
+    //   const handleUpload = async () => {
+    //     if (!selectedFiles.length) return;
 
-async function createPost(formData: FormData){
-    "use server"
+    //     const formData = new FormData();
+    //     selectedFiles.forEach(file => formData.append('file', file));
 
-    const session = await auth()
-    const post_id = session?.user?.id;
-    const username = session?.user?.name;
-
-    const category = formData.get("category")?.toString()
-    const name = formData.get("name")?.toString();
-    const animalCategory = formData.get("animalCategory")?.toString()
-    const phoneNumber = formData.get("phoneNumber")?.toString();
-    const description = formData.get("description")?.toString();
-
-    if(!post_id || !username || !category || !name || !animalCategory || !phoneNumber || !description ){
-        throw Error("Missing required fields")
-
-    }
-
-    await db.donationPost.create({
-        data: {post_id, username, category, name, animalCategory, phoneNumber, description}
-    })
-    redirect("/dashboard")
-}
-
-export default async function DonationPost() {
+    //     await createDonationPost(formData, selectedFiles)
+    
+    //     setUploading(true);
+    //     setError(null);
+    
+    
+    
+    //       const response = await fetch('/api/s3-upload', {
+    //         method: 'POST',
+    //         body: formData,
+    //       });
+    
+    //       if (!response.ok) {
+    //         const errorText = await response.text();
+    //         console.error('Error response from server:', errorText);
+    //         throw new Error('Failed to upload files');
+    //       }
+    
+    //       const data = await response.json();
+    //       if (data && data.success) {
+    //         setUploadedUrls(data.urls);
+    //       } else {
+    //         setError('Upload failed');
+    //       }
+    //     } catch (err) {
+    //       setError('Upload failed');
+    //       console.error('Upload failed:', err);
+    //     } finally {
+    //       setUploading(false);
+    //     } 
+    //   };
 
   return (
     <div className='min-h-screen w-full bg-gray-200 px-10 py-20'>
@@ -42,9 +63,11 @@ export default async function DonationPost() {
                         xxs:w-full md:w-[60%] xl:w-[50%]'>
             <h1 className='text-2xl text-black text-center py-10 font-bold tracking-wide'>Kreiraj objavu</h1>
 
-            <form action={createPost} className='flex flex-col items-start w-full text-black p-5'>
+            <form action={createDonationPost} className='flex flex-col items-start w-full text-black p-5'>
 
             <div className='flex flex-col py-3'>
+
+            <input type="file" name="files" accept="image/*" multiple onChange={handleFileChange} />
 
             <label htmlFor="category" className="py-2">Kategorija:</label>
                         <div className="flex items-center py-2">
@@ -121,3 +144,5 @@ export default async function DonationPost() {
     </div>
   )
 }
+
+export default ImageUpload;

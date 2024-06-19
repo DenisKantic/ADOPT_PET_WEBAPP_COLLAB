@@ -53,7 +53,7 @@ export default async function DonationDetails({params: {id}} : Props) {
                         xxs:flex-col xl:flex-row'>
             <div className='w-full'>
                 <Image
-                src="/images/dog_photo.jpg"
+                src={`${donation.imageUrls[0]}`}
                 alt={donation.name}
                 height={50}
                 width={50}

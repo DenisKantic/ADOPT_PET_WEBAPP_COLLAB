@@ -1,9 +1,6 @@
 "use server"
 import * as z from "zod"
-import bcrypt from "bcryptjs"
 import { LoginSchema } from "@public/schema"
-import {db} from "@public/lib/db"
-import { getUserByEmail } from "@public/data/user"
 import { signIn } from "@public/auth"
 import { AuthError } from "next-auth"
 

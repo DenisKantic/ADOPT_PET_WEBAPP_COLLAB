@@ -10,7 +10,7 @@ generator client {
 model User {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
   name          String?
-  email         String   @unique
+  email         String    @unique
   emailVerified DateTime?
   image         String?
   password      String
@@ -91,15 +91,16 @@ model AdoptAnimal {
 }
 
 model DonationPost {
-  id             String  @id @default(auto()) @map("_id") @db.ObjectId
-  post_id        String  @map("post_id") @db.ObjectId
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  post_id        String   @map("post_id") @db.ObjectId
+  imageUrls      String[]
   username       String
   name           String
   category       String
   animalCategory String
   phoneNumber    String
   description    String
-  postId         Session @relation(fields: [post_id], references: [id], onDelete: Cascade)
+  postId         Session  @relation(fields: [post_id], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
