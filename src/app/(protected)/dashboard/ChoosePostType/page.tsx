@@ -20,7 +20,7 @@ export default function ChoosePostType() {
                 <Link
                   className='btn bg-red-500 text-white border-[#2F5382] rounded-full w-full mt-5
                   hover:bg-[#2F5382] hover:text-white" text-xl'
-                href="/"
+                href="/dashboard/createLostPetPost"
                 >Izgubljena zivotinja</Link>
       </div>
     </div>
