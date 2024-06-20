@@ -51,6 +51,7 @@ model Session {
   user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   adoptAnimal  AdoptAnimal[]
   donationPost DonationPost[]
+  lostPetPost  LostPetPost[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -69,8 +70,10 @@ model VerificationToken {
 
 //Animal post create 
 model AdoptAnimal {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
-  post_id     String @map("post_id") @db.ObjectId
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  post_id     String   @map("post_id") @db.ObjectId
+  imageUrls   String[]
+  location    String
   username    String
   category    String
   petName     String
@@ -94,6 +97,7 @@ model DonationPost {
   id             String   @id @default(auto()) @map("_id") @db.ObjectId
   post_id        String   @map("post_id") @db.ObjectId
   imageUrls      String[]
+  location       String
   username       String
   name           String
   category       String
@@ -106,4 +110,22 @@ model DonationPost {
   updatedAt DateTime @updatedAt
 
   @@map("DonationPost")
+}
+
+model LostPetPost {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  post_id        String   @map("post_id") @db.ObjectId
+  imageUrls      String[]
+  location       String
+  username       String
+  name           String
+  animalCategory String
+  phoneNumber    String
+  description    String
+  postId         Session  @relation(fields: [post_id], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("LostPetPost")
 }

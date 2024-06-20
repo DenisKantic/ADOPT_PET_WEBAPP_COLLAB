@@ -52,7 +52,7 @@ export default function Register() {
           width={120}
           className="mx-auto"
         />
-        <p className="text-2xl py-4 text-center font-bold">Kreiraj profil</p>
+        <p className="text-2xl py-4 text-center font-bold">Prijavi se</p>
         <div className="absolute">
           <Image
             src="/images/paw-2.png"
@@ -91,14 +91,14 @@ export default function Register() {
               {error && <span className='text-red-500'>{error}</span>}
               {success && <span className='text-green-500'>{success}</span>}
 
-              <button disabled={isPending} type='submit' className='btn btn-primary'>Register</button>
+              <button disabled={isPending} type='submit' className='btn btn-primary'>Prijavi se</button>
         </form>
 
         
         <div className="text-sm text-center text-neutral-500 mt-5">
-          Imaš kreiran nalog?{" "}
+          Nemaš kreiran nalog?{" "}
           <Link href={"/signin"} className="font-bold text-neutral-900">
-            Logiraj se ovdje
+              Kreiraj ovdje!
           </Link>
         </div>
       </div>

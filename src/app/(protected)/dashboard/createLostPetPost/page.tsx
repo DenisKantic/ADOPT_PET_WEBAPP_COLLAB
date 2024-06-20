@@ -1,8 +1,8 @@
 "use client"
 import React, {useState, useEffect} from 'react'
 import FormSubmitButton from '../../../globalComponents/FormSubmitButton';
+import { createLostPet } from '@public/actions/createLostPetPost';
 import Image from 'next/image';
-import { createDonationPost } from '@public/actions/createDonationPost';
 
 //export const metadata: Metadata = {
 //     title: "Kreiraj Donaciju",
@@ -63,7 +63,7 @@ const ImageUpload: React.FC = () => {
         selectedFiles.forEach((file) => formData.append('files', file));
     
         try {
-          await createDonationPost(formData, location);
+          await createLostPet(formData, location);
         } catch (err) {
           console.error("Failed to create donation post", err);
         }
@@ -101,23 +101,11 @@ const ImageUpload: React.FC = () => {
             <p className='text-xl'>Lokacija</p>
             <div className="dropdown dropdown-bottom">
             <div tabIndex={0} role="button" className="btn m-1">Click</div>
-              <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+              <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 text-white">
                 <li onClick={()=>setLocation("Tuzla")}><a>Tuzla</a></li>
                 <li onClick={()=>setLocation("Sarajevo")}><a>Sarajevo</a></li>
               </ul>
           </div>
-
-            <label htmlFor="category" className="py-2">Kategorija:</label>
-                        <div className="flex items-center py-2">
-                            <input type="radio" name="category" value="lijekovi" className="radio radio-info" />
-                            <label htmlFor="category" className="ml-3">Lijekovi</label>
-                            
-                            <input type="radio" name="category" value="hrana" className="radio radio-info ml-5" />
-                            <label htmlFor="category" className="ml-3">Hrana</label>
-
-                            <input type="radio" name="category" value="oprema" className="radio radio-info ml-5" />
-                            <label htmlFor="category" className="ml-3">Oprema</label>
-                    </div>
 
             <label className="text-lg pt-2" htmlFor='name'>
                 Ime 
@@ -126,7 +114,7 @@ const ImageUpload: React.FC = () => {
             className="input input-bordered input-primary bg-white rounded-full mt-2 p-5 w-full text-lg"
             name="name"
             type='text'
-            placeholder="Npr. vakcina, uzica itd.."
+            placeholder="Npr. Leo, Rex..."
             required
             />     
             </div>
@@ -135,13 +123,13 @@ const ImageUpload: React.FC = () => {
             <div className="flex flex-col items-start">
 
                 <div className='flex flex-col py-2'>
-                    <label htmlFor="animalCategory" className="py-2">Za:</label>
+                    <label htmlFor="animalCategory" className="py-2">Životinja:</label>
                         <div className="flex items-center py-2">
                             <input type="radio" name="animalCategory" value="mačka" className="radio radio-info" />
-                            <label htmlFor="animalCategory" className="ml-3">Mačku</label>
+                            <label htmlFor="animalCategory" className="ml-3">Mačka</label>
                             
                             <input type="radio" name="animalCategory" value="pas" className="radio radio-info ml-5" />
-                            <label htmlFor="animalCategory" className="ml-3">Psa</label>
+                            <label htmlFor="animalCategory" className="ml-3">Pas</label>
 
                             <input type="radio" name="animalCategory" value="ostalo" className="radio radio-info ml-5" />
                             <label htmlFor="animalCategory" className="ml-3">Ostalo</label>

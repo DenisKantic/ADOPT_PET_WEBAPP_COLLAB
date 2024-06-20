@@ -15,6 +15,9 @@ import { PiDogBold } from "react-icons/pi";
 import { FaCat } from "react-icons/fa";
 import { SiAnimalplanet } from "react-icons/si";
 
+import Image404 from "@public/public/images/image404.jpg"
+
+
 interface HomePageProps {
   searchParams: {
     category?: string;
@@ -54,7 +57,7 @@ const AdoptPets: React.FC<HomePageProps> = async ({ searchParams }) => {
           {results.map((animal) => (
             <div key={animal.id} className="p-4 bg-white rounded-xl shadow-md">
               <Image
-                src="/images/dog_photo.jpg"
+                src={`${animal.imageUrls[0]}` || Image404}
                 alt={animal.petName}
                 height={50}
                 width={50}

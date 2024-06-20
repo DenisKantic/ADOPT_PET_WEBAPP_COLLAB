@@ -20,7 +20,7 @@ const s3Client = new S3Client({
     const uniqueFileName = `${fileName}-${Date.now()}`
     const params:PutObjectCommandInput = {
       Bucket: process.env.AWS_S3_BUCKET_NAME!,
-      Key: `${user_email}/${uniqueFileName}`,
+      Key: `lostPet/${uniqueFileName}`,
       Body: file,
       ContentType: 'image/png'
     };
@@ -29,12 +29,12 @@ const s3Client = new S3Client({
   
     await s3Client.send(command);
   
-    const imageUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.amazonaws.com/${user_email}/${uniqueFileName}`;
+    const imageUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.amazonaws.com/lostPet/${uniqueFileName}`;
     return imageUrl;
 
 }
 
-export async function createDonationPost(formData:FormData, locationPost:string){
+export async function createLostPet(formData:FormData, locationPost:string){
 
     try{
     const session = await auth()
@@ -44,7 +44,6 @@ export async function createDonationPost(formData:FormData, locationPost:string)
     const files = formData.getAll('file') as File[];
 
     console.log("FILES:", files)
-    const category = formData.get("category")?.toString()
     const name = formData.get("name")?.toString();
     const animalCategory = formData.get("animalCategory")?.toString()
     const phoneNumber = formData.get("phoneNumber")?.toString();
@@ -53,7 +52,7 @@ export async function createDonationPost(formData:FormData, locationPost:string)
   
 
 
-    if(!post_id || !username || !category || !name || !animalCategory || !phoneNumber || !description || !locationPost){
+    if(!post_id || !username || !name || !animalCategory || !phoneNumber || !description || !locationPost){
         throw Error("Missing required fields")
     }
 
@@ -80,12 +79,10 @@ export async function createDonationPost(formData:FormData, locationPost:string)
 
     console.log("image URLS:", imageUrls)
 
-    await db.donationPost.create({
-        data: {post_id, imageUrls, location ,username, category, name, animalCategory, phoneNumber, description}
+    await db.lostPetPost.create({
+        data: {post_id, imageUrls, location ,username, name, animalCategory, phoneNumber, description}
     })
-
-    redirect('/dashboard')
-}
+    }
     catch(error){
         console.log("failed to create donation post", error)
     }
