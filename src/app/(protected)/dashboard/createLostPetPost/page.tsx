@@ -10,51 +10,108 @@ import Image from 'next/image';
 
 const ImageUpload: React.FC = () => {
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-    const [location, setLocation] = useState<string>("");
+    const [location, setLocation] = useState<string>("Izaberite");
+    const [dropdown, setDropdown] = useState(false);
     const [previewUrls, setPreviewUrls] = useState<string[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [visible, setVisible] = useState<boolean>(false);
+    const [inputKey, setInputKey] = useState<number>(0); // Add key state to force input re-render
+    const [fileName, setFileName] = useState<string | null>(null); // State to store file name
 
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (event.target.files) {
-        const files = Array.from(event.target.files);
-        const totalFiles = selectedFiles.length + files.length;
-        setVisible(true);
+
+
+    
+//LOGIC BEFORE FOR GETTING MULTIPLE IMAGES AND DISPLAYING IT
+  //   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //     if (event.target.files) {
+  //       const files = Array.from(event.target.files);
+  //       const totalFiles = selectedFiles.length + files.length;
+  //       setVisible(true);
   
-        if (totalFiles > 3) {
-          setError('You can only upload up to 3 images.');
-          return;
-        } else {
-          setError(null);
-        }
+  //       if (totalFiles > 1) {
+  //         setError('Možete objaviti samo jednu sliku.');
+  //         return;
+  //       } else {
+  //         setError(null);
+  //       }
   
-        const newFiles = files.slice(0, 3 - selectedFiles.length);
-        setSelectedFiles(prevFiles => [...prevFiles, ...newFiles]);
+  //       const newFiles = files.slice(0, 3 - selectedFiles.length);
+  //       setSelectedFiles(prevFiles => [...prevFiles, ...newFiles]);
   
-        // Generate preview URLs
-        const urls = newFiles.map(file => URL.createObjectURL(file));
-        setPreviewUrls(prevUrls => [...prevUrls, ...urls]);
+  //       // Generate preview URLs
+  //       const urls = newFiles.map(file => URL.createObjectURL(file));
+  //       setPreviewUrls(prevUrls => [...prevUrls, ...urls]);
+  //     }
+  //   };
+  
+  //   // Clean up object URLs to avoid memory leaks
+  //   useEffect(() => {
+  //     return () => {
+  //       previewUrls.forEach(url => URL.revokeObjectURL(url));
+  //     };
+  //   }, [previewUrls]);
+  
+
+  // const handleRemoveImage = (index: number) => {
+  //   // Remove the file and preview URL at the given index
+  //   const updatedFiles = selectedFiles.filter((_, i) => i !== index);
+  //   const updatedUrls = previewUrls.filter((_, i) => i !== index);
+
+  //   setSelectedFiles(updatedFiles);
+  //   setPreviewUrls(updatedUrls);
+  // };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      const files = Array.from(event.target.files);
+
+      const maxSize = 3 * 1024 * 1024 // converting 3 MB to bytes
+
+     
+      // If an image is already selected, set an error and return early
+      if (files.length + selectedFiles.length>1) {
+        setError('Možete objaviti samo jednu sliku.');
+        event.target.value = ""
+        return;
       }
-    };
-  
-    // Clean up object URLs to avoid memory leaks
-    useEffect(() => {
-      return () => {
-        previewUrls.forEach(url => URL.revokeObjectURL(url));
-      };
-    }, [previewUrls]);
-  
 
-  const handleRemoveImage = (index: number) => {
-    // Remove the file and preview URL at the given index
-    const updatedFiles = selectedFiles.filter((_, i) => i !== index);
-    const updatedUrls = previewUrls.filter((_, i) => i !== index);
+      if(files[0].size > maxSize){
+          setError("Fotografija ne smije biti vise od 3 MB memorije")
+          event.target.value = ""
+      }
 
-    setSelectedFiles(updatedFiles);
-    setPreviewUrls(updatedUrls);
+      setVisible(true);
+      setError(null); // Clear any previous error
+
+      
+
+      const newFile = files[0]; // We only allow one image at a time
+      const url = URL.createObjectURL(newFile);
+      setSelectedFiles([newFile]); // Replace any existing files
+      setPreviewUrls([url])
+      setFileName(newFile.name); // Update file name
+      setInputKey(prevKey => prevKey + 1)
+
+     
+    }
   };
 
+  // Clean up object URLs to avoid memory leaks
+  useEffect(() => {
+    return () => {
+      previewUrls.forEach(url => URL.revokeObjectURL(url));
+    };
+  }, [previewUrls]);
 
+  const handleRemoveImage = () => {
+    // Clear the file and preview URL
+    setSelectedFiles([]);
+    setPreviewUrls([]);
+    setError(null); // Clear any previous error
+    setVisible(false);
+    setFileName(null); // Clear file name
+    setInputKey(prevKey => prevKey + 1); // Force input re-render by changing key
+  };
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -77,19 +134,32 @@ const ImageUpload: React.FC = () => {
 
             <form onSubmit={handleSubmit} className='flex flex-col items-start w-full text-black p-5'>
 
-            <div className='flex flex-col py-3'>
+            <div className='flex flex-col py-3 w-full'>
 
-            <input type="file" name="file" accept="image/*" multiple onChange={handleFileChange} />
-            {error && <p className="text-red-600">{error}</p>}
+            <div className="btn btn-primary w-full p-0">
+              <label htmlFor="fileUpload" className="w-full">
+              <p className='py-3'>{fileName  ? fileName : 'Izaberite fotografiju'}</p>
+              </label>
+              <input
+                key={inputKey}
+                type='file'
+                id="fileUpload"
+                name='files'
+                accept='image/*'
+                onChange={handleFileChange}
+                className="hidden"
+              />
+            </div>
+            {error && <p className='text-red-600'>{error}</p>}
 
 
-            <div className={ visible ? "grid grid-cols-3 gap-5 mt-4 w-full border-dashed border-4 border-gray-400" : "hidden"}>
+            <div className={ visible ? "flex gap-5 mt-4 w-full border-dashed border-4 border-gray-400" : "hidden"}>
             {previewUrls.map((url, index) => (
                <div key={index} className="relative m-2">
                   <Image height={200} width={200} key={index} src={url} alt={`Preview ${index}`} className="h-[30vh] w-full object-contain m-2" />
                     <button
                     type="button"
-                    onClick={() => handleRemoveImage(index)}
+                    onClick={handleRemoveImage}
                     className="absolute top-0 right-0 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center"
                   >
                     &times;
@@ -100,7 +170,7 @@ const ImageUpload: React.FC = () => {
 
             <p className='text-xl'>Lokacija</p>
             <div className="dropdown dropdown-bottom">
-            <div tabIndex={0} role="button" className="btn m-1">Click</div>
+            <div tabIndex={0} role="button" className="btn m-1">{location}</div>
               <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 text-white">
                 <li onClick={()=>setLocation("Tuzla")}><a>Tuzla</a></li>
                 <li onClick={()=>setLocation("Sarajevo")}><a>Sarajevo</a></li>
