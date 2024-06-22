@@ -1,7 +1,6 @@
 "use server"
 import { auth } from "@public/auth";
 import { db } from "@public/lib/db";
-import { redirect } from "next/navigation";
 import { S3Client, PutObjectCommand, PutObjectCommandInput } from '@aws-sdk/client-s3';
 
 const s3Client = new S3Client({
@@ -88,6 +87,9 @@ export async function createLostPet(formData:FormData, locationPost:string){
     await db.lostPetPost.create({
         data: {post_id, imageUrls, location ,username, name, animalCategory, phoneNumber, description}
     })
+
+    return { success: true };
+    
     }
     catch(error){
         console.log("failed to create donation post", error)

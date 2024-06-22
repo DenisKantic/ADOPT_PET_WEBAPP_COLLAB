@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react'
 import FormSubmitButton from '../../../globalComponents/FormSubmitButton';
 import { createLostPet } from '@public/actions/createLostPetPost';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 //export const metadata: Metadata = {
 //     title: "Kreiraj Donaciju",
@@ -11,14 +12,40 @@ import Image from 'next/image';
 const ImageUpload: React.FC = () => {
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [location, setLocation] = useState<string>("Izaberite");
-    const [dropdown, setDropdown] = useState(false);
+    const [dropdown, setDropdown] = useState<boolean>(false);
     const [previewUrls, setPreviewUrls] = useState<string[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [visible, setVisible] = useState<boolean>(false);
     const [inputKey, setInputKey] = useState<number>(0); // Add key state to force input re-render
     const [fileName, setFileName] = useState<string | null>(null); // State to store file name
+    const router = useRouter(); // Initialize the router
 
 
+    const cities = [
+      "Banja Luka", "Bihać", "Bijeljina", "Bosanska Gradiška", "Bosanska Krupa", 
+      "Bosanski Brod", "Bosanski Novi", "Bosanski Petrovac", "Brčko", "Breza", 
+      "Bugojno", "Busovača", "Cazin", "Čapljina", "Čelić", "Čelinac", "Čitluk", 
+      "Derventa", "Doboj", "Donji Vakuf", "Drvar", "Fojnica", "Gacko", "Glamoč", 
+      "Goražde", "Gornji Vakuf-Uskoplje", "Gračanica", "Gradačac", "Hadžići", 
+      "Han Pijesak", "Ilidža", "Ilijaš", "Jablanica", "Jajce", "Kakanj", 
+      "Kalesija", "Kalinovik", "Kiseljak", "Kladanj", "Ključ", "Konjic", 
+      "Kotor Varoš", "Kreševo", "Kupres", "Laktaši", "Lopare", "Ljubinje", 
+      "Ljubuški", "Lukavac", "Maglaj", "Milići", "Modriča", "Mostar", "Mrkonjić Grad", 
+      "Neum", "Nevesinje", "Novi Travnik", "Odžak", "Orašje", "Pale", "Posušje", 
+      "Prijedor", "Prnjavor", "Prozor-Rama", "Rogatica", "Rudo", "Sanski Most", 
+      "Sapna", "Sarajevo", "Šamac", "Šekovići", "Šipovo", "Sokolac", "Srebrenica", 
+      "Srebrenik", "Široki Brijeg", "Stolac", "Teočak", "Teslić", "Tešanj", 
+      "Tomislavgrad", "Travnik", "Trebinje", "Trnovo", "Tuzla", "Ugljevik", 
+      "Vareš", "Velika Kladuša", "Visoko", "Vitez", "Višegrad", "Vogošća", 
+      "Zavidovići", "Zenica", "Zvornik", "Žepče", "Živinice"
+    ];
+    
+
+
+    const dropdownHandle = (location:string) =>{
+      setLocation(location);
+      setDropdown(false)
+    }
 
     
 //LOGIC BEFORE FOR GETTING MULTIPLE IMAGES AND DISPLAYING IT
@@ -75,23 +102,22 @@ const ImageUpload: React.FC = () => {
         return;
       }
 
-      if(files[0].size > maxSize){
-          setError("Fotografija ne smije biti vise od 3 MB memorije")
-          event.target.value = ""
-      }
-
       setVisible(true);
       setError(null); // Clear any previous error
 
       
-
-      const newFile = files[0]; // We only allow one image at a time
-      const url = URL.createObjectURL(newFile);
-      setSelectedFiles([newFile]); // Replace any existing files
-      setPreviewUrls([url])
-      setFileName(newFile.name); // Update file name
-      setInputKey(prevKey => prevKey + 1)
-
+      if(files[0].size > maxSize){
+        setError("Fotografija ne smije biti vise od 3 MB ukupne memorije.")
+        setVisible(false);
+      } else {
+        const newFile = files[0]; // We only allow one image at a time
+        const url = URL.createObjectURL(newFile);
+        setVisible(true)
+        setSelectedFiles([newFile]); // Replace any existing files
+        setPreviewUrls([url])
+        setFileName(newFile.name); // Update file name
+        setInputKey(prevKey => prevKey + 1)
+      }
      
     }
   };
@@ -120,7 +146,10 @@ const ImageUpload: React.FC = () => {
         selectedFiles.forEach((file) => formData.append('files', file));
     
         try {
-          await createLostPet(formData, location);
+          const response = await createLostPet(formData, location)
+          if(response?.success){
+            router.push('/dashboard')
+          }
         } catch (err) {
           console.error("Failed to create donation post", err);
         }
@@ -136,8 +165,9 @@ const ImageUpload: React.FC = () => {
 
             <div className='flex flex-col py-3 w-full'>
 
-            <div className="btn btn-primary w-full p-0">
-              <label htmlFor="fileUpload" className="w-full">
+            <div className="btn bg-[#2F5382] text-md text-white rounded-xl
+                           hover:bg-white hover:border-[#2F5382] hover:text-[#2F5382]">
+              <label htmlFor="fileUpload" className="w-full cursor-pointer">
               <p className='py-3'>{fileName  ? fileName : 'Izaberite fotografiju'}</p>
               </label>
               <input
@@ -150,31 +180,34 @@ const ImageUpload: React.FC = () => {
                 className="hidden"
               />
             </div>
-            {error && <p className='text-red-600'>{error}</p>}
+            {error && <p className='text-red-600 py-3'>{error}</p>}
 
 
             <div className={ visible ? "flex gap-5 mt-4 w-full border-dashed border-4 border-gray-400" : "hidden"}>
             {previewUrls.map((url, index) => (
-               <div key={index} className="relative m-2">
-                  <Image height={200} width={200} key={index} src={url} alt={`Preview ${index}`} className="h-[30vh] w-full object-contain m-2" />
+               <div key={index} className="relative m-2 w-full">
+                  <Image height={200} width={200} key={index} src={url} alt={`Preview ${index}`} className="h-[50vh] w-full object-contain m-2" />
                     <button
                     type="button"
                     onClick={handleRemoveImage}
-                    className="absolute top-0 right-0 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center"
+                    className="absolute top-0 bg-red-400 right-0 text-white rounded-full w-10 h-10 flex items-center justify-center"
                   >
-                    &times;
+                    <p className='text-2xl font-bold'>&times;</p>
                   </button>
             </div>
             ))}
           </div>
 
-            <p className='text-xl'>Lokacija</p>
+            <p className='text-xl pt-5'>Lokacija</p>
             <div className="dropdown dropdown-bottom">
-            <div tabIndex={0} role="button" className="btn m-1">{location}</div>
-              <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 text-white">
-                <li onClick={()=>setLocation("Tuzla")}><a>Tuzla</a></li>
-                <li onClick={()=>setLocation("Sarajevo")}><a>Sarajevo</a></li>
-              </ul>
+            <div tabIndex={0} role="button" className="btn m-1 px-6 bg-[#2F5382] text-md text-white rounded-xl mt-5" onClick={()=>setDropdown(!dropdown)}>{location}</div>
+            <ul 
+              tabIndex={0} 
+              className={dropdown ? "dropdown-content z-[1] p-2 shadow bg-[#2F5382] rounded-box w-60 text-white max-h-[50vh] overflow-y-auto" : "hidden"}>
+              {cities.map((city, index) => (
+                <li className='p-3 cursor-pointer hover:bg-gray-200 rounded-xl hover:text-black ' key={index} onClick={() => dropdownHandle(city)}><a>{city}</a></li>
+              ))}
+            </ul>
           </div>
 
             <label className="text-lg pt-2" htmlFor='name'>
@@ -236,8 +269,8 @@ const ImageUpload: React.FC = () => {
 
             <FormSubmitButton className='mx-auto'>Kreiraj Oglas</FormSubmitButton>
             </form>
+          </div>
         </div>
-    </div>
   )
 }
 
