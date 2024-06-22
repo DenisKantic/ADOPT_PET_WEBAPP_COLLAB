@@ -40,6 +40,6 @@ export default auth((req) => {
 // it will not work on "/login" path. Of course that could be "/register" or any path
 
 export const config = {
-    matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'] // boilerplate code from clerkjs documentation which 
+    matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)', "/lostPetDetails/:path*"] // boilerplate code from clerkjs documentation which 
                                     // handles this for all /api calls better
 }

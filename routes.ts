@@ -4,6 +4,10 @@ these routes do not require authentication
 
 export const publicRoutes = [
     "/",
+    "/adoptPet",
+    "/lostPetDetails/(.*)",
+    "/donationPost/(.*)",
+    "/animalDetails/",
 ]
 
 
@@ -15,7 +19,8 @@ export const authRoutes = [
 ]
 
 export const protectedRoutes = [
-    "/dashboard"
+    "/dashboard",
+    "/api"
 ]
 
 
