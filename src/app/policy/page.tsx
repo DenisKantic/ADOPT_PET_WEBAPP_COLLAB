@@ -86,7 +86,7 @@ export default function Policy() {
 
             <br /> <br />
 
-            Imate pravo na prigovor na obradu i pravo na prenosivost podataka. Ako smatrate da ste na bilo koji način ugroženi
+            Imate pravo na prigovor na obradu podataka. Ako smatrate da ste na bilo koji način ugroženi
             ili ne želite koristiti našu platformu, molimo Vas da nas kontaktirate. U slučaju brisanja Vašeg korisničkog profila,
             svi podaci se automatski brišu istog momenta. Ništa ne skladištimo naknadno. Na Vaš mail doći će zvanična potvrda
             da ste raskinuli suradnju s nama i da su svi Vaši podaci uspješno obrisani.
