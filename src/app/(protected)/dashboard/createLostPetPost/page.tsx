@@ -4,6 +4,8 @@ import FormSubmitButton from '../../../globalComponents/FormSubmitButton';
 import { createLostPet } from '@public/actions/createLostPetPost';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useTransition } from "react";
+
 
 //export const metadata: Metadata = {
 //     title: "Kreiraj Donaciju",
@@ -19,6 +21,8 @@ const ImageUpload: React.FC = () => {
     const [inputKey, setInputKey] = useState<number>(0); // Add key state to force input re-render
     const [fileName, setFileName] = useState<string | null>(null); // State to store file name
     const router = useRouter(); // Initialize the router
+    const [isPending, startTransition] = useTransition(); // loading state
+
 
 
     const cities = [
@@ -146,17 +150,19 @@ const ImageUpload: React.FC = () => {
         selectedFiles.forEach((file) => formData.append('files', file));
     
         try {
+          startTransition(async ()=>{
           const response = await createLostPet(formData, location)
           if(response?.success){
             router.push('/dashboard')
-          }
+          }})
         } catch (err) {
           console.error("Failed to create donation post", err);
         }
       };
 
   return (
-    <div className='min-h-screen w-full bg-gray-200 px-10 py-20'>
+    <div className='min-h-screen w-full bg-gray-200 px-10 py-20
+                    xxs:px-4 md:px-10'>
        <div className='bg-gray-100 mx-auto min-h-[50vh] shadow-2xl rounded-md
                         xxs:w-full md:w-[60%] xl:w-[60%]'>
             <h1 className='text-2xl text-black text-center py-10 font-bold tracking-wide'>Kreiraj objavu</h1>
@@ -170,7 +176,7 @@ const ImageUpload: React.FC = () => {
               <label htmlFor="fileUpload" className="w-full cursor-pointer">
               <p className='py-3'>{fileName  ? fileName : 'Izaberite fotografiju'}</p>
               </label>
-              <input
+              <input 
                 key={inputKey}
                 type='file'
                 id="fileUpload"
@@ -183,14 +189,14 @@ const ImageUpload: React.FC = () => {
             {error && <p className='text-red-600 py-3'>{error}</p>}
 
 
-            <div className={ visible ? "flex gap-5 mt-4 w-full border-dashed border-4 border-gray-400" : "hidden"}>
+            <div className={ visible ? "flex gap-5 mt-4 w-full border-dashed border-4 border-gray-400 z-2" : "hidden"}>
             {previewUrls.map((url, index) => (
                <div key={index} className="relative m-2 w-full">
-                  <Image height={200} width={200} key={index} src={url} alt={`Preview ${index}`} className="h-[50vh] w-full object-contain m-2" />
+                  <Image height={200} width={200} key={index} src={url} alt={`Preview ${index}`} className="h-[50vh] w-full object-contain z-2 m-2" />
                     <button
                     type="button"
                     onClick={handleRemoveImage}
-                    className="absolute top-0 bg-red-400 right-0 text-white rounded-full w-10 h-10 flex items-center justify-center"
+                    className="absolute top-0 bg-red-600 right-0 text-white rounded-full w-10 h-10 flex items-center justify-center"
                   >
                     <p className='text-2xl font-bold'>&times;</p>
                   </button>
@@ -203,9 +209,9 @@ const ImageUpload: React.FC = () => {
             <div tabIndex={0} role="button" className="btn m-1 px-6 bg-[#2F5382] text-md text-white rounded-xl mt-5" onClick={()=>setDropdown(!dropdown)}>{location}</div>
             <ul 
               tabIndex={0} 
-              className={dropdown ? "dropdown-content z-[1] p-2 shadow bg-[#2F5382] rounded-box w-60 text-white max-h-[50vh] overflow-y-auto" : "hidden"}>
+              className={dropdown ? "dropdown-content z-[1] border-[1px] border-[#2F5382] p-2 shadow bg-white rounded-lg w-60 text-white max-h-[50vh] overflow-y-auto" : "hidden"}>
               {cities.map((city, index) => (
-                <li className='p-3 cursor-pointer hover:bg-gray-200 rounded-xl hover:text-black ' key={index} onClick={() => dropdownHandle(city)}><a>{city}</a></li>
+                <li className='p-3 cursor-pointer text-md text-black hover:bg-[#2F5382] rounded-xl hover:text-white ' key={index} onClick={() => dropdownHandle(city)}><a>{city}</a></li>
               ))}
             </ul>
           </div>
@@ -214,7 +220,8 @@ const ImageUpload: React.FC = () => {
                 Ime 
             </label>
             <input
-            className="input input-bordered input-primary bg-white rounded-full mt-2 p-5 w-full text-lg"
+            className="input input-bordered border-[#2F5382] bg-white rounded-full mt-2 p-5 w-full text-lg
+                focus:border-2 focus:border-[#2F5382]"
             name="name"
             type='text'
             placeholder="Npr. Leo, Rex..."
@@ -228,13 +235,13 @@ const ImageUpload: React.FC = () => {
                 <div className='flex flex-col py-2'>
                     <label htmlFor="animalCategory" className="py-2">Životinja:</label>
                         <div className="flex items-center py-2">
-                            <input type="radio" name="animalCategory" value="mačka" className="radio radio-info" />
+                            <input type="radio"  name="animalCategory" value="mačka" className="radio radio-info border-[#2F5382]" />
                             <label htmlFor="animalCategory" className="ml-3">Mačka</label>
                             
-                            <input type="radio" name="animalCategory" value="pas" className="radio radio-info ml-5" />
+                            <input type="radio"  name="animalCategory" value="pas" className="radio radio-info ml-5 border-[#2F5382]" />
                             <label htmlFor="animalCategory" className="ml-3">Pas</label>
 
-                            <input type="radio" name="animalCategory" value="ostalo" className="radio radio-info ml-5" />
+                            <input type="radio" name="animalCategory" value="ostalo" className="radio radio-info ml-5 border-[#2F5382]" />
                             <label htmlFor="animalCategory" className="ml-3">Ostalo</label>
                     </div>
                 </div>
@@ -246,8 +253,9 @@ const ImageUpload: React.FC = () => {
             <label className="text-lg" htmlFor='phoneNumber'>
                 Broj telefona <span className='text-sm text-gray-600'>{"(061 - xxx -...)"}</span>
             </label>
-            <input
-            className="input input-bordered input-primary bg-white rounded-full mt-2 p-5 w-[50%] xxs:w-full sm:w-[60%] text-lg"
+            <input 
+            className="input input-bordered border-[#2F5382] bg-white rounded-full mt-2 p-5 w-[50%] xxs:w-full sm:w-[60%] text-lg
+             focus:border-2 focus:border-[#2F5382]"
             name="phoneNumber"
             type='text'
             placeholder="Upišite broj telefona"
@@ -263,11 +271,16 @@ const ImageUpload: React.FC = () => {
             required 
             name='description'
             maxLength={2000}
-            className="textarea bg-white textarea-info mt-3 w-full h-[20vh]" 
+            className="textarea border-[#2F5382] resize-none bg-white mt-3 w-full h-[20vh]
+                      focus:border-2 focus:border-[#2F5382]" 
             placeholder="Unesite kratak opis"/>
             <br />
 
-            <FormSubmitButton className='mx-auto'>Kreiraj Oglas</FormSubmitButton>
+            <button disabled={isPending}  
+            className="btn px-6 bg-[#2F5382] text-md text-white rounded-full mt-5
+            hover:bg-white hover:border-[#2F5382] hover:text-[#2F5382] mx-auto"
+            >Kreiraj Oglas
+             {isPending && <span className="loading loading-dots loading-lg bg-[#2F5382]"></span>}</button>
             </form>
           </div>
         </div>

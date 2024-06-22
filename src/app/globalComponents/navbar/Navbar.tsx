@@ -11,7 +11,7 @@ export default async function Navbar() {
 
 
   return (
-    <div className="navbar bg-[#F0F0F0] px-14 py-1 fixed">
+    <div className="navbar bg-[#F0F0F0] px-14 py-1 fixed z-10">
         <div className="flex-1">
                 <Image
                 src="/images/logo.png"
