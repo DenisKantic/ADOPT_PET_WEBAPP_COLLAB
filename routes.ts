@@ -8,6 +8,7 @@ export const publicRoutes = [
     "/lostPetDetails/(.*)",
     "/donationPost/(.*)",
     "/animalDetails/",
+    "/policy"
 ]
 
 

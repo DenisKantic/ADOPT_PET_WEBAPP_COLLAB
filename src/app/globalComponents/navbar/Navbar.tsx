@@ -13,16 +13,19 @@ export default async function Navbar() {
   return (
     <div className="navbar bg-[#F0F0F0] px-14 py-1 fixed z-10">
         <div className="flex-1">
-                <Image
-                src="/images/logo.png"
-                alt="logo"
-                height={40}                    
-                width={40} />
+               <Link href="/" className='cursor-pointer'>
+                  <Image
+                  src="/images/logo.png"
+                  alt="logo"
+                  height={40}                    
+                  width={40} />
+                </Link>
                     
             <div className='ml-5 text-black'>
                 <Link href="/" className='border-b-2 border-[#2f5382] text-[#2f5382]'>Početna</Link>
                 <Link href="/aboutUs" className='ml-5'>O nama</Link>
                 <Link href="/help" className='ml-5'>Pomoć i podrška</Link>
+                <Link href="/policy" className='ml-5'>Politika privatnosti</Link>
                 <Link href="/vetStations" className='ml-5'>Blog</Link>
                 <Link href="/vetStations" className='ml-5'>Kontakt</Link>
             </div>
