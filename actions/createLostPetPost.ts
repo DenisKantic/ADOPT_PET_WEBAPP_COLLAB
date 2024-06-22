@@ -1,7 +1,6 @@
 "use server"
 import { auth } from "@public/auth";
 import { db } from "@public/lib/db";
-import { redirect } from "next/navigation";
 import { S3Client, PutObjectCommand, PutObjectCommandInput } from '@aws-sdk/client-s3';
 
 const s3Client = new S3Client({
@@ -41,7 +40,7 @@ export async function createLostPet(formData:FormData, locationPost:string){
     const post_id = session?.user?.id;
     const username = session?.user?.name;
 
-    const files = formData.getAll('file') as File[];
+    const files = formData.getAll('files') as File[];
 
     console.log("FILES:", files)
     const name = formData.get("name")?.toString();
@@ -59,29 +58,38 @@ export async function createLostPet(formData:FormData, locationPost:string){
     if (!Array.isArray(files) || files.length === 0) {
         throw Error("no files found")
     }
+    const imageUrls: string[] = [];
 
-    // const imageUrls: string[] = [];
-    //     for (const file of files) {
-    //         const buffer = await file.arrayBuffer();
+       // Iterate through each file and upload valid images to S3
+       for (const file of files) {
+        if (file.type.startsWith('image')) {
+          const buffer = Buffer.from(await file.arrayBuffer());
+          const fileName = file.name;
+          const imageUrl = await uploadFileToS3(buffer, fileName);
+          imageUrls.push(imageUrl);
+        } else {
+          console.warn(`Skipping non-image file: ${file.name}`);
+        }
+      }
+
+    // const imageUrls: string[] = await Promise.all(
+    //     files.map(async (file) => {
+    //         const buffer = Buffer.from(await file.arrayBuffer());
     //         const fileName = file.name;
-    //         const imageUrl = await uploadFileToS3(Buffer.from(buffer), fileName);
-    //         imageUrls.push(imageUrl);
-    //     }
-
-    const imageUrls: string[] = await Promise.all(
-        files.map(async (file) => {
-            const buffer = Buffer.from(await file.arrayBuffer());
-            const fileName = file.name;
-            const imageUrl = await uploadFileToS3(buffer, fileName);
-            return imageUrl;
-        })
-    );
+    //         const imageUrl = await uploadFileToS3(buffer, fileName);
+    //         console.log("created 2 images")
+    //         return imageUrl;
+    //     })
+    // );
 
     console.log("image URLS:", imageUrls)
 
     await db.lostPetPost.create({
         data: {post_id, imageUrls, location ,username, name, animalCategory, phoneNumber, description}
     })
+
+    return { success: true };
+    
     }
     catch(error){
         console.log("failed to create donation post", error)
