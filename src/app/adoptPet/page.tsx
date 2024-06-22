@@ -57,7 +57,7 @@ const AdoptPets: React.FC<HomePageProps> = async ({ searchParams }) => {
           {results.map((animal) => (
             <div key={animal.id} className="p-4 bg-white rounded-xl shadow-md">
               <Image
-                src={`${animal.imageUrls[0]}` || Image404}
+                src={animal.imageUrls[0]}
                 alt={animal.petName}
                 height={50}
                 width={50}
@@ -89,7 +89,7 @@ const AdoptPets: React.FC<HomePageProps> = async ({ searchParams }) => {
                   </li>
                   <li className="flex items-center">
                     <IoLocationOutline className="text-[#2F5382] text-lg" />
-                    <span className="pl-3">Lokacija</span>
+                    <span className="pl-3">{animal.location}</span>
                   </li>
                   <li className="flex items-center">
                     <MdOutlinePets className="text-[#2F5382] text-lg" />

@@ -1,5 +1,7 @@
 import React from 'react';
 import CardItem from './globalComponents/CardItem';
+import LostAnimals from './globalComponents/LostAnimals';
+import DonationPost from './globalComponents/DonationPost';
 import Link from 'next/link';
 import Image from 'next/image';
 import SecondNavigation from './globalComponents/navbar/SecondNavigation';
@@ -16,7 +18,7 @@ export default function Home() {
      <div className='w-full rounded-2xl shadow-2xl p-5 mt-10 mb-5 bg-[#2F5382] text-xl text-center text-white font-bold uppercase flex justify-center items-center'>
         <p className='xxs:mt-20 md:mt-0'>Web aplikacija je trenutno u beta {"(test)"} fazi. Molimo Vas za strpljenje <br /> 
           Ukoliko primjetite grešku, molimo Vas da nam se javite na  <br /> 
-          <span className='text-red-600 lowercase'>denis.kantic18@gmail.com</span> <br />
+          <span className='text-red-400 text-2xl lowercase'>contact@petconnectbosnia.com</span><br />
         </p>
      </div>
 
@@ -54,7 +56,7 @@ export default function Home() {
         </Link>
       </div>
       <div className="grid gap-10 xxs:grid-cols-1 sn:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 xxl:grid-cols-5">
-          <CardItem/> 
+          <LostAnimals/> 
       </div>
 
       <div className='flex justify-between items-center pt-10 xxs:flex-row'>
@@ -78,7 +80,7 @@ export default function Home() {
         </Link>
       </div>
       <div className="grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 xxl:grid-cols-5">
-          <CardItem/> 
+          <DonationPost/> 
       </div>
 
       

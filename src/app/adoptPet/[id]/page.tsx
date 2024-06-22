@@ -59,7 +59,7 @@ export default async function AnimalDetails({params: {id}} : Props) {
                         xxs:flex-col xl:flex-row'>
             <div className='w-full'>
                 <Image
-                src="/images/dog_photo.jpg"
+                src={animal.imageUrls[0]}
                 alt={animal.petName}
                 height={50}
                 width={50}
@@ -85,7 +85,7 @@ export default async function AnimalDetails({params: {id}} : Props) {
                                 <span className='ml-2'>Vakcinisan</span>
                             </div>
                             <div>
-                                <span  className='font-bold text-[#2F5382]'>{animal.vakcina}</span>
+                                <span  className='font-bold text-[#2F5382]'>{animal.vakcinisan}</span>
                             </div>
                         </div>
 
@@ -124,12 +124,12 @@ export default async function AnimalDetails({params: {id}} : Props) {
                                 <span className='ml-2'>Lokacija</span>
                             </div>
                             <div>
-                                <span  className='font-bold text-[#2F5382]'>Sarajevo</span>
+                                <span  className='font-bold text-[#2F5382]'>{animal.location}</span>
                             </div>
                         </div>
                 </div>
                 <p className='text-xl text-[#2F5382] pb-5 font-bold'>Detaljan opis:</p>
-                <div className='w-full shadow-2xl min-h-[10vh]'>
+                <div className='w-full shadow-2xl min-h-[10vh] border-t-[#2F5382] border-2'>
                         <textarea value={animal.description} className='w-full p-3 rounded-2xl h-[40vh] text-lg bg-white resize-none text-gray-800 overflow-hidden' disabled />
                     </div>
                 
