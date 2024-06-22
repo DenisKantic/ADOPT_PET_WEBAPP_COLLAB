@@ -33,7 +33,7 @@ const s3Client = new S3Client({
 
 }
 
-export async function createDonationPost(formData:FormData, locationPost:string){
+export async function createAdoptPost(formData:FormData, locationPost:string){
 
     try{
     const session = await auth()
@@ -44,15 +44,20 @@ export async function createDonationPost(formData:FormData, locationPost:string)
 
     console.log("FILES:", files)
     const category = formData.get("category")?.toString()
-    const name = formData.get("name")?.toString();
-    const animalCategory = formData.get("animalCategory")?.toString()
+    const petName = formData.get("name")?.toString();
     const phoneNumber = formData.get("phoneNumber")?.toString();
     const description = formData.get("description")?.toString();
+    const vakcinisan = formData.get("vakcinisan")?.toString();
+    const cipovan = formData.get("cipovan")?.toString();
+    const pasos = formData.get("pasos")?.toString();
+    const spol = formData.get("spol")?.toString();
+    const starost = formData.get("starost")?.toString();
     const location = locationPost;
   
 
 
-    if(!post_id || !username || !category || !name || !animalCategory || !phoneNumber || !description || !locationPost){
+    if(!post_id || !username || !category || !petName || !phoneNumber || !description 
+    || !vakcinisan || !cipovan || !pasos || !spol || !starost || !locationPost){
         throw Error("Missing required fields")
     }
 
@@ -85,8 +90,8 @@ export async function createDonationPost(formData:FormData, locationPost:string)
    console.log("image URLS:", imageUrls)
 
 
-    await db.donationPost.create({
-        data: {post_id, imageUrls, location ,username, category, name, animalCategory, phoneNumber, description}
+    await db.adoptAnimal.create({
+        data: {post_id, imageUrls, location ,username, category, petName, vakcinisan, cipovan, pasos, spol, starost, phoneNumber, description}
     })
     return { success: true };
 }

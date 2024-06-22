@@ -46,7 +46,7 @@ export default async function Dashboard() {
                       {oglasi.map(item=>(
                         <div className="h-auto rounded-xl my-5 w-full pb-2" key={item.id}>
                             <Image
-                        src="/images/dog_photo.jpg"
+                        src={item.imageUrls[0]}
                         alt={item.petName}
                         height={50}
                         width={50}

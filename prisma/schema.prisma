@@ -77,7 +77,7 @@ model AdoptAnimal {
   username    String
   category    String
   petName     String
-  vakcina     String
+  vakcinisan  String
   cipovan     String
   pasos       String
   spol        String
