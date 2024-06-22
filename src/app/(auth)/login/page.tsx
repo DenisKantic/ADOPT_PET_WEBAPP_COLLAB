@@ -97,7 +97,7 @@ export default function Register() {
         
         <div className="text-sm text-center text-neutral-500 mt-5">
           Nemaš kreiran nalog?{" "}
-          <Link href={"/signin"} className="font-bold text-neutral-900">
+          <Link href={"/register"} className="font-bold text-neutral-900">
               Kreiraj ovdje!
           </Link>
         </div>

@@ -36,7 +36,7 @@ export default function SecondNavigation() {
         <div className='rounded-full p-5 bg-[#2F5382] text-white'>
            <FaSearch className='text-[2em]'/>
         </div>
-        <Link href="/Building"  
+        <Link href="/lostPet"  
         className="badge py-4 px-4 bg-[#2F5382] text-md text-white rounded-full mt-5
                                     hover:bg-white hover:border-[#2F5382] hover:text-[#2F5382]">
                                       Izgubljene zivotinje

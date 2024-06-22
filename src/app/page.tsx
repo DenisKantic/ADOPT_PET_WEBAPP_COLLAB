@@ -49,7 +49,7 @@ export default function Home() {
 
       <div className='flex justify-between items-center pt-10 xxs:flex-row'>
         <p className='xxs:text-sm md:text-2xl'>Izgubljene zivotinje</p>
-        <Link href="/Building"  
+        <Link href="/lostPet"  
         className="badge py-4 px-4 bg-[#2F5382] text-md text-white rounded-full
                                     hover:bg-white hover:border-[#2F5382] hover:text-[#2F5382]">
                                       Pogledaj sve
@@ -59,7 +59,7 @@ export default function Home() {
           <LostAnimals/> 
       </div>
 
-      <div className='flex justify-between items-center pt-10 xxs:flex-row'>
+      {/* <div className='flex justify-between items-center pt-10 xxs:flex-row'>
         <p className='xxs:text-md md:text-2xl'>Pomozi zivotinji:</p>
         <Link href="/Building"  
         className="badge py-4 px-4 bg-[#2F5382] text-md text-white rounded-full
@@ -69,7 +69,7 @@ export default function Home() {
       </div>
       <div className="grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 xxl:grid-cols-5">
           <CardItem/> 
-      </div>
+      </div> */}
 
       <div className='flex justify-between items-center pt-10 xxs:flex-row'>
         <p className='xxs:text-md md:text-2xl'>Donacije:</p>

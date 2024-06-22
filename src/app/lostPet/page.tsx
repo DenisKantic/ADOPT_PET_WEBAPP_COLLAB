@@ -15,9 +15,6 @@ import { PiDogBold } from "react-icons/pi";
 import { FaCat } from "react-icons/fa";
 import { SiAnimalplanet } from "react-icons/si";
 
-import Image404 from "@public/public/images/image404.jpg"
-
-
 interface HomePageProps {
   searchParams: {
     category?: string;
@@ -27,7 +24,7 @@ interface HomePageProps {
   };
 }
 
-const AdoptPets: React.FC<HomePageProps> = async ({ searchParams }) => {
+const LostPets: React.FC<HomePageProps> = async ({ searchParams }) => {
   const { category, grad, spol, starost } = searchParams;
 
   const filters: any = {};
@@ -44,7 +41,7 @@ const AdoptPets: React.FC<HomePageProps> = async ({ searchParams }) => {
     filters.starost = { contains: starost, mode: "insensitive" };
   }
 
-  const results = await db.adoptAnimal.findMany({
+  const results = await db.lostPetPost.findMany({
     where: filters,
   });
 
@@ -52,13 +49,13 @@ const AdoptPets: React.FC<HomePageProps> = async ({ searchParams }) => {
     <div className="min-h-screen pt-20 bg-[#f1f4f5] w-full text-black xxs:px-5 md:px-14">
         {/* <div className="w-full h-full py-5 flex flex-row items-center justify-start"></div> */}
 
-        <FilterMenu />
+        <FilterMenu/>
         <div className="mt-2 grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 w-full h-full">
           {results.map((animal) => (
             <div key={animal.id} className="p-4 bg-white rounded-xl shadow-md">
               <Image
                 src={animal.imageUrls[0]}
-                alt={animal.petName}
+                alt={animal.name}
                 height={50}
                 width={50}
                 unoptimized
@@ -67,37 +64,37 @@ const AdoptPets: React.FC<HomePageProps> = async ({ searchParams }) => {
               <div className="w-full px-5">
                 <ul className="text-black mt-2 flex flex-col">
                   <li className="flex items-center">
-                    {animal.category == "pas" ? (
+                    {animal.animalCategory == "pas" ? (
                       <PiDogBold className="text-[#2F5382] text-lg" />
-                    ) : animal.category == "macka" ? (
+                    ) : animal.animalCategory == "macka" ? (
                       <FaCat className="text-[#2F5382] text-lg" />
                     ) : (
                       <SiAnimalplanet className="text-[#2F5382] text-xl" />
                     )}
                     <span className="pl-3">
-                      {animal.petName.substring(0, 20)}
-                      {animal.petName.length > 10 ? "..." : ""}
+                      {animal.name.substring(0, 20)}
+                      {animal.name.length > 10 ? "..." : ""}
                     </span>
                   </li>
-                  <li className="flex items-center">
+                  {/* <li className="flex items-center">
                     {animal.spol == "musko" ? (
                       <IoIosMale className="text-[#2F5382] text-lg" />
                     ) : (
                       <IoMaleFemale className="text-red-600 text-xl" />
                     )}
                     <span className="pl-3">{animal.spol}</span>
-                  </li>
+                  </li> */}
                   <li className="flex items-center">
                     <IoLocationOutline className="text-[#2F5382] text-lg" />
                     <span className="pl-3">{animal.location}</span>
                   </li>
-                  <li className="flex items-center">
+                  {/* <li className="flex items-center">
                     <MdOutlinePets className="text-[#2F5382] text-lg" />
                     <span className="pl-3">{animal.starost}</span>
-                  </li>
+                  </li> */}
                 </ul>
                 <Link
-                  href={`/adoptPet/${animal.id}`}
+                  href={`/lostPet/${animal.id}`}
                   className="btn bg-white text-lg text-[#2F5382] border-[#2F5382] rounded-full w-full mt-5
                             hover:bg-[#2F5382] hover:text-white"
                 >
@@ -128,4 +125,4 @@ const AdoptPets: React.FC<HomePageProps> = async ({ searchParams }) => {
   );
 };
 
-export default AdoptPets;
+export default LostPets;

@@ -21,7 +21,7 @@ const FilterMenu: React.FC = () => {
     e.preventDefault();
     // Trigger fetch on server-side via router push with search params
     const params = new URLSearchParams({ category, grad, spol, starost });
-    router.push(`/adoptPet?${params.toString()}`);
+    router.push(`/lostPet/${params.toString()}`);
   };
 
   return (
