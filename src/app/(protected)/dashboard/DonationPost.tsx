@@ -35,12 +35,12 @@ const userId = session?.user?.id;
         {donation.map(item=>(
         <div className="h-auto rounded-xl my-5 w-full pb-2 shadow-2xl" key={item.id}>
             <Image
-            src="/images/dog_photo.jpg"
+            src={item.imageUrls[0]}
             alt={item.name}
             height={50}
             width={50}
             unoptimized
-            className="object-cover rounded-t-2xl h-[15vh] bg-purple-400 w-full"
+            className="object-cover rounded-t-2xl h-[15vh] w-full"
             />
             <div className="w-full px-5">
                 <ul className="text-black mt-2 flex flex-col">

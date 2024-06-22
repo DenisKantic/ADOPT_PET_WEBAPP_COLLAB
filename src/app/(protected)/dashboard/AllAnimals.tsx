@@ -23,14 +23,14 @@ export default async function AllAnimals() {
       {animalPost.map(item=>(
      <div className="h-auto rounded-xl my-5 w-full pb-2" key={item.id}>
      <Image
- src="/images/dog_photo.jpg"
- alt={item.petName}
- height={50}
- width={50}
- unoptimized
- className="object-cover rounded-2xl h-[20vh] bg-purple-400 w-full"
- />
- <div className="w-full">
+        src={item.imageUrls[0]}
+        alt={item.petName}
+        height={50}
+        width={50}
+        unoptimized
+        className="object-cover rounded-2xl h-[20vh] bg-purple-400 w-full"
+        />
+    <div className="w-full">
      <ul className="text-black mt-2 flex flex-col">
          <li className="flex items-center">
              {item.category == "pas" ? <PiDogBold  className='text-[#2F5382] text-lg' /> 

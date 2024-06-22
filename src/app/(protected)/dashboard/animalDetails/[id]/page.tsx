@@ -57,7 +57,7 @@ export default async function AnimalDetails({params: {id}} : Props) {
                         xxs:flex-col xl:flex-row'>
             <div className='w-full'>
                 <Image
-                src="/images/dog_photo.jpg"
+                src={animal.imageUrls[0]}
                 alt={animal.petName}
                 height={50}
                 width={50}
@@ -83,7 +83,7 @@ export default async function AnimalDetails({params: {id}} : Props) {
                                 <span className='ml-2'>Vakcinisan</span>
                             </div>
                             <div>
-                                <span  className='font-bold text-[#2F5382]'>{animal.vakcina}</span>
+                                <span  className='font-bold text-[#2F5382]'>{animal.vakcinisan}</span>
                             </div>
                         </div>
 
