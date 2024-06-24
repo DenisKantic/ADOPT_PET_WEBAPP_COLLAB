@@ -52,7 +52,7 @@ export default function Register() {
           width={120}
           className="mx-auto"
         />
-        <p className="text-2xl py-4 text-center font-bold">Prijavi se</p>
+        <p className="text-2xl py-4 text-center font-bold text-[#2F5382]">Prijavi se</p>
         <div className="absolute">
           <Image
             src="/images/paw-2.png"
@@ -71,27 +71,27 @@ export default function Register() {
               disabled={isPending} 
               {...register('email')} 
               type="email"
-              className="outline-none p-2 mt-2 mb-3 input input-bordered input-primary w-full rounded-full 
+              className="outline-none p-4 mt-2 mb-3 input input-bordered input-primary w-full rounded-full 
               peer focus:border-neutral-200 disabled:bg-neutral-200 focus:bg-white bg-slate-200" />
               {errors.email && <span className='text-red-500'>{errors.email.message}</span>}
 
               <br />
 
-              <label htmlFor='password'>Password</label>
+              <label htmlFor='password'>Šifra</label>
               <input  
               disabled={isPending} 
               {...register('password')} 
               type="password" 
-              className="outline-none p-2 mt-2 mb-3 input input-bordered input-primary w-full rounded-full 
+              className="outline-none p-4 mt-2 input input-bordered input-primary w-full rounded-full 
               peer focus:border-neutral-200 disabled:bg-neutral-200 focus:bg-white bg-slate-200" />
               {errors.password && <span className='text-red-500'>{errors.password.message}</span>}
 
               <br />
 
-              {error && <span className='text-red-500'>{error}</span>}
+              {error && <span className='text-red-500 pb-5'>{error}</span>}
               {success && <span className='text-green-500'>{success}</span>}
 
-              <button disabled={isPending} type='submit' className='btn btn-primary'>Prijavi se</button>
+              <button disabled={isPending} type='submit' className='btn bg-[#2F5382] text-white text-lg rounded-full'>Prijavi se</button>
         </form>
 
         

@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs"
 import { RegisterSchema } from "@public/schema"
 import {db} from "@public/lib/db"
 import { getUserByEmail } from "@public/data/user"
+import { redirect } from "next/dist/server/api-utils"
 
 
 export const registerZod = async (values: z.infer<typeof RegisterSchema>)=>{
@@ -23,16 +24,23 @@ export const registerZod = async (values: z.infer<typeof RegisterSchema>)=>{
     const existingUser = await getUserByEmail(email);
 
     if(existingUser){
-        return {error: "Email je već u upotrebi."}
+        return {error: "Email je već u upotrebi!"}
     }
 
-    await db.user.create({
+    try{
+    const createProfile = await db.user.create({
         data:{
             name,
             email,
-            password: hashedPassword
+            password: hashedPassword,
         }
     })
 
-    return {sucess: "Korisnik je kreiran!"}
+    if(createProfile){
+        return {sucess: "Profil je uspješno kreiran!"}
+    } 
+    } catch (error){
+        return {error: "Desila se greška!"}
+    }
+
 }
