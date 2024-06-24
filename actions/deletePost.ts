@@ -31,7 +31,7 @@ export async function deleteLostPetPost(id:string){
     try {
         await db.lostPetPost.delete({where: {id}})
 
-        return {success: true}
+        return {success: true, message: "obrisan oglas"}
         
     } catch (error) {
         console.log("Delete post failed", error)
