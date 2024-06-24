@@ -1,9 +1,8 @@
 "use client"
 import React from 'react'
 import { useRouter } from 'next/navigation'
-import { deletePost } from '@public/actions/deletePost'
+import { deleteDonationPost } from '@public/actions/deletePost'
 import { revalidatePath } from 'next/cache'
-
 
 type Props = {
   id: string;
@@ -18,7 +17,7 @@ export default function DeleteButton({id}:Props) {
 
   const handleDelete = async () =>{
       try {
-        const removePost = await deletePost(postId)
+        const removePost = await deleteDonationPost(postId)
         if(removePost.success){
           router.push('/dashboard')
           router.refresh();

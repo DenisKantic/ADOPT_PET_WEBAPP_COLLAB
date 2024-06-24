@@ -5,8 +5,9 @@ these routes do not require authentication
 export const publicRoutes = [
     "/",
     "/adoptPet",
-    "/lostPetDetails/(.*)",
-    "/donationPost/(.*)",
+    "/lostPet",
+    "/lostPet/:path*",
+    "/donationPost",
     "/animalDetails/",
     "/policy"
 ]

@@ -1,6 +1,6 @@
 import authConfig from "@public/auth.config"
 import NextAuth from "next-auth"
-import { DEFAULT_LOGIN_REDIRECT, publicRoutes, authRoutes, apiAuthPrefix } from "@public/routes"
+import { DEFAULT_LOGIN_REDIRECT, publicRoutes, authRoutes, apiAuthPrefix, protectedRoutes } from "@public/routes"
 
 const {auth} = NextAuth(authConfig)
 
@@ -12,6 +12,7 @@ export default auth((req) => {
     const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix)
     const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
     const isAuthRoute = authRoutes.includes(nextUrl.pathname)
+    const isProtectedRoute = protectedRoutes.includes(nextUrl.pathname);
 
     if(isApiAuthRoute){
       return;
@@ -25,10 +26,19 @@ export default auth((req) => {
     }
     /*this means that we will allow auth route, to login, but only if the user is logged off */
 
-
-    if(!isLoggedIn && !isPublicRoute){
-      return Response.redirect(new URL("/login", nextUrl))
+    if(isPublicRoute){
+      return;
     }
+
+    if(isProtectedRoute && !isLoggedIn){
+      return Response.redirect(new URL("/login", nextUrl))
+
+    }
+
+
+    // if(!isLoggedIn && !isPublicRoute){
+    //   return Response.redirect(new URL("/login", nextUrl))
+    // }
 
     return;
 })
@@ -40,6 +50,9 @@ export default auth((req) => {
 // it will not work on "/login" path. Of course that could be "/register" or any path
 
 export const config = {
-    matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)', "/lostPetDetails/:path*"] // boilerplate code from clerkjs documentation which 
+    matcher: ['/((?!.+\\.[\\w]+$|_next).*)',
+             '/', 
+             '/(api|trpc)(.*)',
+            '/lostPet/:path*'] // boilerplate code from clerkjs documentation which 
                                     // handles this for all /api calls better
 }

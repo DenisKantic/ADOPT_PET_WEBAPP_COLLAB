@@ -152,6 +152,7 @@ const handleRemoveImage = () => {
         const response = await createDonationPost(formData, location)
         if(response?.success){
           router.push('/dashboard')
+          router.refresh();
         }})
       } catch (err) {
         console.error("Failed to create donation post", err);

@@ -79,7 +79,7 @@ export default async function Dashboard() {
                         </div>
                 </div>   
                 ))}
-                 <div className='w-[90%] h-[90%] my-5 p-5 rounded-xl flex flex-col justify-center items-center border-[1px] text-black shadow-2xl border-[#2F5382]'>
+                 {/* <div className='w-[90%] h-[90%] my-5 p-5 rounded-xl flex flex-col justify-center items-center border-[1px] text-black shadow-2xl border-[#2F5382]'>
                       <Image
                       src="/images/logo.png"
                       alt="logo"
@@ -90,7 +90,7 @@ export default async function Dashboard() {
                       />
                         <p>Vaše mjesto za reklamu</p>
                         <p>Kontaktirajte nas..</p>
-                </div>
+                </div> */}
             </div>
            </div>
 
