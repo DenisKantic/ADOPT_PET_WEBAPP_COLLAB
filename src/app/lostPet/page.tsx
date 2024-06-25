@@ -14,7 +14,6 @@ import { MdOutlinePets } from "react-icons/md";
 import { PiDogBold } from "react-icons/pi";
 import { FaCat } from "react-icons/fa";
 import { SiAnimalplanet } from "react-icons/si";
-import { getLostPets } from "@public/actions/getPostPagination";
 
 export default async function LostPets(){
 
