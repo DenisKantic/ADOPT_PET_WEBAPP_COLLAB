@@ -5,6 +5,7 @@ import { createLostPet } from '@public/actions/createLostPetPost';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useTransition } from "react";
+import { revalidatePath } from 'next/cache';
 
 
 //export const metadata: Metadata = {
@@ -154,6 +155,7 @@ const ImageUpload: React.FC = () => {
           const response = await createLostPet(formData, location)
           if(response?.success){
             router.push('/dashboard')
+            router.refresh();
           }})
         } catch (err) {
           console.error("Failed to create donation post", err);

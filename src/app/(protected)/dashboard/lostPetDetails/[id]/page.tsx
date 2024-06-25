@@ -8,6 +8,7 @@ import { MdOutlinePets } from "react-icons/md";
 import { PiSyringe } from "react-icons/pi";
 import { GrCircleInformation } from "react-icons/gr";
 import Image404 from "@public/public/images/image404.jpg"
+import DeleteButton from './DeleteAnimal'
 
 
 export const metadata: Metadata = {
@@ -115,7 +116,7 @@ export default async function lostPetDetails({params: {id}} : Props) {
                         <div className={ (user?.id == lostPet.post_id) ? 'w-full flex flex-col justify-between gap-5 pt-5' : "hidden"}>
                             <button className="btn bg-[#2F5382] text-lg text-white rounded-full w-full mt-5
                                         hover:bg-white hover:border-[#2F5382] hover:text-[#2F5382]">Uredi oglas</button>
-                            <button>Delete</button>
+                            <DeleteButton id={lostPet.id} />
                         </div>
                  </div>
 

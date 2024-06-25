@@ -15,10 +15,10 @@ export default function Home() {
       
      <SecondNavigation />
 
-     <div className='w-full rounded-2xl shadow-2xl p-5 mt-10 mb-5 bg-[#2F5382] text-xl text-center text-white font-bold uppercase flex justify-center items-center'>
-        <p className='xxs:mt-20 md:mt-0'>Web aplikacija je trenutno u beta {"(test)"} fazi. Molimo Vas za strpljenje <br /> 
+     <div className='w-full rounded-2xl shadow-2xl border-[1px] border-[#2F5382] p-5 mt-10 mb-5 bg-white text-xl text-center text-white font-bold uppercase flex justify-center items-center'>
+        <p className='xxs:mt-20 md:mt-0 text-[#2F5382]'>Web aplikacija je trenutno u beta {"(test)"} fazi i zbog toga su moguće manje greške. <br /> 
           Ukoliko primjetite grešku, molimo Vas da nam se javite na  <br /> 
-          <span className='text-red-400 text-2xl lowercase'>contact@petconnectbosnia.com</span><br />
+          <span className='text-2xl font-extrabold tracking-wide lowercase'>contact@petconnectbosnia.com</span><br />
         </p>
      </div>
 

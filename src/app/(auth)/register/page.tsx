@@ -8,6 +8,7 @@ import {zodResolver} from "@hookform/resolvers/zod"
 import { useTransition } from "react";
 import * as z from "zod";
 import { registerZod } from "@public/actions/register";
+import {useRouter} from "next/navigation";
 
 
 export default function Register() {
@@ -15,6 +16,7 @@ export default function Register() {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
+  const router = useRouter()
 
   
   const {register, handleSubmit, formState: {errors}} = useForm<z.infer<typeof RegisterSchema>>({
@@ -33,12 +35,19 @@ export default function Register() {
     startTransition(()=>{
       registerZod(values)
       .then((data)=>{
-        setError(data.error)
-        setSuccess(data.sucess)
+        router.push("/login");
+        setError(data?.error)
+        setSuccess(data?.sucess)
       })
     })
-  
   }
+  // const delay = (data: any) => {
+  //   if (data?.success) {
+  //     setTimeout(() => {
+  //     }, 1000);
+  //   }
+  // }
+  
 
   return (
     <div className="h-screen w-full flex items-center justify-center bg-[#2f5382]">
@@ -73,38 +82,38 @@ export default function Register() {
               disabled={isPending} 
               {...register('email')} 
               type="email"
-              className="outline-none p-2 mt-2 mb-3 input input-bordered input-primary w-full rounded-full 
+              className="outline-none p-4 mt-2 mb-3 input input-bordered input-primary w-full rounded-full 
               peer focus:border-neutral-200 disabled:bg-neutral-200 focus:bg-white bg-slate-200" />
               {errors.email && <span className='text-red-500'>{errors.email.message}</span>}
 
               <br />
 
-              <label htmlFor="name">Username</label>
+              <label htmlFor="name">Korisničko ime</label>
               <input 
               disabled={isPending} 
               {...register('name')} 
               type="text" 
-              className="outline-none p-2 mt-2 mb-3 input input-bordered input-primary w-full rounded-full 
+              className="outline-none p-4 mt-2 mb-3 input input-bordered input-primary w-full rounded-full 
               peer focus:border-neutral-200 disabled:bg-neutral-200 focus:bg-white bg-slate-200" />
               {errors.name && <span className='text-red-500'>{errors.name.message}</span>}
 
               <br />
 
-              <label htmlFor='password'>Password</label>
+              <label htmlFor='password'>Šifra</label>
               <input  
               disabled={isPending} 
               {...register('password')} 
               type="password" 
-              className="outline-none p-2 mt-2 mb-3 input input-bordered input-primary w-full rounded-full 
+              className="outline-none p-4 mt-2 mb-3 input input-bordered input-primary w-full rounded-full 
               peer focus:border-neutral-200 disabled:bg-neutral-200 focus:bg-white bg-slate-200" />
               {errors.password && <span className='text-red-500'>{errors.password.message}</span>}
 
               <br />
 
-              {error && <span className='text-red-500'>{error}</span>}
-              {success && <span className='text-green-500'>{success}</span>}
+              {error && <span className='w-full py-4 px-4 rounded-xl font-bold tracking-wide text-white bg-red-500 mb-4'>{error}</span>}
+              {success && <span className='w-full py-4 px-4 rounded-xl font-bold tracking-wide text-white bg-green-500 mb-4'>{success}</span>}
 
-              <button disabled={isPending} type='submit' className='btn btn-primary'>Register</button>
+              <button disabled={isPending} type='submit' className='btn bg-[#2F5382] text-white rounded-full text-lg'>Registruj se</button>
         </form>
 
         
