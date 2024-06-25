@@ -14,33 +14,18 @@ import { MdOutlinePets } from "react-icons/md";
 import { PiDogBold } from "react-icons/pi";
 import { FaCat } from "react-icons/fa";
 import { SiAnimalplanet } from "react-icons/si";
+import { getLostPets } from "@public/actions/getPostPagination";
 
-interface Props {
-    category?: string;
-    location?: string;
-  };
+export default async function LostPets(){
 
-// const LostPets: React.FC<HomePageProps> = async ({ searchParams }) => {
-//   const { category, location } = searchParams;
-
-//   const filters: any = {};
-//   if (category) {
-//     filters.category = { contains: category, mode: "insensitive" };
-//   }
-//     if (location) {
-//     filters.location = { contains: location, mode: "insensitive" };
-//   }
-
-export default async function LostPets({category, location}:Props){
-
-  const results = await db.lostPetPost.findMany({});
+  const post = await db.lostPetPost.findMany();
 
   return (
     <div className="min-h-screen pt-20 bg-[#f1f4f5] w-full text-black xxs:px-5 md:px-14">
         {/* <div className="w-full h-full py-5 flex flex-row items-center justify-start"></div> */}
 
         <div className="mt-2 grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 w-full h-full">
-          {results.map((animal) => (
+          {post.map((animal) => (
             <div key={animal.id} className="p-4 bg-white rounded-xl shadow-md">
               <Image
                 src={animal.imageUrls[0]}
@@ -48,7 +33,7 @@ export default async function LostPets({category, location}:Props){
                 height={50}
                 width={50}
                 unoptimized
-                className="object-cover rounded-t-2xl xxs:h-[15vh] md:h-[35vh] bg-purple-400 w-full"
+                className="object-cover rounded-t-2xl md:h-[35vh] w-full"
               />
               <div className="w-full px-5">
                 <ul className="text-black mt-2 flex flex-col">
