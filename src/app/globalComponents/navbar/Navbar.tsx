@@ -25,7 +25,7 @@ export default async function Navbar() {
                 <Link href="/" className='border-b-2 border-[#2f5382] text-[#2f5382]'>Početna</Link>
                 <Link href="/aboutUs" className='ml-5'>O nama</Link>
                 <Link href="/help" className='ml-5'>Pomoć i podrška</Link>
-                <Link href="/policy" className='ml-5'>Politika privatnosti</Link>
+                <Link href="/help" className='ml-5'>Politika privatnosti</Link>
                 <Link href="/vetStations" className='ml-5'>Blog</Link>
                 <Link href="/vetStations" className='ml-5'>Kontakt</Link>
             </div>
@@ -61,7 +61,7 @@ export default async function Navbar() {
             <Link className='my-2 badge rounded-xl border-none bg-[#F0F0F0] text-black text-start 
           flex justify-start py-5 px-4 text-md w-full' href="/profile-settings">Postavke</Link>
         </li>
-        <li className={user ? "block" : "hidden"}><Link href='/dashboard/ChoosePostType' className='mt-3 py-1 btn bg-[#2f5382] w-full rounded-full text-white'>Objavi oglas</Link></li>
+        <li className={user ? "block" : "hidden"}><Link href='/dashboard' className='mt-3 py-1 btn bg-[#2f5382] w-full rounded-full text-white'>Objavi oglas</Link></li>
         <li className={user ? "block" : "hidden"}><SignOut /></li>
       </ul>
     </div>

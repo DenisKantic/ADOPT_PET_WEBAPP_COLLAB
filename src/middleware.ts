@@ -14,7 +14,7 @@ export default auth((req) => {
     const isAuthRoute = authRoutes.includes(nextUrl.pathname)
     const isProtectedRoute = protectedRoutes.includes(nextUrl.pathname);
 
-    if(isApiAuthRoute){
+    if(isApiAuthRoute && isLoggedIn){
       return;
     }
 

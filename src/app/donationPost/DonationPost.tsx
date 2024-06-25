@@ -10,14 +10,14 @@ import { SiAnimalplanet } from "react-icons/si";
 import { GiMedicines } from "react-icons/gi";
 import { FaBowlFood } from "react-icons/fa6";
 import { IoIosInformationCircleOutline } from "react-icons/io";
+import image404 from '@public/public/images/image404.jpg'
+
 
 
 
 export default async function CardItem() {
     
-    const donation = await db.donationPost.findMany({
-        take:4
-    })
+    const donation = await db.donationPost.findMany({})
     
     if(!donation) notFound();
 
@@ -26,12 +26,12 @@ export default async function CardItem() {
         {donation.map(item=>(
         <div className="h-auto rounded-xl my-5 w-full pb-2 shadow-2xl" key={item.id}>
             <Image
-            src="/images/dog_photo.jpg"
+            src={item.imageUrls[0] || image404}
             alt={item.name}
             height={50}
             width={50}
             unoptimized
-            className="object-cover rounded-t-2xl h-[15vh] bg-purple-400 w-full"
+            className="object-cover rounded-t-2xl h-[30vh] shadow-lg w-full"
             />
             <div className="w-full px-5">
                 <ul className="text-black mt-2 flex flex-col">

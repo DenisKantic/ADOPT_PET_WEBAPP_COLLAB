@@ -4,7 +4,7 @@ import Link from "next/link";
 // libs
 import { db } from "@public/lib/db";
 // components
-import FilterMenu from "../globalComponents/FilterMenuLostPet";
+import MenuFilter from "../globalComponents/MenuFilter";
 import CardItem from "../globalComponents/CardItem";
 // assets
 import { IoIosMale } from "react-icons/io";
@@ -15,41 +15,30 @@ import { PiDogBold } from "react-icons/pi";
 import { FaCat } from "react-icons/fa";
 import { SiAnimalplanet } from "react-icons/si";
 
-interface HomePageProps {
-  searchParams: {
+interface Props {
     category?: string;
-    grad?: string;
-    spol?: string;
-    starost?: string;
+    location?: string;
   };
-}
 
-const LostPets: React.FC<HomePageProps> = async ({ searchParams }) => {
-  const { category, grad, spol, starost } = searchParams;
+// const LostPets: React.FC<HomePageProps> = async ({ searchParams }) => {
+//   const { category, location } = searchParams;
 
-  const filters: any = {};
-  if (category) {
-    filters.category = { contains: category, mode: "insensitive" };
-  }
-  if (grad) {
-    filters.grad = { contains: grad, mode: "insensitive" };
-  }
-  if (spol) {
-    filters.spol = { contains: spol, mode: "insensitive" };
-  }
-  if (starost) {
-    filters.starost = { contains: starost, mode: "insensitive" };
-  }
+//   const filters: any = {};
+//   if (category) {
+//     filters.category = { contains: category, mode: "insensitive" };
+//   }
+//     if (location) {
+//     filters.location = { contains: location, mode: "insensitive" };
+//   }
 
-  const results = await db.lostPetPost.findMany({
-    where: filters,
-  });
+export default async function LostPets({category, location}:Props){
+
+  const results = await db.lostPetPost.findMany({});
 
   return (
     <div className="min-h-screen pt-20 bg-[#f1f4f5] w-full text-black xxs:px-5 md:px-14">
         {/* <div className="w-full h-full py-5 flex flex-row items-center justify-start"></div> */}
 
-        <FilterMenu/>
         <div className="mt-2 grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 w-full h-full">
           {results.map((animal) => (
             <div key={animal.id} className="p-4 bg-white rounded-xl shadow-md">
@@ -125,4 +114,3 @@ const LostPets: React.FC<HomePageProps> = async ({ searchParams }) => {
   );
 };
 
-export default LostPets;
