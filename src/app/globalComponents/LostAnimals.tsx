@@ -29,7 +29,7 @@ export default async function CardItem() {
             height={50}
             width={50}
             unoptimized
-            className="object-cover rounded-t-2xl xxs:h-[30vh] md:h-[15vh] bg-purple-400 w-full"
+            className="object-cover rounded-t-2xl xxs:h-[30vh] shadow-lg w-full"
             />
             <div className="w-full px-5">
                 <ul className="text-black mt-2 flex flex-col">

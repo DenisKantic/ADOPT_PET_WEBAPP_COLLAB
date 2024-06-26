@@ -15,10 +15,10 @@ export default function Home() {
       
      <SecondNavigation />
 
-     <div className='w-full rounded-2xl shadow-2xl border-[1px] border-[#2F5382] p-5 mt-10 mb-5 bg-white text-xl text-center text-white font-bold uppercase flex justify-center items-center'>
-        <p className='xxs:mt-20 md:mt-0 text-[#2F5382]'>Web aplikacija je trenutno u beta {"(test)"} fazi i zbog toga su moguće manje greške. <br /> 
+     <div className='w-full overflow-hidden min-h-[10vh] rounded-2xl shadow-2xl border-[1px] border-[#2F5382] p-5 mt-10 mb-5 bg-white text-xl text-center text-white font-bold uppercase flex justify-center items-center'>
+        <p className='xxs:mt-20 w-full xxs:text-sm md:text-xl md:mt-0 text-[#2F5382]'>Web aplikacija je trenutno u beta {"(test)"} fazi i zbog toga su moguće manje greške. <br /> 
           Ukoliko primjetite grešku, molimo Vas da nam se javite na  <br /> 
-          <span className='text-2xl font-extrabold tracking-wide lowercase'>contact@petconnectbosnia.com</span><br />
+          <span className='xxs:text-[0.9em] md:text-2xl font-extrabold tracking-wide lowercase'>contact@petconnectbosnia.com</span><br />
         </p>
      </div>
 
@@ -31,8 +31,8 @@ export default function Home() {
                                       Pogledaj sve
         </Link>
       </div>
-      <div className="grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 xxl:grid-cols-5">
-        <div className='w-[90%] h-[90%] my-5 p-5 rounded-xl flex flex-col justify-center items-center border-[1px] shadow-2xl border-[#2F5382]'>
+      <div className="grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+        <div className='w-[90%] mx-auto h-[90%] my-5 p-5 rounded-xl flex flex-col justify-center items-center border-[1px] shadow-2xl border-[#2F5382]'>
           <Image
           src="/images/logo.png"
           alt="logo"
@@ -55,7 +55,7 @@ export default function Home() {
                                       Pogledaj sve
         </Link>
       </div>
-      <div className="grid gap-10 xxs:grid-cols-1 sn:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 xxl:grid-cols-5">
+      <div className="grid gap-10 xxs:grid-cols-1 sn:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
           <LostAnimals/> 
       </div>
 
@@ -73,13 +73,13 @@ export default function Home() {
 
       <div className='flex justify-between items-center pt-10 xxs:flex-row'>
         <p className='xxs:text-md md:text-2xl'>Donacije:</p>
-        <Link href="/Building"  
+        <Link href="/donationPost"  
         className="badge py-4 px-4 bg-[#2F5382] text-md text-white rounded-full
                                     hover:bg-white hover:border-[#2F5382] hover:text-[#2F5382]">
                                       Pogledaj sve
         </Link>
       </div>
-      <div className="grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 xxl:grid-cols-5">
+      <div className="grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
           <DonationPost/> 
       </div>
 

@@ -61,7 +61,7 @@ export default async function Navbar() {
             <Link className='my-2 badge rounded-xl border-none bg-[#F0F0F0] text-black text-start 
           flex justify-start py-5 px-4 text-md w-full' href="/profile-settings">Postavke</Link>
         </li>
-        <li className={user ? "block" : "hidden"}><Link href='/dashboard/ChoosePostType' className='mt-3 py-1 btn bg-[#2f5382] w-full rounded-full text-white'>Objavi oglas</Link></li>
+        <li className={user ? "block" : "hidden"}><Link href='/dashboard' className='mt-3 py-1 btn bg-[#2f5382] w-full rounded-full text-white'>Objavi oglas</Link></li>
         <li className={user ? "block" : "hidden"}><SignOut /></li>
       </ul>
     </div>
@@ -69,3 +69,22 @@ export default async function Navbar() {
 </div>
   )
 }
+
+{/* <div className={ nav ? 'bg-black/80 w-full fixed h-screen z-10 top-0 left-0 duration-200' : 'fixed'}>
+<div className={nav ? 'bg-white w-[280px] fixed top-0 left-0 z-10 h-screen duration-200' : 'fixed left-[-100%] w-[-300px] top-0 duration-300'}>
+<AiOutlineClose className='absolute top-4 right-4 cursor-pointer' 
+            onClick={()=> setNav(!nav)}  size={30}></AiOutlineClose> 
+            <h1 className='text-xl text-[#354a67] p-4'>Reset Inžinjering</h1>
+
+
+            <ul className='flex flex-col items-start p-4 text-black text-lg mt-[50px]'>
+    <li className='mr-2 flex items-center py-2'><AiOutlineHome size={22} className='mr-5'/><a href="#home" onClick={()=> setNav(!nav)}>POČETNA</a></li>
+    <li className='mr-2 flex items-center py-2'><AiOutlineInfoCircle size={22} className='mr-5' /><a href="#aboutUs" onClick={()=> setNav(!nav)}>O NAMA</a></li>
+    <li className='mr-2 flex items-center py-2'><AiOutlineShoppingCart size={22} className='mr-5' /><a href="#products" onClick={()=> setNav(!nav)}>PROIZVODI</a></li>
+    <li className='mr-2 flex items-center py-2'><AiOutlinePhone  size={22} className='mr-5'/><a href="#contact" onClick={()=> setNav(!nav)}>KONTAKT</a></li>
+   </ul>
+
+
+</div>
+</div> */}
+

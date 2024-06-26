@@ -54,7 +54,17 @@ export async function createAdoptPost(formData:FormData, locationPost:string){
     const starost = formData.get("starost")?.toString();
     const location = locationPost;
   
+    const oglasi = await db.adoptAnimal.findMany({
+      where:{
+        post_id: session?.user?.id
+      }
+    })
 
+    const postCount = oglasi.length;
+
+    if(postCount >=3 ){
+      return {success: false, message: "Prekoračili ste limit"}
+    }
 
     if(!post_id || !username || !category || !petName || !phoneNumber || !description 
     || !vakcinisan || !cipovan || !pasos || !spol || !starost || !locationPost){

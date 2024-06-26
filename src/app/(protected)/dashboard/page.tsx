@@ -36,19 +36,30 @@ export default async function Dashboard() {
       }
     })
 
-    let postCounter = oglasi.length;
+    const oglasiDonacije = await db.donationPost.findMany({
+      where:{
+        post_id: userId
+      }
+    })
+
+    const oglasiLost = await db.lostPetPost.findMany({
+      where:{
+        post_id: userId
+      }
+    })
+
+    let adoptPostCounter = oglasi.length;
+    let donationPostCounter = oglasiDonacije.length;
+    let lostPetPostCounter = oglasiLost.length;
 
   return (
     <div className='min-h-screen w-full bg-white xxs:px-4 md:px-14 py-20'>
       <div className="flex flex-col">
             <div className="bg-white rounded-xl h-full col-span-2 row-span-4 xxs:col-span-4">
                     <h1 className="text-xl text-black">Vaši oglasi: 
-                      <span className="text-md font-bold text-gray-700">{postCounter}</span> <br />
+                      <span className="text-md font-bold text-gray-700">{adoptPostCounter}</span> <br />
                       <span className='text-sm text-gray-600'>{"*Maksimalno tri oglasa"}</span>
                       </h1>
-                    <div className={postCounter == 0 ? "flex" : "hidden" }>
-                      <CreatePost post={"createAdoptPost"} />
-                    </div>
                     <div className="grid gap-10 shadow-2xl rounded-2xl p-5 xxs:grid-cols-1 sm:grid-cols-2 xl:grid-cols-4">
                       {oglasi.map(item=>(
                         <div className="h-auto rounded-xl my-5 w-full pb-2" key={item.id}>
@@ -86,6 +97,9 @@ export default async function Dashboard() {
                         </div>
                 </div>   
                 ))}
+                      <div className={adoptPostCounter >= 3 ? "hidden" : "flex" }>
+                      <CreatePost post={"createAdoptPost"} />
+                    </div>
                  {/* <div className='w-[90%] h-[90%] my-5 p-5 rounded-xl flex flex-col justify-center items-center border-[1px] text-black shadow-2xl border-[#2F5382]'>
                       <Image
                       src="/images/logo.png"
@@ -104,7 +118,7 @@ export default async function Dashboard() {
     
               <div className="mt-10 w-full rounded-2xl shadow-xl text-black p-5">
                 <p className="text-2xl">Donacijski oglasi: <span className='text-sm text-gray-600'>{"*Maksimalno jedan oglas"}</span>                </p>
-                    <div className={postCounter == 0 ? "flex" : "hidden" }>
+                    <div className={donationPostCounter >= 1 ? "hidden" : "flex" }>
                       <CreatePost post={"CreateDonationPost"} />
                     </div>
                 <div className="grid gap-20
@@ -115,7 +129,7 @@ export default async function Dashboard() {
 
               <div className="mt-10 w-full rounded-2xl shadow-xl text-black p-5">
                 <p className="text-2xl">Izgubljeni ljubimci: <span className='text-sm text-gray-600'>{"*Maksimalno jedan oglas"}</span> </p>
-                    <div className={postCounter == 0 ? "flex" : "hidden" }>
+                    <div className={lostPetPostCounter >=1 ? "hidden" : "flex" }>
                       <CreatePost post={"createLostPetPost"} />
                     </div>
                 <div className="grid gap-20
