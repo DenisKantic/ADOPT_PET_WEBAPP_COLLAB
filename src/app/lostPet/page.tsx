@@ -7,10 +7,7 @@ import { format } from 'date-fns';
 // actions
 import { getLostPetPost } from "@public/actions/paginationPost";
 // assets
-import { IoIosMale } from "react-icons/io";
-import { IoMaleFemale } from "react-icons/io5";
 import { IoLocationOutline } from "react-icons/io5";
-import { MdOutlinePets } from "react-icons/md";
 import { PiDogBold } from "react-icons/pi";
 import { FaCat } from "react-icons/fa";
 import { SiAnimalplanet } from "react-icons/si";
