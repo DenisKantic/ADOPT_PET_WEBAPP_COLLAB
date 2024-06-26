@@ -4,8 +4,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { format } from 'date-fns';
-import { bs } from 'date-fns/locale'; // Import Bosnian locale
-
 // actions
 import { getLostPetPost } from "@public/actions/paginationPost";
 // assets
@@ -16,6 +14,8 @@ import { MdOutlinePets } from "react-icons/md";
 import { PiDogBold } from "react-icons/pi";
 import { FaCat } from "react-icons/fa";
 import { SiAnimalplanet } from "react-icons/si";
+import { useTransition } from "react";
+import LoadingSpinner from "../globalComponents/Spinner";
 
 type Post = {
   id: string;
@@ -39,18 +39,21 @@ export default function LostPets() {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [total, setTotal] = useState(0);
+  const [isPending, startTransition] = useTransition(); // loading state
 
-  const fetchData = async (page: number) => {
+  const fetchData = (page: number) => {
+    startTransition(async ()=>{
     const result = await getLostPetPost({ query: { page } });
     setPosts(result.post);
     setPage(result.page);
     setPageSize(result.pageSize);
     setTotal(result.total);
+    })
   };
 
   useEffect(() => {
     const currentPage = parseInt(searchParams.get("page") || "1", 5);
-    fetchData(currentPage);
+      fetchData(currentPage);
   }, [searchParams]);
 
   const handlePagination = (newPage: number) => {
@@ -73,7 +76,8 @@ export default function LostPets() {
 
   return (
     <div className="min-h-screen pt-20 bg-[#f1f4f5] w-full text-black xxs:px-5 md:px-14">
-      <p>Ukupno oglasa: {total}</p>
+      <p className={isPending ? "hidden" : "flex py-5 text-xl"}>Ukupno oglasa:<span className="font-bold ml-2"> {total}</span></p>
+      {isPending && <LoadingSpinner />}
       <div className="mt-2 grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 w-full h-full">
         {posts.map((animal) => (
           <div key={animal.id} className="p-4 bg-white rounded-xl shadow-md">
@@ -120,14 +124,22 @@ export default function LostPets() {
           </div>
         ))}
       </div>
-      <div className="pagination flex justify-center gap-5 mt-5 pb-5">
-        <button
-          className="px-4 py-2 bg-green-400 disabled:bg-gray-00 rounded-lg"
-          onClick={handlePreviousPage}
+      <div className={isPending ? "hidden" : "join mx-auto w-full flex justify-center items-center py-10"}>
+          <button 
+          onClick={handlePreviousPage} 
           disabled={page === 1}
-        >
-          Previous
-        </button>
+          className="join-item btn bg-[#2F5382] text-white disabled:bg-gray-700 disabled:text-gray-200">Prethodna</button>
+          <button 
+          disabled 
+          className="join-item btn disabled disabled:bg-white disabled:border-[#2F5382] disabled:text-[#2F5382]">
+            Stranica: {page + "/" + Math.ceil(total / pageSize) }
+            </button>
+          <button 
+          onClick={handleNextPage} 
+          disabled={page === Math.ceil(total / pageSize)}
+          className="join-item btn bg-[#2F5382] text-white disabled:bg-gray-700 disabled:text-gray-200">Sljedeća</button>
+      </div>
+    
         {/* {Array.from({ length: Math.ceil(total / pageSize) }, (_, i) => (
           <button
             key={i}
@@ -137,19 +149,7 @@ export default function LostPets() {
             {i + 1}
           </button>
         ))} */}
-        <button
-        className="px-4 py-2 bg-green-400 disabled:bg-gray-300 rounded-lg"
-        value={Math.ceil(total / pageSize)}
-        >
-        </button>
-        <button
-          className="px-4 py-2 bg-green-400 disabled:bg-gray-300 rounded-lg"
-          onClick={handleNextPage}
-          disabled={page === Math.ceil(total / pageSize)}
-        >
-          Next
-        </button>
-      </div>
+       
     </div>
   );
 }
