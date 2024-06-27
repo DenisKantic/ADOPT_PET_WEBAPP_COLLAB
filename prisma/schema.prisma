@@ -118,6 +118,7 @@ model LostPetPost {
   imageUrls      String[]
   location       String
   username       String
+  spol           String
   name           String
   animalCategory String
   phoneNumber    String

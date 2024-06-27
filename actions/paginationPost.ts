@@ -6,6 +6,10 @@ export async function getLostPetPost(context:any){
     const page = parseInt((context.query.page as string) || '1', 5);
     const pageSize = 5;
 
+    // in function after context:any, add animals:string
+    // after that, insert in prisma function where: {animalCategory: animals}
+    // with that, by default if it's empty string it will return all animals,
+    // but if it contains for example "pas", it will list only "pas posts"
     const total = await db.lostPetPost.count();
     const post = await db.lostPetPost.findMany({
         skip: (page-1)*pageSize,
@@ -14,6 +18,12 @@ export async function getLostPetPost(context:any){
             createdAt: "desc"
         }
     })
+    // const total = await db.lostPetPost.count({
+    //     where:{
+    //         animalCategory: "pas"
+    //     }
+    // });
+
 
     return {
             post,

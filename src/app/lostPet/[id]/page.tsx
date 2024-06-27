@@ -7,6 +7,8 @@ import Image from 'next/image'
 import { MdOutlinePets } from "react-icons/md";
 import { PiSyringe } from "react-icons/pi";
 import { GrCircleInformation } from "react-icons/gr";
+import { IoIosMale } from "react-icons/io";
+import { IoMaleFemale } from "react-icons/io5";
 import Image404 from "@public/public/images/image404.jpg"
 
 
@@ -91,6 +93,16 @@ export default async function lostPetDetails({params: {id}} : Props) {
                             </div>
                             <div>
                                 <span  className='font-bold text-[#2F5382]'>{lostPet.location}</span>
+                            </div>
+                        </div>
+
+                        <div className='flex flex-row justify-between items-center bg-[#2F53821F] text-black p-5 h-[3rem] rounded-full'>
+                            <div className='flex items-center'>
+                                {(lostPet.spol == "musko" ? <IoIosMale /> : <IoMaleFemale/>)}
+                                <span className='ml-2'>Spol</span>
+                            </div>
+                            <div>
+                                <span  className='font-bold text-[#2F5382]'>{lostPet.spol}</span>
                             </div>
                         </div>
                 </div>

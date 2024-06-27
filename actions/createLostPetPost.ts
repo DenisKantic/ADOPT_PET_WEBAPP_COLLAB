@@ -47,11 +47,12 @@ export async function createLostPet(formData:FormData, locationPost:string){
     const animalCategory = formData.get("animalCategory")?.toString()
     const phoneNumber = formData.get("phoneNumber")?.toString();
     const description = formData.get("description")?.toString();
+    const spol = formData.get("spol")?.toString();
     const location = locationPost;
   
 
 
-    if(!post_id || !username || !name || !animalCategory || !phoneNumber || !description || !locationPost){
+    if(!post_id || !username || !name || !animalCategory || !phoneNumber || !description || !spol || !locationPost){
         throw Error("Missing required fields")
     }
 
@@ -85,7 +86,7 @@ export async function createLostPet(formData:FormData, locationPost:string){
     console.log("image URLS:", imageUrls)
 
     await db.lostPetPost.create({
-        data: {post_id, imageUrls, location ,username, name, animalCategory, phoneNumber, description}
+        data: {post_id, imageUrls, location ,username, spol, name, animalCategory, phoneNumber, description}
     })
 
     return { success: true };

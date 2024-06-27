@@ -247,6 +247,17 @@ const ImageUpload: React.FC = () => {
                             <label htmlFor="animalCategory" className="ml-3">Ostalo</label>
                     </div>
                 </div>
+
+                <div className='flex flex-col py-2'>
+                    <label htmlFor="spol" className="py-2">Spol:</label>
+                        <div className="flex items-center py-2">
+                            <input type="radio" name="spol" value="musko" className="radio radio-info" />
+                            <label htmlFor="spol" className="ml-3">Muško</label>
+                            
+                            <input type="radio" name="spol" value="zensko" className="radio radio-error ml-5" />
+                            <label htmlFor="spol" className="ml-3">Žensko</label>
+                    </div>
+                </div>
                 
             </div>
                
