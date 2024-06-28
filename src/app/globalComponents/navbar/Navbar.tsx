@@ -2,18 +2,19 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import userImage from '@public/public/images/user.png'
-import {auth} from "@public/auth"
 import SignOut from './SignOut'
+import { auth } from '@public/auth'
+import MobileNavbar from './MobileNavbar'
+
 export default async function Navbar() {
 
-    const session = await auth();
-    const user = session?.user;
-
+  const session = await auth();
+  const user = session?.user;
 
   return (
-    <div className="navbar bg-[#F0F0F0] px-14 py-1 fixed z-10">
-        <div className="flex-1">
-               <Link href="/" className='cursor-pointer'>
+    <div className="navbar bg-[#F0F0F0] xxs:px-2 md:px-14 py-1 fixed z-10">
+        <div className="flex-1 xxs:justify-between">
+               <Link href="/" className='xxs:hidden md:flex cursor-pointer'>
                   <Image
                   src="/images/logo.png"
                   alt="logo"
@@ -29,6 +30,8 @@ export default async function Navbar() {
                 <Link href="/vetStations" className='ml-5'>Blog</Link>
                 <Link href="/vetStations" className='ml-5'>Kontakt</Link>
             </div>
+
+            <MobileNavbar />
         </div>
   <div className="flex-none gap-2">
     <Link href="/login" 
