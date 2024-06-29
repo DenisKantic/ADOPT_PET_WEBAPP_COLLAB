@@ -2,6 +2,7 @@
 import React, {useState} from 'react'
 import {AiOutlineMenu,AiOutlineClose,AiOutlineHome,AiOutlineInfoCircle, AiOutlineShoppingCart, AiOutlinePhone} from 'react-icons/ai';
 import Link from 'next/link'
+import Image from "next/image"
 
 
 
@@ -22,6 +23,14 @@ export default function MobileNavbar() {
 
                     <ul className='flex flex-col items-start p-4 text-black text-lg mt-[50px]'>
             <li className='mr-2 flex items-center py-2'><AiOutlineHome size={22} className='mr-5'/><Link href="." onClick={()=> setNav(!nav)}>POČETNA</Link></li>
+            <li className='mr-2 flex items-center py-2'><AiOutlineInfoCircle size={22} className='mr-5' /><Link href="/adoptPet" onClick={()=> setNav(!nav)}>Udomi životinju</Link></li>
+            <li className='mr-2 flex items-center py-2'><AiOutlineInfoCircle size={22} className='mr-5' /><Link href="/Building" onClick={()=> setNav(!nav)}>Pomozi životinji</Link></li>
+            <li className='mr-2 flex items-center py-2'><AiOutlineInfoCircle size={22} className='mr-5' /><Link href="/lostPet" onClick={()=> setNav(!nav)}>Izgubljene životinje</Link></li>
+            <li className='mr-2 flex items-center py-2'><AiOutlineInfoCircle size={22} className='mr-5' /><Link href="/donationPost" onClick={()=> setNav(!nav)}>Donacije</Link></li>
+            <li className='mr-2 flex items-center py-2'><AiOutlineInfoCircle size={22} className='mr-5' /><Link href="/Building" onClick={()=> setNav(!nav)}>Vet. stanice</Link></li>
+
+
+
             <li className='mr-2 flex items-center py-2'><AiOutlineInfoCircle size={22} className='mr-5' /><Link href="/aboutUs" onClick={()=> setNav(!nav)}>O nama</Link></li>
             <li className='mr-2 flex items-center py-2'><AiOutlineShoppingCart size={22} className='mr-5' /><Link href="/help" onClick={()=> setNav(!nav)}>Pomoć i podrška</Link></li>
             <li className='mr-2 flex items-center py-2'><AiOutlinePhone  size={22} className='mr-5'/><Link href="/policy" onClick={()=> setNav(!nav)}>Politika privatnosti</Link></li>
