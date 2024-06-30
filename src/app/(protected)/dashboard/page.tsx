@@ -69,7 +69,7 @@ export default async function Dashboard() {
                         height={50}
                         width={50}
                         unoptimized
-                        className="object-cover rounded-2xl h-[20vh] bg-purple-400 w-full"
+                        className="object-cover rounded-2xl h-[20vh] shadow-xl w-full"
                         />
                         <div className="w-full">
                             <ul className="text-black mt-2 flex flex-col">
@@ -140,20 +140,13 @@ export default async function Dashboard() {
                 
                 
 
-      <div className="mt-10 grid grid-cols-5 grid-rows-1 gap-10 w-full rounded-2xl shadow-xl text-black">
+      <div className="mt-10 w-full rounded-2xl shadow-xl text-black p-5">
         
-        <div className="col-span-3 row-span-2 p-5">
-        <p>Najnoviji ljubimci</p>
-        <div className="grid grid-cols-3 gap-20">
+        <p className="text-2xl mb-10">Najnoviji ljubimci</p>
+        <div className="grid xxs:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 w-full gap-10">
             <AllAnimals />
         </div>
-               
-        </div>
-
-        <div className="col-span-2 bg-red-200 p-5">
-            <h1>Vet stanice</h1>
-        </div>
-      </div>   
+      </div>  
 
     </div>
     </div>

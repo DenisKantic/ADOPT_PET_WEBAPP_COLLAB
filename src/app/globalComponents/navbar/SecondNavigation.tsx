@@ -8,14 +8,14 @@ import { FaStethoscope } from "react-icons/fa";
 
 export default function SecondNavigation() {
   return (
-    <div className='xxs:hidden md:flex justify-center gap-5 items-center pt-20 w-full'>
+    <div className='xxs:hidden md:flex justify-center md:gap-2 xl:gap-10 items-center pt-20 w-full'>
 
      <div className='flex justify-center items-center flex-col'> 
         <div className='rounded-full p-5 bg-[#2F5382] text-white'>
            <FaPaw className='text-[2em]'/>
         </div>
         <Link href="/adoptPet"  
-        className="badge py-4 px-6 bg-[#2F5382] text-md text-white rounded-full mt-5
+        className="badge px-6 bg-[#2F5382] md:text-center md:py-6 lg:py-4 text-md  text-white rounded-full mt-5
                                     hover:bg-white hover:border-[#2F5382] hover:text-[#2F5382]">
                                       Udomi zivotinju
         </Link>
@@ -26,7 +26,7 @@ export default function SecondNavigation() {
         <FaHandsHelping className='text-[2em]'/>
         </div>
         <Link href="/Building"  
-        className="badge py-4 px-6 bg-[#2F5382] text-md text-white rounded-full mt-5
+        className="badge md:text-center md:py-6 lg:py-4  px-6 bg-[#2F5382] text-md text-white rounded-full mt-5
                                     hover:bg-white hover:border-[#2F5382] hover:text-[#2F5382]">
                                       Pomozi zivotinji
         </Link>
@@ -37,7 +37,7 @@ export default function SecondNavigation() {
            <FaSearch className='text-[2em]'/>
         </div>
         <Link href="/lostPet"  
-        className="badge py-4 px-6 bg-[#2F5382] text-md text-white rounded-full mt-5
+        className="badge px-6 bg-[#2F5382] md:text-center md:py-6 lg:py-4 text-md  text-white rounded-full mt-5
                                     hover:bg-white hover:border-[#2F5382] hover:text-[#2F5382]">
                                       Izgubljene zivotinje
         </Link>
@@ -48,7 +48,7 @@ export default function SecondNavigation() {
            <FaHandHoldingHeart className='text-[2em]'/>
         </div>
         <Link href="/donationPost"  
-        className="badge py-4 px-6 bg-[#2F5382] text-md text-white rounded-full mt-5
+        className="badge px-6 bg-[#2F5382] md:text-center md:py-6 lg:py-4 text-md text-white rounded-full mt-5
                                     hover:bg-white hover:border-[#2F5382] hover:text-[#2F5382]">
                                       Donacijski oglasi
         </Link>
@@ -59,7 +59,7 @@ export default function SecondNavigation() {
            <FaStethoscope className='text-[2em]'/>
         </div>
         <Link href="/Building"  
-        className="badge py-4 px-6 bg-[#2F5382] text-md text-white rounded-full mt-5
+        className="badge px-6 bg-[#2F5382] md:text-center md:py-6 lg:py-4 text-md  text-white rounded-full mt-5
                                     hover:bg-white hover:border-[#2F5382] hover:text-[#2F5382]">
                                       Vet. stanice
         </Link>

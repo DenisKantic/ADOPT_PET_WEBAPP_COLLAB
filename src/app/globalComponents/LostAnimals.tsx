@@ -41,7 +41,7 @@ export default async function CardItem() {
                         <SiAnimalplanet className='text-[#2F5382] text-xl'/>
                     }
                         <span className="pl-3">{item.name.substring(0,20)}{item.name.length > 10 ? "..." : ""}</span></li>
-                    {/* <li className="flex items-center">{item.spol == "musko" ? <IoIosMale className='text-[#2F5382] text-lg' /> : <IoMaleFemale className='text-red-600 text-xl'/>}<span className="pl-3">{item.spol}</span></li> */}
+                    <li className="flex items-center">{item.spol == "musko" ? <IoIosMale className='text-[#2F5382] text-lg' /> : <IoMaleFemale className='text-red-600 text-xl'/>}<span className="pl-3">{item.spol}</span></li>
                     <li className="flex items-center"><IoLocationOutline className='text-[#2F5382] text-lg'/><span className="pl-3">{item.location}</span></li>
                 </ul>
                 <Link 

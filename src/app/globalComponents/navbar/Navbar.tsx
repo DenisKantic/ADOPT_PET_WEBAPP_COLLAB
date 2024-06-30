@@ -12,8 +12,8 @@ export default async function Navbar() {
   const user = session?.user;
 
   return (
-    <div className="navbar bg-[#F0F0F0] xxs:px-2 lg:px-14 py-1 fixed z-10">
-        <div className="xxs:justify-between bg-red-400 flex-1 py-2">
+    <div className="navbar bg-[#F0F0F0] shadow-xl xxs:px-2 lg:px-14 py-1 fixed z-10">
+        <div className="xxs:justify-between flex-1 py-2">
                <Link href="/" className='xxs:hidden lg:block cursor-pointer'>
                   <Image
                   src="/images/logo.png"
@@ -22,7 +22,7 @@ export default async function Navbar() {
                   width={50} />
                 </Link>
                     
-            <div className='ml-5 text-black xxs:hidden lg:inline-block w-full bg-green-400'>
+            <div className='ml-5 text-black xxs:hidden lg:inline-block w-full'>
                 <Link href="/" className='border-b-2 border-[#2f5382] text-[#2f5382]'>Početna</Link>
                 <Link href="/aboutUs" className='ml-5'>O nama</Link>
                 <Link href="/help" className='ml-5'>Pomoć i podrška</Link>

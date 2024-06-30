@@ -8,9 +8,11 @@ import {zodResolver} from "@hookform/resolvers/zod"
 import { useTransition } from "react";
 import * as z from "zod";
 import { loginZod } from "@public/actions/login";
+import {signIn} from "next-auth/react"
+import {DEFAULT_LOGIN_REDIRECT} from "@public/routes"
 
 
-export default function Register() {
+export default function Login() {
 
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -36,6 +38,12 @@ export default function Register() {
       })
     })
   
+  }
+
+  const googleLogin = (provider: "google") =>{
+    signIn(provider,{
+      callbackUrl: DEFAULT_LOGIN_REDIRECT
+    })
   }
 
   return (
@@ -93,6 +101,7 @@ export default function Register() {
 
               <button disabled={isPending} type='submit' className='btn bg-[#2F5382] text-white text-lg rounded-full'>Prijavi se</button>
         </form>
+        {/* <button disabled={isPending} onClick={()=>googleLogin("google")} className='btn bg-[#2F5382] mt-5 text-white text-lg rounded-full'>Google Prijava</button> */}
 
         
         <div className="text-sm text-center text-neutral-500 mt-5">

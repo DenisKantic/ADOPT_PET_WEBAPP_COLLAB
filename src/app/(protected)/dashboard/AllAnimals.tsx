@@ -14,7 +14,7 @@ export default async function AllAnimals() {
 
     const animalPost = await db.adoptAnimal.findMany({
         orderBy: {id: "desc"},
-        take: 3
+        take: 4
     });
 
 
@@ -28,7 +28,7 @@ export default async function AllAnimals() {
         height={50}
         width={50}
         unoptimized
-        className="object-cover rounded-2xl h-[20vh] bg-purple-400 w-full"
+        className="object-cover rounded-2xl h-[30vh] w-full shadow-xl"
         />
     <div className="w-full">
      <ul className="text-black mt-2 flex flex-col">

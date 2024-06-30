@@ -16,7 +16,7 @@ export default function Home() {
      <SecondNavigation />
 
      <div className='w-full overflow-hidden min-h-[10vh] rounded-2xl shadow-2xl border-[1px] border-[#2F5382] p-5 mt-20 mb-5 bg-white text-xl text-center text-white font-bold uppercase flex justify-center items-center'>
-        <p className='w-full xxs:text-sm md:text-xl md:mt-0 text-[#2F5382]'>Web aplikacija je trenutno u beta {"(test)"} fazi i zbog toga su moguće manje greške. <br /> 
+        <p className='w-full xxs:text-sm md:text-xl md:mt-0 text-[#2F5382]'>Web aplikacija je trenutno i dalje u fazi izrade i zbog toga su moguće manje greške. <br /> 
           Ukoliko primjetite grešku, molimo Vas da nam se javite na  <br /> 
           <span className='xxs:text-[0.9em] md:text-2xl font-extrabold tracking-wide lowercase'>contact@petconnectbosnia.com</span><br />
         </p>

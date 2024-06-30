@@ -3,8 +3,8 @@ import { db } from "@public/lib/db";
 
 
 export async function getLostPetPost(context:any){
-    const page = parseInt((context.query.page as string) || '1', 5);
-    const pageSize = 5;
+    const page = parseInt((context.query.page as string) || '1', 12);
+    const pageSize = 12;
 
     // in function after context:any, add animals:string
     // after that, insert in prisma function where: {animalCategory: animals}
@@ -35,8 +35,8 @@ export async function getLostPetPost(context:any){
 }
 
 export async function getAdoptPost(context:any){
-    const page = parseInt((context.query.page as string) || '1', 5);
-    const pageSize = 5;
+    const page = parseInt((context.query.page as string) || '1', 12);
+    const pageSize = 12;
 
     const total = await db.adoptAnimal.count();
     const post = await db.adoptAnimal.findMany({
@@ -57,8 +57,8 @@ export async function getAdoptPost(context:any){
 }
 
 export async function getDonationPost(context:any){
-    const page = parseInt((context.query.page as string) || '1', 5);
-    const pageSize = 5;
+    const page = parseInt((context.query.page as string) || '1', 12);
+    const pageSize = 12;
 
     const total = await db.donationPost.count();
     const post = await db.donationPost.findMany({

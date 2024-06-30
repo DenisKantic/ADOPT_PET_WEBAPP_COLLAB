@@ -42,7 +42,7 @@ export default function AdoptPet() {
 
   const [posts, setPosts] = useState<Post[]>([]);
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(12);
   const [total, setTotal] = useState(0);
   const [isPending, startTransition] = useTransition(); // loading state
   const [isLoading, setIsLoading] = useState(true); // Add loading state
@@ -59,7 +59,7 @@ export default function AdoptPet() {
   };
 
   useEffect(() => {
-    const currentPage = parseInt(searchParams.get("page") || "1", 10);
+    const currentPage = parseInt(searchParams.get("page") || "1", 12);
     fetchData(currentPage);
   }, [searchParams]);
 
@@ -95,7 +95,7 @@ export default function AdoptPet() {
               height={50}
               width={50}
               unoptimized
-              className="object-cover rounded-t-2xl xxs:h-[15vh] md:h-[35vh] shadow-lg w-full"
+              className="object-cover rounded-t-2xl h-[35vh] shadow-lg w-full"
             />
             <div className="w-full px-5">
               <ul className="text-black mt-2 flex flex-col">

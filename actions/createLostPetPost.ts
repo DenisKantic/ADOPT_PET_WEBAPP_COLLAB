@@ -19,7 +19,7 @@ const s3Client = new S3Client({
     const uniqueFileName = `${fileName}-${Date.now()}`
     const params:PutObjectCommandInput = {
       Bucket: process.env.AWS_S3_BUCKET_NAME!,
-      Key: `lostPet/${uniqueFileName}`,
+      Key: `lostPet/${user_email}/${uniqueFileName}`,
       Body: file,
       ContentType: 'image/png'
     };
@@ -28,7 +28,7 @@ const s3Client = new S3Client({
   
     await s3Client.send(command);
   
-    const imageUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.amazonaws.com/lostPet/${uniqueFileName}`;
+    const imageUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.amazonaws.com/lostPet/${user_email}/${uniqueFileName}`;
     return imageUrl;
 
 }
