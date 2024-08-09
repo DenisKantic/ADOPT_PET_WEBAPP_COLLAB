@@ -1,0 +1,132 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String
+  accounts      Account[]
+  sessions      Session[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String         @id @default(auto()) @map("_id") @db.ObjectId
+  sessionToken String         @unique
+  userId       String         @db.ObjectId
+  expires      DateTime
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  adoptAnimal  AdoptAnimal[]
+  donationPost DonationPost[]
+  lostPetPost  LostPetPost[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// MODELS FOR CREATING POST
+
+//Animal post create 
+model AdoptAnimal {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  post_id     String   @map("post_id") @db.ObjectId
+  imageUrls   String[]
+  location    String
+  username    String
+  category    String
+  petName     String
+  vakcinisan  String
+  cipovan     String
+  pasos       String
+  spol        String
+  starost     String
+  phoneNumber String
+  description String
+
+  postId Session @relation(fields: [post_id], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("adoptAnimalPost")
+}
+
+model DonationPost {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  post_id        String   @map("post_id") @db.ObjectId
+  imageUrls      String[]
+  location       String
+  username       String
+  name           String
+  category       String
+  animalCategory String
+  phoneNumber    String
+  description    String
+  postId         Session  @relation(fields: [post_id], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("DonationPost")
+}
+
+model LostPetPost {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  post_id        String   @map("post_id") @db.ObjectId
+  imageUrls      String[]
+  location       String
+  username       String
+  spol           String
+  name           String
+  animalCategory String
+  phoneNumber    String
+  description    String
+  postId         Session  @relation(fields: [post_id], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("LostPetPost")
+}
