@@ -6,9 +6,11 @@ import (
 	"fmt"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
+	"io"
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
 )
@@ -29,7 +31,6 @@ func init() {
 	if err != nil {
 		fmt.Println("Error loading .env file")
 		log.Fatal("Error loading .env file")
-		return
 	}
 
 	DB_USER = os.Getenv("DB_USER")
@@ -38,27 +39,33 @@ func init() {
 	DB_HOST = os.Getenv("DB_HOST")
 	DB_PORT = os.Getenv("DB_PORT")
 
-	fmt.Printf("DB_USER: %s\nDB_PASSWORD: %s\nDB_NAME: %s\nDB_HOST: %s\nDB_PORT: %s\n", DB_USER, DB_PASSWORD, DB_NAME, DB_HOST, DB_PORT)
-
 }
 
 // function for connecting to the database
 func dbConnect() (*sql.DB, error) {
-	psqlInfo := "host=%s port=%s user=%s password=%s, dbname=%s, sslmode=disable "
+	//psqlInfo := "host=%s port=%s user=%s password=%s, dbname=%s, sslmode=disable"
+	//
+	//psqlInfo = fmt.Sprintf(psqlInfo, DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME)
+	//fmt.Println("Connection string:", psqlInfo)
 
-	psqlInfo = fmt.Sprintf(psqlInfo, DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME)
-	fmt.Println("Connection string:", psqlInfo)
+	connectionStr := "postgres://postgres:test@localhost:5432/testing?sslmode=disable"
 
-	db, err := sql.Open("postgres", psqlInfo)
+	db, err := sql.Open("postgres", connectionStr)
 	if err != nil {
 		return nil, fmt.Errorf("error oppening connection %w", err)
 	}
+
+	// Test the connection
+	if err := db.Ping(); err != nil {
+		return nil, fmt.Errorf("error SPAJANJA to database: %w", err)
+	}
+	fmt.Println("CONNECTED TO THE DATABASE")
 	return db, nil
 }
 
 func CreatePost(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
-	w.Header().Set("Access-Control-Allow-Methods", "POST")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
 	if r.Method == http.MethodOptions {
@@ -71,8 +78,8 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// extracting form values
-	//images := r.MultipartForm.File["images"]
+	//extracting form values
+	images := r.MultipartForm.File["images"]
 	category := r.FormValue("category")
 	petName := r.FormValue("petName")
 	phoneNumber := r.FormValue("phoneNumber")
@@ -91,10 +98,10 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//if len(images) == 0 {
-	//	http.Error(w, "No images uploaded", http.StatusBadRequest)
-	//	return
-	//}
+	if len(images) == 0 {
+		http.Error(w, "No images uploaded", http.StatusBadRequest)
+		return
+	}
 
 	// creating slug from the pets name for dynamic route
 	var slug = strings.ToLower(petName)
@@ -105,52 +112,52 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	// opening images, saving in file server, retrieving paths and storing in database
 	var filePaths []string
 
-	//for i, file := range images {
-	//	// open the uploaded images
-	//	src, err := file.Open()
-	//	if err != nil {
-	//		http.Error(w, "Error opening the images", http.StatusInternalServerError)
-	//		return
-	//	}
-	//
-	//	defer src.Close()
-	//
-	//	// renaming images with petName(i+1)
-	//	/* this is used to avoid errors if image names
-	//	contains spaces, it could cause images to not load
-	//	on client side
-	//	*/
-	//	fileExtension := filepath.Ext(file.Filename)
-	//	newFileName := fmt.Sprintf("%s%d%s", petName, i+1, fileExtension)
-	//
-	//	// create a new file in the server
-	//	dstPath := filepath.Join("adoptImages", newFileName)
-	//	dst, err := os.Create(dstPath)
-	//	if err != nil {
-	//		http.Error(w, "Error creating a new file in the server", http.StatusInternalServerError)
-	//		return
-	//	}
-	//
-	//	defer dst.Close()
-	//
-	//	// copy the uploaded file to the server
-	//	_, err = io.Copy(dst, src)
-	//	if err != nil {
-	//		http.Error(w, "Error uploading file in the server", http.StatusInternalServerError)
-	//		return
-	//	}
-	//
-	//	// collect file paths
-	//	filePaths = append(filePaths, dstPath)
-	//
-	//} // end of the for loop for images
-	//
-	//// separating images (if it has 2 or more) with commas
-	//filePathsWithCommas := "{" + strings.Join(filePaths, ",") + "}"
-	//fmt.Println("\nNEW FILE NAMES IN ARRAY", filePathsWithCommas)
-	err = SaveToDB(category, petName, phoneNumber, description, vakcinisan, cipovan, pasos, spol, starost, location, slug)
+	for i, file := range images {
+		// open the uploaded images
+		src, err := file.Open()
+		if err != nil {
+			http.Error(w, "Error opening the images", http.StatusInternalServerError)
+			return
+		}
+
+		defer src.Close()
+
+		// renaming images with petName(i+1)
+		/* this is used to avoid errors if image names
+		contains spaces, it could cause images to not load
+		on client side
+		*/
+		fileExtension := filepath.Ext(file.Filename)
+		newFileName := fmt.Sprintf("%s%d%s", petName, i+1, fileExtension)
+
+		// create a new file in the server
+		dstPath := filepath.Join("adoptImages", newFileName)
+		dst, err := os.Create(dstPath)
+		if err != nil {
+			http.Error(w, "Error creating a new file in the server", http.StatusInternalServerError)
+			return
+		}
+
+		defer dst.Close()
+
+		// copy the uploaded file to the server
+		_, err = io.Copy(dst, src)
+		if err != nil {
+			http.Error(w, "Error uploading file in the server", http.StatusInternalServerError)
+			return
+		}
+
+		// collect file paths
+		filePaths = append(filePaths, dstPath)
+
+	} // end of the for loop for images
+
+	// separating images (if it has 2 or more) with commas
+	filePathsWithCommas := "{" + strings.Join(filePaths, ",") + "}"
+	fmt.Println("\nNEW FILE NAMES IN ARRAY", filePathsWithCommas)
+	err = SaveToDB(filePathsWithCommas, category, petName, phoneNumber, description, vakcinisan, cipovan, pasos, spol, starost, location, slug)
 	if err != nil {
-		http.Error(w, fmt.Sprintf("ERROR %v", err), http.StatusInternalServerError)
+		http.Error(w, fmt.Sprintf("ERROR here %v", err), http.StatusInternalServerError)
 		return
 	}
 
@@ -166,7 +173,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func SaveToDB(category string,
+func SaveToDB(filePathsWithCommas string, category string,
 	petName string, phoneNumber string, description string,
 	vakcinisan string, cipovan string,
 	pasos string, spol string,
@@ -179,9 +186,9 @@ func SaveToDB(category string,
 	defer db.Close()
 
 	//query := "INSERT INTO adoptPost (filePaths, category, petName, phoneNumber, description, vakcinisan, cipovan, pasos,spol, starost, location, slug) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11,$12)"
-	_, err = db.Exec("INSERT INTO adoptPost ( category, petName, phoneNumber, description, vakcinisan, cipovan, pasos,spol, starost, location, slug) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11)", category, petName, phoneNumber, description, vakcinisan, cipovan, pasos, spol, starost, location, slug)
+	_, err = db.Exec("INSERT INTO adoptPost ( imagePaths, category, petName, phoneNumber, description, vakcinisan, cipovan, pasos,spol, starost, location, slug) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11, $12)", filePathsWithCommas, category, petName, phoneNumber, description, vakcinisan, cipovan, pasos, spol, starost, location, slug)
 	if err != nil {
-		return fmt.Errorf("error occured on the server side: %v", err)
+		return fmt.Errorf("error u izvrsenju baze: %v", err)
 	}
 
 	return nil
