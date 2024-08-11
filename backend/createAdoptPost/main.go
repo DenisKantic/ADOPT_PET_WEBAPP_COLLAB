@@ -15,13 +15,9 @@ import (
 	"strings"
 )
 
-// variables for reading from .env file
+// DB_CONNECT variable for reading from .env file
 var (
-	DB_USER     string
-	DB_PASSWORD string
-	DB_NAME     string
-	DB_HOST     string
-	DB_PORT     string
+	DB_CONNECT string
 )
 
 // function for reading the .env variables
@@ -33,24 +29,14 @@ func init() {
 		log.Fatal("Error loading .env file")
 	}
 
-	DB_USER = os.Getenv("DB_USER")
-	DB_PASSWORD = os.Getenv("DB_PASSWORD")
-	DB_NAME = os.Getenv("DB_NAME")
-	DB_HOST = os.Getenv("DB_HOST")
-	DB_PORT = os.Getenv("DB_PORT")
+	DB_CONNECT = os.Getenv("DB_CONNECT")
 
 }
 
 // function for connecting to the database
 func dbConnect() (*sql.DB, error) {
-	//psqlInfo := "host=%s port=%s user=%s password=%s, dbname=%s, sslmode=disable"
-	//
-	//psqlInfo = fmt.Sprintf(psqlInfo, DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME)
-	//fmt.Println("Connection string:", psqlInfo)
 
-	connectionStr := "postgres://postgres:test@localhost:5432/testing?sslmode=disable"
-
-	db, err := sql.Open("postgres", connectionStr)
+	db, err := sql.Open("postgres", DB_CONNECT)
 	if err != nil {
 		return nil, fmt.Errorf("error oppening connection %w", err)
 	}
@@ -105,9 +91,10 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 
 	// creating slug from the pets name for dynamic route
 	var slug = strings.ToLower(petName)
-	slug = strings.ReplaceAll(petName, " ", "-")
+	slug = strings.ReplaceAll(slug, " ", "-")
 	re := regexp.MustCompile(`[^a-z0-9-]`)
 	slug = re.ReplaceAllString(slug, "")
+	fmt.Println("NEW SLUG,", slug)
 
 	// opening images, saving in file server, retrieving paths and storing in database
 	var filePaths []string
@@ -128,7 +115,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 		on client side
 		*/
 		fileExtension := filepath.Ext(file.Filename)
-		newFileName := fmt.Sprintf("%s%d%s", petName, i+1, fileExtension)
+		newFileName := fmt.Sprintf("%s%d%s", slug, i+1, fileExtension)
 
 		// create a new file in the server
 		dstPath := filepath.Join("adoptImages", newFileName)
@@ -186,7 +173,7 @@ func SaveToDB(filePathsWithCommas string, category string,
 	defer db.Close()
 
 	//query := "INSERT INTO adoptPost (filePaths, category, petName, phoneNumber, description, vakcinisan, cipovan, pasos,spol, starost, location, slug) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11,$12)"
-	_, err = db.Exec("INSERT INTO adoptPost ( imagePaths, category, petName, phoneNumber, description, vakcinisan, cipovan, pasos,spol, starost, location, slug) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11, $12)", filePathsWithCommas, category, petName, phoneNumber, description, vakcinisan, cipovan, pasos, spol, starost, location, slug)
+	_, err = db.Exec("INSERT INTO adoptPost ( image_paths, category, petName, phoneNumber, description, vakcinisan, cipovan, pasos,spol, starost, location, slug) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11, $12)", filePathsWithCommas, category, petName, phoneNumber, description, vakcinisan, cipovan, pasos, spol, starost, location, slug)
 	if err != nil {
 		return fmt.Errorf("error u izvrsenju baze: %v", err)
 	}
