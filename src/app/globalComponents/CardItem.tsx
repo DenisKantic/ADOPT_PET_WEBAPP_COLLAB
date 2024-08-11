@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import {db} from "@public/lib/db"
 import { notFound } from 'next/navigation';
 import { IoIosMale } from "react-icons/io";
 import { IoMaleFemale } from "react-icons/io5";
@@ -9,6 +8,7 @@ import { MdOutlinePets } from "react-icons/md";
 import { PiDogBold } from "react-icons/pi";
 import { FaCat } from "react-icons/fa";
 import { SiAnimalplanet } from "react-icons/si";
+import { getAdoptPost } from '@public/actions/getAllAdoptPost';
 
 
 export default async function CardItem() {

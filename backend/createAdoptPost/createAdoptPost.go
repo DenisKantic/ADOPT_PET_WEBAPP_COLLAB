@@ -1,53 +1,18 @@
 package createAdoptPost
 
 import (
+	"backend/db"
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"io"
-	"log"
 	"net/http"
 	"os"
 	"path/filepath"
 	"regexp"
 	"strings"
 )
-
-// DB_CONNECT variable for reading from .env file
-var (
-	DB_CONNECT string
-)
-
-// function for reading the .env variables
-func init() {
-
-	err := godotenv.Load()
-	if err != nil {
-		fmt.Println("Error loading .env file")
-		log.Fatal("Error loading .env file")
-	}
-
-	DB_CONNECT = os.Getenv("DB_CONNECT")
-
-}
-
-// function for connecting to the database
-func dbConnect() (*sql.DB, error) {
-
-	db, err := sql.Open("postgres", DB_CONNECT)
-	if err != nil {
-		return nil, fmt.Errorf("error oppening connection %w", err)
-	}
-
-	// Test the connection
-	if err := db.Ping(); err != nil {
-		return nil, fmt.Errorf("error connecting to database: %w", err)
-	}
-	fmt.Println("CONNECTED TO THE DATABASE")
-	return db, nil
-}
 
 func CreatePost(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
@@ -188,20 +153,20 @@ func SaveToDB(filePathsWithCommas string, category string,
 	pasos string, spol string,
 	starost string, location string, slug string) error {
 
-	db, err := dbConnect()
+	database, err := db.DbConnect()
 	if err != nil {
 		return fmt.Errorf("error occurred on server: %v", err)
 	}
-	defer db.Close()
+	defer database.Close()
 
 	// Generate a unique slug
-	uniqueSlug, err := generateUniqueSlug(db, slug)
+	uniqueSlug, err := generateUniqueSlug(database, slug)
 	if err != nil {
 		return fmt.Errorf("error generating unique slug: %v", err)
 	}
 
 	//query := "INSERT INTO adoptPost (filePaths, category, petName, phoneNumber, description, vakcinisan, cipovan, pasos,spol, starost, location, slug) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11,$12)"
-	_, err = db.Exec("INSERT INTO adoptPost ( image_paths, category, petName, phoneNumber, description, vakcinisan, cipovan, pasos,spol, starost, location, slug) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11, $12)", filePathsWithCommas, category, petName, phoneNumber, description, vakcinisan, cipovan, pasos, spol, starost, location, uniqueSlug)
+	_, err = database.Exec("INSERT INTO adoptPost ( image_paths, category, petName, phoneNumber, description, vakcinisan, cipovan, pasos,spol, starost, location, slug) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11, $12)", filePathsWithCommas, category, petName, phoneNumber, description, vakcinisan, cipovan, pasos, spol, starost, location, uniqueSlug)
 	if err != nil {
 		return fmt.Errorf("error u izvrsenju baze: %v", err)
 	}

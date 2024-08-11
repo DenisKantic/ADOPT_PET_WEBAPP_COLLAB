@@ -1,6 +1,7 @@
 package main
 
 import (
+	"backend/AdoptPostGetDelete"
 	"backend/createAdoptPost"
 	"fmt"
 	"log"
@@ -17,6 +18,9 @@ func serveStaticFiles(mux *http.ServeMux) {
 func setupRoutes() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/createAdoptPost", createAdoptPost.CreatePost)
+
+	// get all adoptPost for homepage
+	mux.HandleFunc("/getAdoptPostHome", AdoptPostGetDelete.GetAllAdoptPost)
 
 	// serving static files
 	serveStaticFiles(mux)
