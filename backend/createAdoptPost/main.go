@@ -43,7 +43,7 @@ func dbConnect() (*sql.DB, error) {
 
 	// Test the connection
 	if err := db.Ping(); err != nil {
-		return nil, fmt.Errorf("error SPAJANJA to database: %w", err)
+		return nil, fmt.Errorf("error connecting to database: %w", err)
 	}
 	fmt.Println("CONNECTED TO THE DATABASE")
 	return db, nil
@@ -51,7 +51,7 @@ func dbConnect() (*sql.DB, error) {
 
 func CreatePost(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
-	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
 	if r.Method == http.MethodOptions {
@@ -160,6 +160,28 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func generateUniqueSlug(db *sql.DB, baseSlug string) (string, error) {
+	slug := baseSlug
+	suffix := 1
+
+	for {
+		var count int
+		err := db.QueryRow("SELECT COUNT(*) FROM adoptPost WHERE slug = $1", slug).Scan(&count)
+		if err != nil {
+			return "", err
+		}
+
+		if count == 0 {
+			break
+		}
+
+		slug = fmt.Sprintf("%s-%d", baseSlug, suffix)
+		suffix++
+	}
+
+	return slug, nil
+}
+
 func SaveToDB(filePathsWithCommas string, category string,
 	petName string, phoneNumber string, description string,
 	vakcinisan string, cipovan string,
@@ -172,8 +194,14 @@ func SaveToDB(filePathsWithCommas string, category string,
 	}
 	defer db.Close()
 
+	// Generate a unique slug
+	uniqueSlug, err := generateUniqueSlug(db, slug)
+	if err != nil {
+		return fmt.Errorf("error generating unique slug: %v", err)
+	}
+
 	//query := "INSERT INTO adoptPost (filePaths, category, petName, phoneNumber, description, vakcinisan, cipovan, pasos,spol, starost, location, slug) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11,$12)"
-	_, err = db.Exec("INSERT INTO adoptPost ( image_paths, category, petName, phoneNumber, description, vakcinisan, cipovan, pasos,spol, starost, location, slug) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11, $12)", filePathsWithCommas, category, petName, phoneNumber, description, vakcinisan, cipovan, pasos, spol, starost, location, slug)
+	_, err = db.Exec("INSERT INTO adoptPost ( image_paths, category, petName, phoneNumber, description, vakcinisan, cipovan, pasos,spol, starost, location, slug) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11, $12)", filePathsWithCommas, category, petName, phoneNumber, description, vakcinisan, cipovan, pasos, spol, starost, location, uniqueSlug)
 	if err != nil {
 		return fmt.Errorf("error u izvrsenju baze: %v", err)
 	}
