@@ -4,7 +4,7 @@ import {auth} from "@public/auth"
 import { notFound} from 'next/navigation'
 import {db} from '@public/lib/db'
 import Image from 'next/image'
-import DeleteAnimal from '../../(protected)/dashboard/animalDetails/[id]/DeleteAnimal'
+import DeleteAnimal from '../../_(protected)/dashboard/animalDetails/[id]/DeleteAnimal'
 import { IoIosMale } from "react-icons/io";
 import { IoMaleFemale } from "react-icons/io5";
 import { MdOutlinePets } from "react-icons/md";

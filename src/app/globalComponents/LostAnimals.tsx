@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import {db} from "@public/lib/db"
 import { notFound } from 'next/navigation';
 import { IoIosMale } from "react-icons/io";
 import { IoMaleFemale } from "react-icons/io5";
@@ -13,9 +12,7 @@ import { SiAnimalplanet } from "react-icons/si";
 
 export default async function CardItem() {
     
-    const animals = await db.lostPetPost.findMany({
-        take:4
-    })
+    const animals = null;
     
     if(!animals) notFound();
 

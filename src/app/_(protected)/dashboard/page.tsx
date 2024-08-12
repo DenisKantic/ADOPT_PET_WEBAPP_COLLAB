@@ -1,8 +1,6 @@
 import React from 'react'
 import Image from "next/image";
 import type { Metadata } from "next";
-import {db} from "@public/lib/db"
-import {auth} from "@public/auth"
 import Link from "next/link";
 import AllAnimals from "./AllAnimals";
 import { IoIosMale } from "react-icons/io";
@@ -24,17 +22,10 @@ export const metadata: Metadata = {
 export default async function Dashboard() {
 
     
-  const session = await auth();
-  const userId = session?.user?.id;
-
-  console.log("user session", session)
+ 
 
 
-    const oglasi = await db.adoptAnimal.findMany({
-      where:{
-        post_id: userId
-      }
-    })
+    const oglasi = null;
 
     const oglasiDonacije = await db.donationPost.findMany({
       where:{

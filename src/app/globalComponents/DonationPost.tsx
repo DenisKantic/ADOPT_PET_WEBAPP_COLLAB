@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import {db} from "@public/lib/db"
 import { notFound } from 'next/navigation';
 import { IoLocationOutline } from "react-icons/io5";
 import { MdOutlinePets } from "react-icons/md";
@@ -15,9 +14,7 @@ import { IoIosInformationCircleOutline } from "react-icons/io";
 
 export default async function CardItem() {
     
-    const donation = await db.donationPost.findMany({
-        take:4
-    })
+    const donation = null;
     
     if(!donation) notFound();
 

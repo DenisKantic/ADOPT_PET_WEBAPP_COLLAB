@@ -2,14 +2,11 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import userImage from '@public/public/images/user.png'
-import SignOut from './SignOut'
-import { auth } from '@public/auth'
 import MobileNavbar from './MobileNavbar'
 
 export default async function Navbar() {
-
-  const session = await auth();
-  const user = session?.user;
+  
+  const user = null;
 
   return (
     <div className="navbar bg-[#F0F0F0] xxs:px-2 md:px-14 py-1 fixed z-10">
@@ -64,7 +61,7 @@ export default async function Navbar() {
           flex justify-start py-5 px-4 text-md w-full' href="/profile-settings">Postavke</Link>
         </li>
         <li className={user ? "block" : "hidden"}><Link href='/dashboard' className='mt-3 py-1 btn bg-[#2f5382] w-full rounded-full text-white'>Objavi oglas</Link></li>
-        <li className={user ? "block" : "hidden"}><SignOut /></li>
+        <li className={user ? "block" : "hidden"}>SignOut</li>
       </ul>
     </div>
   </div>

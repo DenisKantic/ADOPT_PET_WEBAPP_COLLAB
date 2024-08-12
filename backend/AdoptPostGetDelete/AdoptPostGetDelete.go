@@ -23,7 +23,7 @@ func GetAllAdoptPost(w http.ResponseWriter, r *http.Request) {
 
 	defer database.Close()
 
-	query := "SELECT id, image_paths, category, petname, spol, location, slug, created_at FROM adoptPost"
+	query := "SELECT id, image_paths, category, petname, spol, starost, location, slug, created_at FROM adoptPost"
 	rows, err := database.Query(query)
 	if err != nil {
 		http.Error(w, "Error querying the database", http.StatusInternalServerError)
@@ -36,11 +36,11 @@ func GetAllAdoptPost(w http.ResponseWriter, r *http.Request) {
 
 	for rows.Next() {
 		var id int
-		var image_paths, category, petname, location, spol string
+		var image_paths, category, petname, location, spol, starost string
 		var created_at string
 		var slug string
 
-		err := rows.Scan(&id, &image_paths, &category, &petname, &spol, &location, &slug, &created_at)
+		err := rows.Scan(&id, &image_paths, &category, &petname, &spol, &starost, &location, &slug, &created_at)
 		if err != nil {
 			http.Error(w, "Error scanning the row", http.StatusInternalServerError)
 			return
@@ -54,6 +54,8 @@ func GetAllAdoptPost(w http.ResponseWriter, r *http.Request) {
 			"petname_slug": slug,
 			"location":     location,
 			"created_at":   created_at,
+			"spol": 	spol,
+			"starost": starost,
 			"slug":         slug,
 		}
 

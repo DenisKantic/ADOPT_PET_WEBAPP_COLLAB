@@ -1,10 +1,7 @@
 import React, { cache } from 'react'
 import type { Metadata } from 'next'
-import {auth} from "@public/auth"
 import { notFound} from 'next/navigation'
-import {db} from "@public/lib/db"
 import Image from 'next/image'
-import DeleteAnimal from './DeleteAnimal'
 import { IoIosMale } from "react-icons/io";
 import { IoMaleFemale } from "react-icons/io5";
 import { MdOutlinePets } from "react-icons/md";
@@ -27,8 +24,9 @@ type Props = {
 
 
 const getAnimal = cache(async (id: string)=>{
-    const animal = await db.adoptAnimal.findUnique({where: {id}})
-    
+    const animal = null;
+
+
     if(!animal) notFound();
     
     return animal;
@@ -44,8 +42,7 @@ const usernameLenght = (user:string)=>{
 
 export default async function AnimalDetails({params: {id}} : Props) {
 
-    const session = await auth()
-    const user = session?.user;
+   
 
     const animal = await getAnimal(id)
 
@@ -147,7 +144,6 @@ export default async function AnimalDetails({params: {id}} : Props) {
                         <div className={ (user?.id == animal.post_id) ? 'w-full flex flex-col justify-between gap-5 pt-5' : "hidden"}>
                             <button className="btn bg-[#2F5382] text-lg text-white rounded-full w-full mt-5
                                         hover:bg-white hover:border-[#2F5382] hover:text-[#2F5382]">Uredi oglas</button>
-                            <DeleteAnimal id={animal.id} />
                         </div>
                  </div>
             </div>

@@ -56,7 +56,7 @@ export default function Home() {
         </Link>
       </div>
       <div className="grid gap-10 xxs:grid-cols-1 sn:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-          <LostAnimals/> 
+          {/* <LostAnimals/>  */}
       </div>
 
       {/* <div className='flex justify-between items-center pt-10 xxs:flex-row'>
@@ -80,7 +80,7 @@ export default function Home() {
         </Link>
       </div>
       <div className="grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-          <DonationPost/> 
+          {/* <DonationPost/>  */}
       </div>
 
       
