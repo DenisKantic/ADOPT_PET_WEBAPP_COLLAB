@@ -21,6 +21,8 @@ func setupRoutes() {
 
 	// get all adoptPost for homepage
 	mux.HandleFunc("/getAdoptPostHome", AdoptPostGetDelete.GetAllAdoptPost)
+	// get one adoptPost with slug
+	mux.HandleFunc("/getOneAdoptPost/", AdoptPostGetDelete.GetOneAdoptPost)
 
 	// serving static files
 	serveStaticFiles(mux)

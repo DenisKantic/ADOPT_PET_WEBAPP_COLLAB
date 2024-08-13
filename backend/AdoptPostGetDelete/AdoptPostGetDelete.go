@@ -2,7 +2,10 @@ package AdoptPostGetDelete
 
 import (
 	"backend/db"
+	"database/sql"
 	"encoding/json"
+	"errors"
+	"fmt"
 	"net/http"
 )
 
@@ -54,8 +57,8 @@ func GetAllAdoptPost(w http.ResponseWriter, r *http.Request) {
 			"petname_slug": slug,
 			"location":     location,
 			"created_at":   created_at,
-			"spol": 	spol,
-			"starost": starost,
+			"spol": 		spol,
+			"starost": 		starost,
 			"slug":         slug,
 		}
 
@@ -77,6 +80,74 @@ func GetAllAdoptPost(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func GetOneAdoptPost(w http.ResponseWriter, r *http.Request){
 
+
+type Post struct{
+	ID int `json:"id"`
+	Image_paths string `json:"image_paths"`
+	Category string `json:"category"`
+	Petname string `json:"petname"`
+	Phonenumber string `json:"phoneNumber"`
+	Description string `json:"description"`
+	Vakcinisan bool `json:"vakcinisan"`
+	Cipovan bool `json:"cipovan"`
+	Pasos bool `json:"pasos"`
+	Spol string `json:"spol"`
+	Starost string `json:"starost"`
+	Location string `json:"location"`
+	Created_at string `json:"created_at"`
+}
+
+
+func GetOneAdoptPost(w http.ResponseWriter, r *http.Request){
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Methods", "GET")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+	if r.Method == http.MethodOptions {
+		return
+	}
+
+	slug :=r.URL.Query().Get("slug")
+
+	fmt.Println("SLUG", slug)
+
+	var post Post
+
+	if slug == ""{
+		http.Error(w,"Missing required item", http.StatusBadRequest)
+		return
+	}
+
+	database, err := db.DbConnect();
+	if err != nil {
+		http.Error(w, "Error connecting to the database", http.StatusInternalServerError)
+		return
+	}
+	defer database.Close()
+
+	err = database.QueryRow("SELECT id, image_paths, category, petname, phonenumber, description, vakcinisan, cipovan, pasos, spol ,starost, location, created_at FROM adoptPost WHERE slug = $1", slug).
+		Scan(&post.ID, &post.Image_paths, &post.Category, &post.Petname, &post.Phonenumber, &post.Description,
+		&post.Vakcinisan, &post.Cipovan, &post.Pasos, &post.Spol, &post.Starost, &post.Location, &post.Created_at)
+
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			http.Error(w, "Item not found", http.StatusNotFound)
+			return
+		} else {
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		}
+		fmt.Println("Query error:", err) // Log query error
+		return
+	}
+
+	response := map[string]interface{}{
+		"adopt_post": post,
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+
+	if err :=json.NewEncoder(w).Encode(response); err != nil {
+		http.Error(w,"Failed to encode the item", http.StatusInternalServerError)
+	}
 }

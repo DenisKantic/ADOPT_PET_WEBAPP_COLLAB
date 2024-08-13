@@ -55,12 +55,10 @@ export default async function CardItem() {
 
             const firstImagePath = imagePaths[0] || '';
 
-            console.log("DATE", item.created_at)
-
             return (
         <div className="relative rounded-xl my-5 w-full pb-2 shadow-2xl overflow-hidden group" key={item.id}>
              <Link 
-                href={`/adoptPet/${item.id}`} className=''>
+                href={`/adoptPet/${item.slug}`} className=''>
              {firstImagePath && (
                             <Image
                                 src={`http://localhost:8080/${firstImagePath}`}
@@ -87,7 +85,7 @@ export default async function CardItem() {
             
             </div>
             <div className="absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <p className="btn btn-primary text-white">Pročitaj više...</p>
+            <p className="btn border-[#2F5382] bg-[#2F5382] text-lg text-white hover:bg-white hover:text-[#2F5382]">Pročitaj više...</p>
         </div>
             </Link> 
     </div>   
