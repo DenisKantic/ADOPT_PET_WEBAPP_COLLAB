@@ -76,3 +76,7 @@ func GetAllAdoptPost(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 
 }
+
+func GetOneAdoptPost(w http.ResponseWriter, r *http.Request){
+
+}

@@ -6,11 +6,6 @@ interface AdoptPost{
     image_paths: string[],
     category: string,
     petname: string,
-    phoneNumber: string,
-    description: string,
-    vakcinisan: boolean,
-    cipovan: boolean,
-    pasos: boolean,
     spol: string,
     starost: string,
     location: string,
@@ -18,17 +13,18 @@ interface AdoptPost{
     created_at: string;
 }
 
-export async function getAdoptPost(){
+export async function getHomeAdoptPost(){
 
     let response;
 
     try{
     response = await axios.get<{adopt_post: AdoptPost[]}>('http://localhost:8080/getAdoptPostHome');
     // console.log("REsponse from server", response.data.adopt_post )
-    return response.data;
+    // return response as {data: {adopt_post: AdoptPost[]}}
     } catch (err){
         console.log("error happened on server side", err)
         return { adopt_post: [] }
     }
 
+    return response.data;
 }

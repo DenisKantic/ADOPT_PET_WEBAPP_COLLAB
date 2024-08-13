@@ -31,8 +31,8 @@ export default function Home() {
                                       Pogledaj sve
         </Link>
       </div>
-      <div className="grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-        <div className='w-[90%] mx-auto h-[90%] my-5 p-5 rounded-xl flex flex-col justify-center items-center border-[1px] shadow-2xl border-[#2F5382]'>
+      <div className="grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
+        {/* <div className='w-[90%] mx-auto h-[30vh] my-5 p-5 rounded-xl flex flex-col justify-center items-center border-[1px] shadow-2xl border-[#2F5382]'>
           <Image
           src="/images/logo.png"
           alt="logo"
@@ -43,7 +43,7 @@ export default function Home() {
           />
           <p>Vaše mjesto za reklamu</p>
           <p>Kontaktirajte nas..</p>
-          </div>
+          </div> */}
           <CardItem/> 
       </div>
 
