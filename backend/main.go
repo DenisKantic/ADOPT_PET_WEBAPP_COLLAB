@@ -2,6 +2,7 @@ package main
 
 import (
 	"backend/AdoptPostGetDelete"
+	"backend/auth"
 	"backend/createAdoptPost"
 	"fmt"
 	"log"
@@ -23,6 +24,9 @@ func setupRoutes() {
 	mux.HandleFunc("/getAdoptPostHome", AdoptPostGetDelete.GetAllAdoptPost)
 	// get one adoptPost with slug
 	mux.HandleFunc("/getOneAdoptPost/", AdoptPostGetDelete.GetOneAdoptPost)
+
+	// register API
+	mux.HandleFunc("/register", auth.Register)
 
 	// serving static files
 	serveStaticFiles(mux)
