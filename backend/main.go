@@ -27,6 +27,10 @@ func setupRoutes() {
 
 	// register API
 	mux.HandleFunc("/register", auth.Register)
+	//login API
+	mux.HandleFunc("/login", auth.Login)
+	// check is user logged in
+	mux.HandleFunc("/checkAuth", auth.CheckAuth)
 
 	// serving static files
 	serveStaticFiles(mux)
