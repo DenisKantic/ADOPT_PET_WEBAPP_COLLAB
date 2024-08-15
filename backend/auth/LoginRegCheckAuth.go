@@ -2,7 +2,9 @@ package auth
 
 import (
 	"backend/db"
+	"crypto/rand"
 	"database/sql"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
@@ -10,12 +12,15 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"log"
 	"net/http"
+	"net/smtp"
 	"os"
 	"time"
 )
 
 var (
-	JWT_SECRET string
+	JWT_SECRET    string
+	EMAIL_SMTP    string
+	PASSWORD_SMTP string
 )
 
 func init() {
@@ -25,6 +30,8 @@ func init() {
 	}
 
 	JWT_SECRET = os.Getenv("JWT_SECRET")
+	EMAIL_SMTP = os.Getenv("EMAIL_SMTP")
+	PASSWORD_SMTP = os.Getenv("PASSWORD_SMTP")
 }
 
 type Claims struct {
@@ -42,6 +49,45 @@ func GenerateToken(email string) (string, error) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString([]byte(JWT_SECRET))
+}
+
+func GenerateActivationToken() (string, error) {
+	bytes := make([]byte, 32)
+	if _, err := rand.Read(bytes); err != nil {
+		return "", err
+	}
+
+	return hex.EncodeToString(bytes), nil
+}
+
+func SendActivationEmail(email, token string) error {
+	from := EMAIL_SMTP
+	password := PASSWORD_SMTP
+	to := email
+	smtpHost := "mail.smtp2go.com"
+	smtpPort := "587"
+
+	message := []byte("To: " + email + "\r\n" +
+		"Subject: Aktivirajte svoj korisnički nalog \r\n" +
+		"\r\n" +
+		"Hvala Vam što želite koristiti našu aplikaciju:\r\n" +
+		"Da bi nastavili koristiti našu aplikaciju, morate kliknuti ispod na link " +
+		"kako bi aktivirali svoj korisnički nalog. \r\n " +
+		"\r\n" +
+		"http://localhost:3000/activate?token=" + token + "\r\n" +
+		"\r\n" +
+		"Za sva dodatna pitanja, primjedbe ili žalbe, molimo Vas da se slobodno obratite " +
+		"na naš email contact@petconnectbosnia.com")
+
+	auth := smtp.PlainAuth("", from, password, smtpHost)
+
+	err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, []string{to}, message)
+	if err != nil {
+		// Log the detailed error
+		log.Printf("Error sending activation email: %v", err)
+		return fmt.Errorf("Error sending activation email: %v", err)
+	}
+	return err
 }
 
 func Register(w http.ResponseWriter, r *http.Request) {
@@ -72,6 +118,13 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	//generate activation token
+	activationToken, err := GenerateActivationToken()
+	if err != nil {
+		http.Error(w, "Error proccessing activation token", http.StatusInternalServerError)
+		return
+	}
+
 	// database initialization
 	database, err := db.DbConnect()
 
@@ -96,13 +149,27 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = database.Exec("INSERT INTO users (email,username,password) VALUES ($1,$2,$3)", email, username, hashedPassword)
+	_, err = database.Exec("INSERT INTO users (email,username,password, is_active, activation_token) VALUES ($1,$2,$3, $4,$5)",
+		email, username, hashedPassword, false, activationToken)
 	if err != nil {
 		http.Error(w, "Error creating user", http.StatusInternalServerError)
 		return
 	}
 
-	fmt.Fprintln(w, "USER IS CREATED")
+	// send activation email
+	err = SendActivationEmail(email, activationToken)
+	if err != nil {
+		//delete the user if sending activation email fails
+		_, delErr := database.Exec("DELETE FROM users WHERE email=$1", email)
+		if delErr != nil {
+			http.Error(w, "Error deleting user", http.StatusInternalServerError)
+			return
+		}
+		http.Error(w, "Error proccessing activation email", http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Fprintln(w, "USER IS CREATED, please check your email to activate your account")
 
 	w.WriteHeader(http.StatusOK)
 }
