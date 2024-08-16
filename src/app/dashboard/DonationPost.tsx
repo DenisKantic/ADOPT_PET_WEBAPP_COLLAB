@@ -1,7 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import {db} from "@public/lib/db"
-import {auth} from "@public/auth"
 import { notFound } from 'next/navigation';
 import { IoLocationOutline } from "react-icons/io5";
 import { MdOutlinePets } from "react-icons/md";
@@ -17,18 +15,10 @@ import { IoIosInformationCircleOutline } from "react-icons/io";
 
 export default async function CardItem() {
 
-    const session = await auth();
-const userId = session?.user?.id;
-
+    const donation = null;
     
-    const donation = await db.donationPost.findMany({
-        where:{
-            post_id: userId
-          },
-        take:4
-    })
-    
-    if(!donation) notFound();
+    // if(!donation) notFound();
+    if(!donation) return <p>Not found</p>
 
   return (
         <>

@@ -1,7 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import {db} from "@public/lib/db"
-import {auth} from "@public/auth"
 import { notFound } from 'next/navigation';
 import { IoLocationOutline } from "react-icons/io5";
 import { MdOutlinePets } from "react-icons/md";
@@ -11,18 +9,9 @@ import { SiAnimalplanet } from "react-icons/si";
 
 export default async function CardItem() {
 
-    const session = await auth();
-const userId = session?.user?.id;
-
-    
-    const lostPet = await db.lostPetPost.findMany({
-        where:{
-            post_id: userId
-          },
-        take:4
-    })
-    
-    if(!lostPet) notFound();
+    const lostPet = null
+    // if(!lostPet) notFound();
+    if(!lostPet) return <p>Not found</p>
 
   return (
         <>

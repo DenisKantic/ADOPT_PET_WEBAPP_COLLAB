@@ -10,18 +10,7 @@ import { FaCat } from "react-icons/fa";
 import { SiAnimalplanet } from "react-icons/si";
 import { getAdoptPost } from '@public/actions/getAdoptPost';
 import { notFound } from 'next/navigation';
-
-interface AdoptPost{
-  id: number,
-  image_paths: string[],
-  category: string,
-  petname: string,
-  spol: string,
-  starost: string,
-  location: string,
-  slug: string,
-  created_at: string;
-}
+import { AdoptPost } from '@public/interface/types';
 
 const formatDate = (dateString: string): string => {
   const date = new Date(dateString);
@@ -70,7 +59,7 @@ export default async function AllAnimals() {
          <li className="flex items-center"><MdOutlinePets className='text-[#2F5382] text-lg'/><span className="pl-3">{item.starost}</span></li>
      </ul>
      <Link 
-     href={`/animalDetails/${item.id}`}
+     href={`/animalDetails/${item.slug}`}
      className="btn bg-white text-lg text-[#2F5382] border-[#2F5382] rounded-full w-full mt-5
                  hover:bg-[#2F5382] hover:text-white">Pogledaj detalje</Link>
                  <p className='text-sm text-center py-2 text-gray-600'>Objavljeno: {formatDate(item.created_at)}</p>

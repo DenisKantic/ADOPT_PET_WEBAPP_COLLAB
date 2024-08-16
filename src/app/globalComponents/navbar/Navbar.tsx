@@ -2,10 +2,12 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import userImage from '@public/public/images/user.png'
+import { useAuth } from '@/app/AuthContext'
 import MobileNavbar from './MobileNavbar'
 
 export default async function Navbar() {
   
+
   const user = null;
 
   return (
@@ -39,7 +41,7 @@ export default async function Navbar() {
       <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar flex flex-col">
         <div className="w-10 rounded-full">
                 <Image
-                src={user?.image || userImage }
+                src={userImage }
                 alt="logo"
                 height={50}
                 width={50} 

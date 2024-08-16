@@ -11,6 +11,7 @@ import axios from 'axios'
 
 interface AuthContextType{
     isAuthenticated: boolean
+    username: string
     Login: (formData:FormData) =>Promise<void>
 }
 
@@ -23,18 +24,20 @@ interface AuthProviderProps{
 
 export function AuthProvider({children}: AuthProviderProps){
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+    const [username, setUsername] = useState<string>("")
     const router = useRouter();
 
     useEffect(()=>{
         const checkAuth = async () =>{
             try{
                 const response = await axios.get('http://localhost:8080/checkAuth',{
-                    withCredentials: true,
+                  withCredentials: true // this ensures cookies are sent with the request
                 }
                 )
                 console.log(response)
                 if(response.status === 200){
                     setIsAuthenticated(true)
+                    setUsername(response.data.username)
                     console.log("AUTH COMPLETE")
                 } else {
                     setIsAuthenticated(false)
@@ -62,6 +65,7 @@ export function AuthProvider({children}: AuthProviderProps){
 
             if (response.status === 200){
                 setIsAuthenticated(true)
+                setUsername(response.data.username)
             } else {
                 setIsAuthenticated(false)
             }
@@ -72,13 +76,13 @@ export function AuthProvider({children}: AuthProviderProps){
     }
 
     return (
-        <AuthContext.Provider value={{isAuthenticated, Login}}>
+        <AuthContext.Provider value={{isAuthenticated, Login, username}}>
             {children}
         </AuthContext.Provider>
     )
 }
 
-export function useAuth(){
+export function UseAuth(){
     const context = useContext(AuthContext)
     if (context === undefined){
         throw new Error('useAuth must be used within an authprovider')

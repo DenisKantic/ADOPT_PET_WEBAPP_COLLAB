@@ -4,8 +4,15 @@ import { useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { createAdoptPost } from '@public/actions/createAdoptPost';
 import Image from 'next/image';
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Navigation, Pagination } from 'swiper/modules'
 
-const AdoptPost: React.FC = () => {
+// Import Swiper styles
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+
+const CreateAdoptPost = () => {
 
 const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 const [location, setLocation] = useState<string>("Izaberite");
@@ -39,123 +46,100 @@ const cities = [
   "Zavidovići", "Zenica", "Zvornik", "Žepče", "Živinice"
 ];
 
-
-
 const dropdownHandle = (location:string) =>{
   setLocation(location);
   setDropdown(false)
 }
 
-
-//LOGIC BEFORE FOR GETTING MULTIPLE IMAGES AND DISPLAYING IT
-//   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-//     if (event.target.files) {
-//       const files = Array.from(event.target.files);
-//       const totalFiles = selectedFiles.length + files.length;
-//       setVisible(true);
-
-//       if (totalFiles > 1) {
-//         setError('Možete objaviti samo jednu sliku.');
-//         return;
-//       } else {
-//         setError(null);
-//       }
-
-//       const newFiles = files.slice(0, 3 - selectedFiles.length);
-//       setSelectedFiles(prevFiles => [...prevFiles, ...newFiles]);
-
-//       // Generate preview URLs
-//       const urls = newFiles.map(file => URL.createObjectURL(file));
-//       setPreviewUrls(prevUrls => [...prevUrls, ...urls]);
-//     }
-//   };
-
-//   // Clean up object URLs to avoid memory leaks
-//   useEffect(() => {
-//     return () => {
-//       previewUrls.forEach(url => URL.revokeObjectURL(url));
-//     };
-//   }, [previewUrls]);
-
-
-// const handleRemoveImage = (index: number) => {
-//   // Remove the file and preview URL at the given index
-//   const updatedFiles = selectedFiles.filter((_, i) => i !== index);
-//   const updatedUrls = previewUrls.filter((_, i) => i !== index);
-
-//   setSelectedFiles(updatedFiles);
-//   setPreviewUrls(updatedUrls);
-// };
-
 const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-if (event.target.files) {
-  const files = Array.from(event.target.files);
+  if (event.target.files) {
+    const files = Array.from(event.target.files)
+    const totalFiles = selectedFiles.length + files.length
+    setVisible(true)
 
-  const maxSize = 3 * 1024 * 1024 // converting 3 MB to bytes
+    if (totalFiles > 5) {
+      setError('Možete objaviti samo 5 slika.')
+      return
+    } else {
+      setError(null)
+    }
 
- 
-  // If an image is already selected, set an error and return early
-  if (files.length + selectedFiles.length>1) {
-    setError('Možete objaviti samo jednu sliku.');
-    event.target.value = ""
-    return;
+    const newFiles = files.slice(0, 5 - selectedFiles.length)
+    setSelectedFiles((prevFiles) => [...prevFiles, ...newFiles])
+
+    // Generate preview URLs
+    const urls = newFiles.map((file) => URL.createObjectURL(file))
+    setPreviewUrls((prevUrls) => [...prevUrls, ...urls])
   }
 
-  setVisible(true);
-  setError(null); // Clear any previous error
+// const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+// if (event.target.files) {
+//   const files = Array.from(event.target.files);
+
+//   const maxSize = 3 * 1024 * 1024 // converting 3 MB to bytes
+
+ 
+//   // If an image is already selected, set an error and return early
+//   if (files.length + selectedFiles.length>1) {
+//     setError('Možete objaviti samo jednu sliku.');
+//     event.target.value = ""
+//     return;
+//   }
+
+//   setVisible(true);
+//   setError(null); // Clear any previous error
 
   
-  if(files[0].size > maxSize){
-    setError("Fotografija ne smije biti vise od 3 MB ukupne memorije.")
-    setVisible(false);
-  } else {
-    const newFile = files[0]; // We only allow one image at a time
-    const url = URL.createObjectURL(newFile);
-    setVisible(true)
-    setSelectedFiles([newFile]); // Replace any existing files
-    setPreviewUrls([url])
-    setFileName(newFile.name); // Update file name
-    setInputKey(prevKey => prevKey + 1)
-  }
+//   if(files[0].size > maxSize){
+//     setError("Fotografija ne smije biti vise od 3 MB ukupne memorije.")
+//     setVisible(false);
+//   } else {
+//     const newFile = files[0]; // We only allow one image at a time
+//     const url = URL.createObjectURL(newFile);
+//     setVisible(true)
+//     setSelectedFiles([newFile]); // Replace any existing files
+//     setPreviewUrls([url])
+//     setFileName(newFile.name); // Update file name
+//     setInputKey(prevKey => prevKey + 1)
+//   }
  
- }
+//  }
 }
 
 
 // Clean up object URLs to avoid memory leaks
 useEffect(() => {
-return () => {
-  previewUrls.forEach(url => URL.revokeObjectURL(url));
-};
-}, [previewUrls]);
+  return () => {
+    previewUrls.forEach((url) => URL.revokeObjectURL(url))
+  }
+}, [previewUrls])
 
 const handleRemoveImage = () => {
-// Clear the file and preview URL
-setSelectedFiles([]);
-setPreviewUrls([]);
-setError(null); // Clear any previous error
-setVisible(false);
-setFileName(null); // Clear file name
-setInputKey(prevKey => prevKey + 1); // Force input re-render by changing key
-};
+  // Clear the file and preview URL
+  setSelectedFiles([])
+  setPreviewUrls([])
+  setError(null) // Clear any previous error
+  setVisible(false)
+  setFileName(null) // Clear file name
+  setInputKey((prevKey) => prevKey + 1) // Force input re-render by changing key
+}
 
 const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     const formData = new FormData(event.target as HTMLFormElement);
-    selectedFiles.forEach((file) => formData.append('files', file));
+  
 
-    try {
       startTransition(async ()=>{
       const response = await createAdoptPost(formData, location)
-      if(response?.success){
-        router.push('/dashboard')
-        router.refresh();
-      }})
-    } catch (err) {
-      console.error("Failed to create donation post", err);
-    }
-  };
+    //  // if(response?.success){
+    //     router.push('/dashboard')
+    //     router.refresh();
+    //   }})
+    // } catch (err) {
+    //   console.error("Failed to create donation post", err);
+    // }
+  })}
 
   return (
     <div className='min-h-screen w-full bg-gray-200 xxs:px-4 md:px-10 py-20'>
@@ -174,9 +158,10 @@ const handleSubmit = async (event: React.FormEvent) => {
               </label>
               <input 
                 key={inputKey}
+                multiple
                 type='file'
                 id="fileUpload"
-                name='files'
+                name='images'
                 accept='image/*'
                 onChange={handleFileChange}
                 className="hidden"
@@ -185,21 +170,47 @@ const handleSubmit = async (event: React.FormEvent) => {
             {error && <p className='text-red-600 py-3'>{error}</p>}
 
 
-            <div className={ visible ? "flex gap-5 mt-4 w-full border-dashed border-4 border-gray-400 z-2" : "hidden"}>
+            <div
+          className={
+            visible
+              ? 'flex max-h-[70vh] gap-5 mt-4 w-full border-dashed border-4 border-gray-400 z-2 overflow-hidden'
+              : 'hidden'
+          }
+        >
+          <Swiper
+            modules={[Navigation, Pagination]}
+            spaceBetween={0}
+            keyboard
+            pagination={{ clickable: true }}
+            navigation={{}} // Enable navigation
+            slidesPerView={1}
+            scrollbar={{ draggable: true }}
+            onSlideChange={() => console.log('slide change')}
+            onSwiper={(swiper) => console.log(swiper)}
+          >
+            {/* Generate Carousel Items */}
             {previewUrls.map((url, index) => (
-               <div key={index} className="relative m-2 w-full">
-                  <Image height={200} width={200} key={index} src={url} alt={`Preview ${index}`} className="h-[50vh] w-full object-contain z-2 m-2" />
-                    <button
-                    type="button"
-                    onClick={handleRemoveImage}
-                    className="absolute top-0 bg-red-600 right-0 text-white rounded-full w-10 h-10 flex items-center justify-center
-                            hover:bg-red-300 hover:text-black"
-                  >
-                    <p className='text-2xl w-full font-bold'>&times;</p>
-                  </button>
-            </div>
+              <SwiperSlide className="w-full h-[50vh]" key={index}>
+                <Image
+                  src={url}
+                  alt={`Preview ${index}`}
+                  className="w-full h-full object-contain"
+                  height={50} // Adjust height as needed
+                  width={50} // Adjust width as needed
+                />
+                {/* Optional: Add a remove button */}
+                <button
+                  type="button"
+                  onClick={() => handleRemoveImage()} // Pass index to remove specific image
+                  className="absolute top-2 right-2 bg-red-600 text-white rounded-full w-10 h-10 flex items-center justify-center
+                      hover:bg-red-300 hover:text-black"
+                >
+                  <p className="text-2xl w-full font-bold">&times;</p>
+                </button>
+              </SwiperSlide>
             ))}
-            </div>
+          </Swiper>
+        </div>
 
             <p className='text-xl pt-5'>Lokacija</p>
             <div className="dropdown dropdown-bottom">
@@ -343,5 +354,4 @@ const handleSubmit = async (event: React.FormEvent) => {
   )
 }
 
-
-export default AdoptPost;
+export default CreateAdoptPost;

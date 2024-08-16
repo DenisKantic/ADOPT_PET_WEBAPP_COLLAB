@@ -21,11 +21,10 @@ export const metadata: Metadata = {
 
 export default async function Dashboard() {
 
-    
- 
 
+    const oglasi = undefined;
 
-    const oglasi = null;
+    if(!oglasi) return <p>Not found</p>
 
     const oglasiDonacije = null;
 
@@ -35,8 +34,8 @@ export default async function Dashboard() {
     <div className='min-h-screen w-full bg-white xxs:px-4 md:px-14 py-20'>
       <div className="flex flex-col">
             <div className="bg-white rounded-xl h-full col-span-2 row-span-4 xxs:col-span-4">
-                    <h1 className="text-xl text-black">Vaši oglasi: 
-                      {/* <span className="text-md font-bold text-gray-700">{adoptPostCounter}</span> <br /> */}
+                    <h1 className="text-xl text-black">Vaši oglasi: </h1>
+                      {/* <span className="text-md font-bold text-gray-700">{adoptPostCounter}</span> <br />
                       <span className='text-sm text-gray-600'>{"*Maksimalno tri oglasa"}</span>
                       </h1>
                     <div className="grid gap-10 shadow-2xl rounded-2xl p-5 xxs:grid-cols-1 sm:grid-cols-2 xl:grid-cols-4">
@@ -77,8 +76,8 @@ export default async function Dashboard() {
                 </div>   
                 ))}
                       {/* <div className={adoptPostCounter >= 3 ? "hidden" : "flex" }> */}
-                      <CreatePost post={"createAdoptPost"} />
-                    </div>
+                      {/* <CreatePost post={"createAdoptPost"} />
+                    </div> */} 
                  {/* <div className='w-[90%] h-[90%] my-5 p-5 rounded-xl flex flex-col justify-center items-center border-[1px] text-black shadow-2xl border-[#2F5382]'>
                       <Image
                       src="/images/logo.png"
@@ -91,7 +90,7 @@ export default async function Dashboard() {
                         <p>Vaše mjesto za reklamu</p>
                         <p>Kontaktirajte nas..</p>
                 </div> */}
-            </div>
+            {/* </div>
            </div>
 
     
@@ -116,7 +115,7 @@ export default async function Dashboard() {
                     <LostPetPost />
                 </div>
               </div>
-                
+                 */}
                 
 
       <div className="mt-10 grid grid-cols-5 grid-rows-1 gap-10 w-full rounded-2xl shadow-xl text-black">
@@ -134,6 +133,8 @@ export default async function Dashboard() {
         </div>
       </div>   
 
+    </div>
+    </div>
     </div>
   )
 }

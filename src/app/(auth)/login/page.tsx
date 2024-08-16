@@ -9,7 +9,7 @@ import { useTransition } from "react";
 import * as z from "zod";
 import { loginZod } from "@public/actions/login";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/app/AuthContext";
+import { UseAuth } from "@/app/AuthContext";
 
 export default function Register() {
 
@@ -19,7 +19,7 @@ export default function Register() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const router = useRouter()
-  const {Login} = useAuth()
+  const {isAuthenticated, Login} = UseAuth()
 
   
   // const {register, handleSubmit, formState: {errors}} = useForm<z.infer<typeof LoginSchema>>({
@@ -42,6 +42,16 @@ export default function Register() {
     //     console.log('login failed')
     //   }
     // })
+
+    const checkUser = ()=>{
+      if(isAuthenticated){
+        router.push('/dashboard')
+      } 
+    }
+
+    useEffect(()=>{
+      checkUser();
+    })
   
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

@@ -32,8 +32,8 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	//extracting form values
 	images := r.MultipartForm.File["images"]
 	category := r.FormValue("category")
-	petName := r.FormValue("petName")
-	phoneNumber := r.FormValue("phoneNumber")
+	petname := r.FormValue("petname")
+	phonenumber := r.FormValue("phonenumber")
 	description := r.FormValue("description")
 	vakcinisan := r.FormValue("vakcinisan")
 	cipovan := r.FormValue("cipovan")
@@ -42,10 +42,33 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	starost := r.FormValue("starost")
 	location := r.FormValue("location")
 
-	if category == "" || petName == "" || phoneNumber == "" ||
+	if category == "" || petname == "" || phonenumber == "" ||
 		description == "" || vakcinisan == "" || cipovan == "" ||
 		pasos == "" || spol == "" || starost == "" || location == "" {
-		http.Error(w, "Missing required fields", http.StatusBadRequest)
+		fmt.Println("MISSING REQUIRED FIELDS")
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	// Validate the boolean strings
+	_, err = stringToBool(vakcinisan)
+	if err != nil {
+		fmt.Println("INVALID BOOLEAN VALUE FOR vakcinisan")
+		http.Error(w, "Invalid boolean value for vakcinisan", http.StatusBadRequest)
+		return
+	}
+
+	_, err = stringToBool(cipovan)
+	if err != nil {
+		fmt.Println("INVALID BOOLEAN VALUE FOR cipovan")
+		http.Error(w, "Invalid boolean value for cipovan", http.StatusBadRequest)
+		return
+	}
+
+	_, err = stringToBool(pasos)
+	if err != nil {
+		fmt.Println("INVALID BOOLEAN VALUE FOR pasos")
+		http.Error(w, "Invalid boolean value for pasos", http.StatusBadRequest)
 		return
 	}
 
@@ -55,7 +78,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// creating slug from the pets name for dynamic route
-	var slug = strings.ToLower(petName)
+	var slug = strings.ToLower(petname)
 	slug = strings.ReplaceAll(slug, " ", "-")
 	re := regexp.MustCompile(`[^a-z0-9-]`)
 	slug = re.ReplaceAllString(slug, "")
@@ -107,7 +130,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	// separating images (if it has 2 or more) with commas
 	filePathsWithCommas := "{" + strings.Join(filePaths, ",") + "}"
 	fmt.Println("\nNEW FILE NAMES IN ARRAY", filePathsWithCommas)
-	err = SaveToDB(filePathsWithCommas, category, petName, phoneNumber, description, vakcinisan, cipovan, pasos, spol, starost, location, slug)
+	err = SaveToDB(filePathsWithCommas, category, petname, phonenumber, description, vakcinisan, cipovan, pasos, spol, starost, location, slug)
 	if err != nil {
 		http.Error(w, fmt.Sprintf("ERROR here %v", err), http.StatusInternalServerError)
 		return
@@ -147,8 +170,19 @@ func generateUniqueSlug(db *sql.DB, baseSlug string) (string, error) {
 	return slug, nil
 }
 
+func stringToBool(input string) (bool, error) {
+	switch input {
+	case "da", "true", "1": // Treat "da" as true
+		return true, nil
+	case "ne", "false", "0": // Treat "ne" as false
+		return false, nil
+	default:
+		return false, fmt.Errorf("invalid boolean value: %s", input)
+	}
+}
+
 func SaveToDB(filePathsWithCommas string, category string,
-	petName string, phoneNumber string, description string,
+	petname string, phonenumber string, description string,
 	vakcinisan string, cipovan string,
 	pasos string, spol string,
 	starost string, location string, slug string) error {
@@ -159,6 +193,22 @@ func SaveToDB(filePathsWithCommas string, category string,
 	}
 	defer database.Close()
 
+	// Convert vakcinisan, cipovan, pasos to boolean
+	vakcinisanBool, err := stringToBool(vakcinisan)
+	if err != nil {
+		return fmt.Errorf("error converting vakcinisan to bool: %v", err)
+	}
+
+	cipovanBool, err := stringToBool(cipovan)
+	if err != nil {
+		return fmt.Errorf("error converting cipovan to bool: %v", err)
+	}
+
+	pasosBool, err := stringToBool(pasos)
+	if err != nil {
+		return fmt.Errorf("error converting pasos to bool: %v", err)
+	}
+
 	// Generate a unique slug
 	uniqueSlug, err := generateUniqueSlug(database, slug)
 	if err != nil {
@@ -166,7 +216,7 @@ func SaveToDB(filePathsWithCommas string, category string,
 	}
 
 	//query := "INSERT INTO adoptPost (filePaths, category, petName, phoneNumber, description, vakcinisan, cipovan, pasos,spol, starost, location, slug) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11,$12)"
-	_, err = database.Exec("INSERT INTO adoptPost ( image_paths, category, petName, phoneNumber, description, vakcinisan, cipovan, pasos,spol, starost, location, slug) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11, $12)", filePathsWithCommas, category, petName, phoneNumber, description, vakcinisan, cipovan, pasos, spol, starost, location, uniqueSlug)
+	_, err = database.Exec("INSERT INTO adoptPost ( image_paths, category, petname, phonenumber, description, vakcinisan, cipovan, pasos,spol, starost, location, slug) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11, $12)", filePathsWithCommas, category, petname, phonenumber, description, vakcinisanBool, cipovanBool, pasosBool, spol, starost, location, uniqueSlug)
 	if err != nil {
 		return fmt.Errorf("error u izvrsenju baze: %v", err)
 	}

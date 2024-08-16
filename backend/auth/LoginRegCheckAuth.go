@@ -36,13 +36,15 @@ func init() {
 }
 
 type Claims struct {
-	Email string `json:"email"`
+	Email    string `json:"email"`
+	Username string `json:"username"`
 	jwt.StandardClaims
 }
 
-func GenerateToken(email string) (string, error) {
+func GenerateToken(email, username string) (string, error) {
 	claims := &Claims{
-		Email: email,
+		Email:    email,
+		Username: username,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * 1).Unix(),
 		},
@@ -203,9 +205,9 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	defer database.Close()
 
-	var storedPassword string
+	var storedPassword, username string
 
-	compareHash := database.QueryRow("SELECT password FROM users WHERE email=$1", email).Scan(&storedPassword)
+	compareHash := database.QueryRow("SELECT password, username FROM users WHERE email=$1", email).Scan(&storedPassword, &username)
 
 	if compareHash != nil {
 		http.Error(w, "Invalid email", http.StatusBadRequest)
@@ -220,7 +222,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// generate token
-	token, err := GenerateToken(email)
+	token, err := GenerateToken(email, username)
 	if err != nil {
 		http.Error(w, "Internal generating token", http.StatusInternalServerError)
 		return
@@ -241,16 +243,16 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-func IsUserLoggedIn(r *http.Request) (bool, string, error) {
+func IsUserLoggedIn(r *http.Request) (bool, string, string, error) {
 	// Retrieve the token from the request's cookies
 	cookie, err := r.Cookie("token")
 	if err != nil {
 		if errors.Is(err, http.ErrNoCookie) {
 			// No token in the cookies means the user is not logged in
-			return false, "", nil
+			return false, "", "", nil
 		}
 		// If there's another error, return it
-		return false, "", err
+		return false, "", "", err
 	}
 
 	// Parse the JWT token
@@ -260,28 +262,33 @@ func IsUserLoggedIn(r *http.Request) (bool, string, error) {
 
 	if err != nil {
 		// If the token is invalid or expired, the user is not logged in
-		return false, "", err
+		return false, "", "", err
 	}
 
 	// Validate the token claims
 	if claims, ok := token.Claims.(*Claims); ok && token.Valid {
 		// The user is logged in; return the email from the claims
-		return true, claims.Email, nil
+		return true, claims.Email, claims.Username, nil
 	}
 
 	// If the token is not valid, the user is not logged in
-	return false, "", errors.New("invalid token")
+	return false, "", "", errors.New("invalid token")
 }
 
 func CheckAuth(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
-	w.Header().Set("Access-Control-Allow-Methods", "GET")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 	w.Header().Set("Access-Control-Allow-Credentials", "true")
 
+	if r.Method == http.MethodOptions {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+
 	// check if user is logged in
-	isLoggedIn, userEmail, err := IsUserLoggedIn(r)
+	isLoggedIn, userEmail, username, err := IsUserLoggedIn(r)
 	if err != nil {
 		fmt.Println("Error during IsUserLoggedIn:", err) // Log the error
 		http.Error(w, "GOLANG ERROR", http.StatusInternalServerError)
@@ -293,8 +300,10 @@ func CheckAuth(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response := map[string]bool{
+	response := map[string]interface{}{
 		"isLoggedIn": isLoggedIn,
+		"email":      userEmail,
+		"username":   username,
 	}
 
 	w.WriteHeader(http.StatusOK)
@@ -304,5 +313,6 @@ func CheckAuth(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Fprintf(w, "Hello %s!, You are logged in", userEmail)
+	fmt.Fprintf(w, "Hello %s!, You are logged in", userEmail, username)
+
 }
