@@ -1,8 +1,8 @@
 "use server"
 import * as z from "zod"
 import { LoginSchema } from "@public/schema"
-import { signIn } from "@public/auth"
-import { AuthError } from "next-auth"
+import axios from 'axios'
+import {useAuth} from "../src/app/AuthContext"
 
 
 
@@ -17,23 +17,16 @@ export const loginZod = async (values: z.infer<typeof LoginSchema>) =>{
 
     const {email,password} = validateFields.data
 
+    const formData = new FormData();
+    formData.append("email", email)
+    formData.append("password", password);
+
     try {
-        await signIn("credentials",{
-            email,
-            password,
-            redirectTo: "/dashboard"
-        })
+        // const response = await Login(formData)
+
+        // return response
+
     } catch (error) {
-        if(error instanceof AuthError){
-            switch (error.type){
-                case "CredentialsSignin":
-                    return {error: "Invalid credentials"}
-                    default:
-                        return {error:"Pogrešne informacije. Pokušajte ponovo"}
-            }
+        console.log("Error login user", error)
         }
-
-        throw error;
     }
-
-}

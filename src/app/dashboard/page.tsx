@@ -27,28 +27,16 @@ export default async function Dashboard() {
 
     const oglasi = null;
 
-    const oglasiDonacije = await db.donationPost.findMany({
-      where:{
-        post_id: userId
-      }
-    })
+    const oglasiDonacije = null;
 
-    const oglasiLost = await db.lostPetPost.findMany({
-      where:{
-        post_id: userId
-      }
-    })
-
-    let adoptPostCounter = oglasi.length;
-    let donationPostCounter = oglasiDonacije.length;
-    let lostPetPostCounter = oglasiLost.length;
+    const oglasiLost = null;
 
   return (
     <div className='min-h-screen w-full bg-white xxs:px-4 md:px-14 py-20'>
       <div className="flex flex-col">
             <div className="bg-white rounded-xl h-full col-span-2 row-span-4 xxs:col-span-4">
                     <h1 className="text-xl text-black">Vaši oglasi: 
-                      <span className="text-md font-bold text-gray-700">{adoptPostCounter}</span> <br />
+                      {/* <span className="text-md font-bold text-gray-700">{adoptPostCounter}</span> <br /> */}
                       <span className='text-sm text-gray-600'>{"*Maksimalno tri oglasa"}</span>
                       </h1>
                     <div className="grid gap-10 shadow-2xl rounded-2xl p-5 xxs:grid-cols-1 sm:grid-cols-2 xl:grid-cols-4">
@@ -88,7 +76,7 @@ export default async function Dashboard() {
                         </div>
                 </div>   
                 ))}
-                      <div className={adoptPostCounter >= 3 ? "hidden" : "flex" }>
+                      {/* <div className={adoptPostCounter >= 3 ? "hidden" : "flex" }> */}
                       <CreatePost post={"createAdoptPost"} />
                     </div>
                  {/* <div className='w-[90%] h-[90%] my-5 p-5 rounded-xl flex flex-col justify-center items-center border-[1px] text-black shadow-2xl border-[#2F5382]'>
@@ -146,7 +134,6 @@ export default async function Dashboard() {
         </div>
       </div>   
 
-    </div>
     </div>
   )
 }

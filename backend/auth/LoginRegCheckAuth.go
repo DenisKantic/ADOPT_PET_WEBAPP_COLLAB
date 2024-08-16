@@ -5,6 +5,7 @@ import (
 	"crypto/rand"
 	"database/sql"
 	"encoding/hex"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
@@ -229,7 +230,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		Name:     "token",
 		Value:    token,
 		HttpOnly: true,
-		Secure:   true,
+		//Secure:   true,
 		Path:     "/",
 		SameSite: http.SameSiteStrictMode,
 		Expires:  time.Now().Add(24 * time.Hour),
@@ -274,15 +275,32 @@ func IsUserLoggedIn(r *http.Request) (bool, string, error) {
 
 func CheckAuth(w http.ResponseWriter, r *http.Request) {
 
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Methods", "GET")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
+
 	// check if user is logged in
 	isLoggedIn, userEmail, err := IsUserLoggedIn(r)
 	if err != nil {
-		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		fmt.Println("Error during IsUserLoggedIn:", err) // Log the error
+		http.Error(w, "GOLANG ERROR", http.StatusInternalServerError)
 		return
 	}
 
 	if !isLoggedIn {
 		http.Error(w, "Unathorized", http.StatusUnauthorized)
+		return
+	}
+
+	response := map[string]bool{
+		"isLoggedIn": isLoggedIn,
+	}
+
+	w.WriteHeader(http.StatusOK)
+
+	err = json.NewEncoder(w).Encode(response)
+	if err != nil {
 		return
 	}
 
