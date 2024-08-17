@@ -12,7 +12,9 @@ import axios from 'axios'
 interface AuthContextType{
     isAuthenticated: boolean
     username: string
+    loading: boolean
     Login: (formData:FormData) =>Promise<void>
+    Logout: ()=> Promise<void>
 }
 
 // default value for context
@@ -25,6 +27,7 @@ interface AuthProviderProps{
 export function AuthProvider({children}: AuthProviderProps){
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [username, setUsername] = useState<string>("")
+    const [loading, setLoading] = useState<boolean>(true)
     const router = useRouter();
 
     useEffect(()=>{
@@ -45,7 +48,9 @@ export function AuthProvider({children}: AuthProviderProps){
 
             } catch(error){
                 console.log("ERROR on middleware", error)
-            }   
+            }   finally{
+                setLoading(false)
+            }
         }
         checkAuth()
     }, [])
@@ -75,8 +80,20 @@ export function AuthProvider({children}: AuthProviderProps){
         }
     }
 
+    const Logout = async () =>{
+        try{
+            await axios.post('http://localhost:8080/logout', null,{
+                withCredentials: true,
+            })
+            setIsAuthenticated(false)
+            router.push('/')
+        } catch(error){
+            console.log("error logging out", error)
+        }
+    }
+
     return (
-        <AuthContext.Provider value={{isAuthenticated, Login, username}}>
+        <AuthContext.Provider value={{isAuthenticated, Login, Logout, loading, username}}>
             {children}
         </AuthContext.Provider>
     )

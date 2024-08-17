@@ -41,6 +41,22 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
+func VerifyToken(w http.ResponseWriter, r *http.Request) {
+	tokenString := r.Header.Get("Authorization")
+
+	claims := &jwt.StandardClaims{}
+	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(JWT_SECRET), nil
+	})
+
+	if err != nil || !token.Valid {
+		http.Error(w, "Unathorized", http.StatusUnauthorized)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+}
+
 func GenerateToken(email, username string) (string, error) {
 	claims := &Claims{
 		Email:    email,
@@ -315,4 +331,21 @@ func CheckAuth(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Fprintf(w, "Hello %s!, You are logged in", userEmail, username)
 
+}
+
+func Logout(w http.ResponseWriter, r *http.Request) {
+	http.SetCookie(w, &http.Cookie{
+		Name:     "token",
+		Value:    "",
+		HttpOnly: true,
+		//Secure:   true,
+		Path:     "/",
+		SameSite: http.SameSiteStrictMode,
+		MaxAge:   -1,
+	})
+
+	fmt.Println("User is logged out ")
+
+	w.WriteHeader(http.StatusOK)
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }

@@ -31,6 +31,10 @@ func setupRoutes() {
 	mux.HandleFunc("/login", auth.Login)
 	// check is user logged in
 	mux.HandleFunc("/checkAuth", auth.CheckAuth)
+	// verify token
+	mux.HandleFunc("/verifyToken", auth.VerifyToken)
+	// logout
+	mux.HandleFunc("/logout", auth.Logout)
 
 	// serving static files
 	serveStaticFiles(mux)

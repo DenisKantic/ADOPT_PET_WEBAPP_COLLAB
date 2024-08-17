@@ -1,27 +1,37 @@
-import {NextRequest, NextResponse} from 'next/server'
+import { NextRequest, NextResponse } from 'next/server';
 
-export function middleware(req: NextRequest){
-    console.log('middleware is running on route, ', req.nextUrl.pathname)
-    const url = req.nextUrl.clone()
+export async function middleware(req: NextRequest) {
+    console.log('middleware is running on route, ', req.nextUrl.pathname);
+    const url = req.nextUrl.clone();
     const pathname = url.pathname;
 
+    const token = req.cookies.get('token')?.value;
 
-    const token = req.cookies.get('token')?.value
+    console.log("TOKEN", token);
 
-    console.log("TOKEN", token)
+    if (token) {
+        try {
+            const verifyResponse = await fetch('http://localhost:8080/verifyToken', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
 
-    if(token){
-        // Redirect authenticated users away from the login page
-        if (pathname === '/login') {
-            // Redirect to the dashboard or home page if already logged in
-            url.pathname = '/dashboard';  // Change '/dashboard' to the route you want
-            return NextResponse.redirect(url);
+            if (verifyResponse.status === 200) {
+                // Redirect authenticated users away from the login page
+                if (pathname === '/login') {
+                    url.pathname = '/dashboard';  // Change '/dashboard' to the route you want
+                    return NextResponse.redirect(url);
+                }
+            } //else {
+            //     const response = NextResponse.redirect('http://localhost:3000/login');
+            //     response.cookies.delete('token');
+            //     return response;
+            // }
+        } catch (error) {
+            console.error('Error verifying token:', error);
         }
-
-        // Handle other routes if needed (e.g., dashboard)
-        // Optionally, you can add additional logic here to handle routes requiring authentication
     } else {
-        // If no token, and trying to access protected routes, redirect to login
         if (pathname !== '/login') {
             url.pathname = '/login';
             return NextResponse.redirect(url);
@@ -33,6 +43,5 @@ export function middleware(req: NextRequest){
 }
 
 export const config = {
-    matcher: ['/login','/dashboard/:path*']
-}
-
+    matcher: ['/login', '/dashboard/:path*'],
+};
