@@ -12,11 +12,13 @@ export const metadata: Metadata = {
   description: "Dobrodošli na prvu web aplikaciju za udomljavanje i pomoć svim životinjama na području čitave Bosne i Hercegovine",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
   return (
     <html lang="en">
       <body className={inter.className}>

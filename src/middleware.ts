@@ -23,15 +23,23 @@ export async function middleware(req: NextRequest) {
                     url.pathname = '/dashboard';  // Change '/dashboard' to the route you want
                     return NextResponse.redirect(url);
                 }
-            } //else {
+            }
+            // else {
+
+            //     // token is invalid or expired
             //     const response = NextResponse.redirect('http://localhost:3000/login');
             //     response.cookies.delete('token');
             //     return response;
             // }
         } catch (error) {
             console.error('Error verifying token:', error);
+            const response = NextResponse.redirect('/login');
+            response.cookies.delete('token');
+            return response;
         }
     } else {
+
+        // if no token and not on the login page, redirect to login
         if (pathname !== '/login') {
             url.pathname = '/login';
             return NextResponse.redirect(url);
@@ -43,5 +51,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/login', '/dashboard/:path*'],
+    matcher:  ['/login', '/dashboard/:path*'],
 };

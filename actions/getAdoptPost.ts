@@ -34,13 +34,33 @@ interface OneAdoptPost{
     created_at: string;
 }
 
+type Email = {
+    email: string
+}
+
 export async function getAdoptPost(){
 
     let response;
 
     try{
     response = await axios.get<{adopt_post: AdoptPost[]}>('http://localhost:8080/getAdoptPostHome');
-    console.log("REsponse from server", response.data.adopt_post[0].slug )
+    return response.data;
+    } catch (err){
+        console.log("error happened on server side", err)
+        return { adopt_post: [] }
+    }
+
+}
+
+
+export async function getAdoptPostDashboard({email}:Email){
+
+    let response;
+
+    try{
+    response = await axios.get<{adopt_post: AdoptPost[]}>('http://localhost:8080/getAdoptPostDashboard',{
+        params: { email: email.toString() },
+    });
     return response.data;
     } catch (err){
         console.log("error happened on server side", err)
@@ -54,7 +74,6 @@ export async function getOneAdoptPost(slug: string) {
 
     try {
         response = await axios.get<{ adopt_post: OneAdoptPost }>(`http://localhost:8080/getOneAdoptPost/${slug}?slug=${slug}`);
-        console.log("Response from server", response.data)
         return response.data;
     } catch (err) {
         console.log("Error happened on server side", err)

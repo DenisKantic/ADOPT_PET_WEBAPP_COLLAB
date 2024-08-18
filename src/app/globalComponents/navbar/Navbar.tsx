@@ -3,16 +3,15 @@ import React, { useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import userImage from '@public/public/images/user.png'
-import { UseAuth } from '@/app/AuthContext'
 import MobileNavbar from './MobileNavbar'
-import { useRouter } from 'next/navigation'
+import LoadingSpinner from '../Spinner'
+import { UseAuth } from '@/app/AuthContext'
+import {useRouter} from 'next/navigation'
 
-export default function Navbar() {
-  
+const Navbar = ()=>{
+
+  const {isAuthenticated,Logout, username} =  UseAuth()
   const router = useRouter()
-  const {isAuthenticated, username, Logout, loading} = UseAuth()
-  console.log("USERNAME", username)
-
 
   return (
     <div className="navbar bg-[#F0F0F0] xxs:px-2 md:px-14 py-1 fixed z-10">
@@ -41,7 +40,7 @@ export default function Navbar() {
     >
       Prijavi se
     </Link>
-    <div className={ isAuthenticated ? "dropdown dropdown-end" : "hidden"}>
+    <div className={ isAuthenticated  ? "dropdown dropdown-end" : "hidden"}>
       <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar flex flex-col">
         <div className="w-10 rounded-full">
                 <Image
@@ -67,10 +66,12 @@ export default function Navbar() {
           flex justify-start py-5 px-4 text-md w-full' href="/profile-settings">Postavke</Link>
         </li>
         <li className={isAuthenticated ? "block" : "hidden"}><Link href='/dashboard' className='mt-3 py-1 btn bg-[#2f5382] w-full rounded-full text-white'>Objavi oglas</Link></li>
-        <li className={isAuthenticated ? "btn btn-primary flex items-center justify-center mt-5" : "hidden"} onClick={()=>{
-          Logout()
-          router.push('/login')
-        }}>SignOut</li>
+        <li 
+        onClick={()=>{Logout()
+          router.push('/')
+        }}
+        className={isAuthenticated ? "btn btn-primary flex items-center justify-center mt-5" : "hidden"}>
+        SignOut</li>
       </ul>
     </div>
   </div>
@@ -96,4 +97,6 @@ export default function Navbar() {
 
 </div>
 </div> */}
+
+export default Navbar;
 

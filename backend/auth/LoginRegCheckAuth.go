@@ -250,7 +250,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		HttpOnly: true,
 		//Secure:   true,
 		Path:     "/",
-		SameSite: http.SameSiteStrictMode,
+		SameSite: http.SameSiteLaxMode,
 		Expires:  time.Now().Add(24 * time.Hour),
 	})
 
@@ -291,6 +291,20 @@ func IsUserLoggedIn(r *http.Request) (bool, string, string, error) {
 	return false, "", "", errors.New("invalid token")
 }
 
+func CheckAuthUser(r *http.Request) (string, string, bool, error) {
+	// Check if user is logged in
+	isLoggedIn, userEmail, username, err := IsUserLoggedIn(r)
+	if err != nil {
+		return "", "", false, errors.New("Error during IsUserLoggedIn: " + err.Error())
+	}
+
+	if !isLoggedIn {
+		return "", "", false, errors.New("Unauthorized")
+	}
+
+	return userEmail, username, true, nil
+}
+
 func CheckAuth(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
@@ -304,10 +318,14 @@ func CheckAuth(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// check if user is logged in
-	isLoggedIn, userEmail, username, err := IsUserLoggedIn(r)
+	// Call CheckAuth function
+	email, username, isLoggedIn, err := CheckAuthUser(r)
 	if err != nil {
-		fmt.Println("Error during IsUserLoggedIn:", err) // Log the error
-		http.Error(w, "GOLANG ERROR", http.StatusInternalServerError)
+		if err.Error() == "Unauthorized" {
+			http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		} else {
+			http.Error(w, "GOLANG ERROR", http.StatusInternalServerError)
+		}
 		return
 	}
 
@@ -316,21 +334,19 @@ func CheckAuth(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fmt.Println("USER EMAIL", email)
+
 	response := map[string]interface{}{
 		"isLoggedIn": isLoggedIn,
-		"email":      userEmail,
+		"email":      email,
 		"username":   username,
 	}
 
 	w.WriteHeader(http.StatusOK)
-
 	err = json.NewEncoder(w).Encode(response)
 	if err != nil {
-		return
+		http.Error(w, "Error encoding response", http.StatusInternalServerError)
 	}
-
-	fmt.Fprintf(w, "Hello %s!, You are logged in", userEmail, username)
-
 }
 
 func Logout(w http.ResponseWriter, r *http.Request) {
@@ -340,7 +356,7 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 		HttpOnly: true,
 		//Secure:   true,
 		Path:     "/",
-		SameSite: http.SameSiteStrictMode,
+		SameSite: http.SameSiteLaxMode,
 		MaxAge:   -1,
 	})
 

@@ -41,10 +41,9 @@ export default function CardItem() {
     const fetchPost = async () =>{
     try {
         const response = await getAdoptPost()
-        console.log("RESPONSE", response)
         const processedPost: AdoptPost[] = response.adopt_post.map((postItem) => {
             const imagePaths = typeof postItem.image_paths === 'string'
-            ? (postItem.image_paths
+            ? ((postItem.image_paths as string)
                 .replace(/{|}/g, '') // Remove curly braces
                 .split(',') // Split by comma
                 .map((path: string) => path.trim())) // Trim whitespace
@@ -55,7 +54,6 @@ export default function CardItem() {
           }
         })
         setPost(processedPost)
-        console.log("SLUG", post[0].slug)
         setLoading(false)
     }
         catch (err){

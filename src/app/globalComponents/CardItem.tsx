@@ -47,7 +47,7 @@ export default async function CardItem() {
         <>
         {animals.map((item)=>{
             const imagePaths = typeof item.image_paths === 'string'
-            ? item.image_paths.replace(/[{}]/g, '').split(',')
+            ? (item.image_paths as string).replace(/[{}]/g, '').split(',')
             : []; // Fallback to empty array if image_paths is not a string
             imagePaths.map((path:string, index:number)=>(
                 console.log(path, index)

@@ -65,7 +65,6 @@ export default function AnimalDetails({ params: { slug } }: Props) {
                     image_paths: imagePaths,
                 };
                 setPost(processedPost)
-                console.log(processedPost)
                 setLoading(false)
                 }
                 catch (err){

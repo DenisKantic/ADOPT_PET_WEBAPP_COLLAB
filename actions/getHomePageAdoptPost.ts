@@ -1,17 +1,6 @@
 "use server"
 import axios from 'axios'; 
-
-interface AdoptPost{
-    id: number,
-    image_paths: string[],
-    category: string,
-    petname: string,
-    spol: string,
-    starost: string,
-    location: string,
-    slug: string,
-    created_at: string;
-}
+import { AdoptPost } from '@public/interface/types';
 
 export async function getHomeAdoptPost(){
 

@@ -4,6 +4,7 @@ import (
 	"backend/AdoptPostGetDelete"
 	"backend/auth"
 	"backend/createAdoptPost"
+	"backend/createLostPost"
 	"fmt"
 	"log"
 	"net/http"
@@ -22,8 +23,13 @@ func setupRoutes() {
 
 	// get all adoptPost for homepage
 	mux.HandleFunc("/getAdoptPostHome", AdoptPostGetDelete.GetAllAdoptPost)
+	// get just 3  adopt post for dashboard
+	mux.HandleFunc("/getAdoptPostDashboard", AdoptPostGetDelete.GetThreeAdoptPost)
 	// get one adoptPost with slug
 	mux.HandleFunc("/getOneAdoptPost/", AdoptPostGetDelete.GetOneAdoptPost)
+
+	// API FOR LOST PET CATEGORY
+	mux.HandleFunc("/createLostPost", createLostPost.CreatePost)
 
 	// register API
 	mux.HandleFunc("/register", auth.Register)

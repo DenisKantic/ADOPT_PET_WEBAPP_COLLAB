@@ -82,8 +82,6 @@ export default function AnimalDetails({ params: { slug } }: Props) {
 
     if (!post) return <div>Post not found</div>;
 
-    console.log("IMAGE", post.image_paths)
-
 
     return (
         <div className='min-h-screen xxs:px-4 md:px-14 bg-white'>
