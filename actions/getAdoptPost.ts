@@ -34,8 +34,8 @@ interface OneAdoptPost{
     created_at: string;
 }
 
-type Email = {
-    email: string
+interface Email{
+    sendEmail: string
 }
 
 export async function getAdoptPost(){
@@ -53,13 +53,14 @@ export async function getAdoptPost(){
 }
 
 
-export async function getAdoptPostDashboard({email}:Email){
+export async function getAdoptPostDashboard({sendEmail}:Email){
 
     let response;
+    console.log("EMAIL I SENT", sendEmail)
 
     try{
     response = await axios.get<{adopt_post: AdoptPost[]}>('http://localhost:8080/getAdoptPostDashboard',{
-        params: { email: email.toString() },
+        params: { email: sendEmail },
     });
     return response.data;
     } catch (err){

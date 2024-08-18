@@ -15,7 +15,7 @@ const Navbar = ()=>{
 
   return (
     <div className="navbar bg-[#F0F0F0] xxs:px-2 md:px-14 py-1 fixed z-10">
-        <div className="flex-1 xxs:justify-between">
+        <div className="flex-1 xxs:justify-between md:justify-start">
                <Link href="/" className='xxs:hidden md:flex cursor-pointer'>
                   <Image
                   src="/images/logo.png"

@@ -10,8 +10,19 @@ import { FaCat } from "react-icons/fa";
 import { SiAnimalplanet } from "react-icons/si";
 import { getAdoptPostDashboard } from '@public/actions/getAdoptPost';
 import { notFound } from 'next/navigation';
-import { AdoptPost } from '@public/interface/types';
 import { UseAuth } from '../AuthContext';
+
+interface AdoptPostItem{
+  id: number,
+  image_paths: string[],
+  category: string,
+  petname: string,
+  location: string,
+  spol: string,
+  starost: string,
+  slug: string,
+  created_at: string
+}
 
 const formatDate = (dateString: string): string => {
   const date = new Date(dateString);
@@ -25,53 +36,55 @@ const formatDate = (dateString: string): string => {
 };
 
 export default function AllAnimals() {
-  const [animalPost, setAnimalPost] = useState<AdoptPost[]>([]);
+  const [animalPost, setAnimalPost] = useState<AdoptPostItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const {email} = UseAuth(); 
 
   console.log("EMAIL:", email)
 
-  useEffect(() => {
-    const getPost = async () => {
-      try {
-        const response = await getAdoptPostDashboard({email});
-        if (response?.adopt_post) {
-          setAnimalPost(response.adopt_post);
-        } else {
-          <p>Not found</p>
+  const sendEmail = email.toString();
+
+  const fetchPost = async () =>{
+    try {
+        const response = await getAdoptPostDashboard({sendEmail})
+        const processedPost: AdoptPostItem[] = response.adopt_post.map((postItem) => {
+            const imagePaths = typeof postItem.image_paths === 'string'
+            ? ((postItem.image_paths as string)
+                .replace(/{|}/g, '') // Remove curly braces
+                .split(',') // Split by comma
+                .map((path: string) => path.trim())) // Trim whitespace
+            : postItem.image_paths;
+          return {
+            ...postItem,
+            image_paths: imagePaths
+          }
+        })
+        setAnimalPost(processedPost)
+        setLoading(false)
+    }
+        catch (err){
+            console.log("error happened", err)
+            setLoading(false)
         }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        notFound(); // or handle the error appropriately
-      } finally {
-        setLoading(false);
-      }
-    };
+    }
 
-    getPost();
-  }, []);
+    useEffect(()=>{
+        if(email){
+          fetchPost()
+        }
+    },[email])
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (!animalPost.length) {
-    notFound();
-  }
 
   return (
     <>
-      {animalPost.map(item => {
-        const imagePaths = typeof item.image_paths === 'string'
-          ? (item.image_paths as string).replace(/[{}]/g, '').split(',')
-          : [];
-
-        const firstImagePath = imagePaths[0] || '';
-
+         {animalPost.length === 0 ? (
+          <p>No posts available</p>
+      ) : (
+      animalPost.map(item => {
         return (
           <div className="h-auto rounded-xl my-5 w-full pb-2" key={item.id}>
             <Image
-              src={`http://localhost:8080/${firstImagePath}`}
+              src={`http://localhost:8080/${item.image_paths[0]}`}
               alt={item.petname}
               height={50}
               width={50}
@@ -99,7 +112,7 @@ export default function AllAnimals() {
             </div>
           </div>
         );
-      })}
+      }))}
     </>
   );
 }

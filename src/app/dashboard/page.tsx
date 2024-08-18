@@ -71,12 +71,12 @@ export default async function Dashboard() {
                 </div>   
                 ))} */}
                 <AllAnimals/>
+                <CreatePost post={"createAdoptPost"} />
                 </div>
                 </div>
                 
                       {/* <div className={adoptPostCounter >= 3 ? "hidden" : "flex" }> */}
-                      {/* <CreatePost post={"createAdoptPost"} />
-                    </div> 
+                  
                  {/* <div className='w-[90%] h-[90%] my-5 p-5 rounded-xl flex flex-col justify-center items-center border-[1px] text-black shadow-2xl border-[#2F5382]'>
                       <Image
                       src="/images/logo.png"
