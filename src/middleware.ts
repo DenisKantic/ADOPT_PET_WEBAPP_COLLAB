@@ -11,13 +11,14 @@ export async function middleware(req: NextRequest) {
 
     if (token) {
         try {
-            const verifyResponse = await fetch('http://localhost:8080/verifyToken', {
+            const verifyResponse = await fetch('http://localhost:8080/checkAuth', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },
             });
 
             if (verifyResponse.status === 200) {
+                console.log("USER LOGGED IN")
                 // Redirect authenticated users away from the login page
                 if (pathname === '/login') {
                     url.pathname = '/dashboard';  // Change '/dashboard' to the route you want
@@ -40,6 +41,7 @@ export async function middleware(req: NextRequest) {
     } else {
 
         // if no token and not on the login page, redirect to login
+        console.log("USER NOT LOGGED IN")
         if (pathname !== '/login') {
             url.pathname = '/login';
             return NextResponse.redirect(url);
@@ -51,5 +53,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-    matcher:  ['/login', '/dashboard/:path*'],
+    matcher:  ['/login', '/dashboard/:path*', '/dashboard'],
 };

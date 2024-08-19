@@ -69,7 +69,7 @@ export default function AllAnimals() {
     }
 
     useEffect(()=>{
-        if(email){
+        if(!email == false){
           fetchPost()
         }
     },[email])
