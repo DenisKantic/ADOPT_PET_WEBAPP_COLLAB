@@ -41,8 +41,9 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	spol := r.FormValue("spol")
 	starost := r.FormValue("starost")
 	location := r.FormValue("location")
+	email := r.FormValue("email")
 
-	if category == "" || petname == "" || phonenumber == "" ||
+	if category == "" || petname == "" || phonenumber == "" || email == "" ||
 		description == "" || vakcinisan == "" || cipovan == "" ||
 		pasos == "" || spol == "" || starost == "" || location == "" {
 		fmt.Println("MISSING REQUIRED FIELDS")
@@ -130,7 +131,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	// separating images (if it has 2 or more) with commas
 	filePathsWithCommas := "{" + strings.Join(filePaths, ",") + "}"
 	fmt.Println("\nNEW FILE NAMES IN ARRAY", filePathsWithCommas)
-	err = SaveToDB(filePathsWithCommas, category, petname, phonenumber, description, vakcinisan, cipovan, pasos, spol, starost, location, slug)
+	err = SaveToDB(filePathsWithCommas, category, petname, phonenumber, description, vakcinisan, cipovan, pasos, spol, starost, location, slug, email)
 	if err != nil {
 		http.Error(w, fmt.Sprintf("ERROR here %v", err), http.StatusInternalServerError)
 		return
@@ -185,7 +186,7 @@ func SaveToDB(filePathsWithCommas string, category string,
 	petname string, phonenumber string, description string,
 	vakcinisan string, cipovan string,
 	pasos string, spol string,
-	starost string, location string, slug string) error {
+	starost string, location string, slug string, email string) error {
 
 	database, err := db.DbConnect()
 	if err != nil {
@@ -216,7 +217,7 @@ func SaveToDB(filePathsWithCommas string, category string,
 	}
 
 	//query := "INSERT INTO adoptPost (filePaths, category, petName, phoneNumber, description, vakcinisan, cipovan, pasos,spol, starost, location, slug) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11,$12)"
-	_, err = database.Exec("INSERT INTO adoptPost ( image_paths, category, petname, phonenumber, description, vakcinisan, cipovan, pasos,spol, starost, location, slug) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11, $12)", filePathsWithCommas, category, petname, phonenumber, description, vakcinisanBool, cipovanBool, pasosBool, spol, starost, location, uniqueSlug)
+	_, err = database.Exec("INSERT INTO adoptPost ( image_paths, category, petname, phonenumber, description, vakcinisan, cipovan, pasos,spol, starost, location, slug, user_email) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11, $12, $13)", filePathsWithCommas, category, petname, phonenumber, description, vakcinisanBool, cipovanBool, pasosBool, spol, starost, location, uniqueSlug, email)
 	if err != nil {
 		return fmt.Errorf("error u izvrsenju baze: %v", err)
 	}

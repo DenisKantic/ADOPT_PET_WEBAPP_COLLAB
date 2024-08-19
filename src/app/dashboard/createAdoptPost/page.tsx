@@ -11,6 +11,7 @@ import { Navigation, Pagination } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
+import { UseAuth } from '@/app/AuthContext';
 
 const CreateAdoptPost = () => {
 
@@ -24,6 +25,7 @@ const [inputKey, setInputKey] = useState<number>(0); // Add key state to force i
 const [fileName, setFileName] = useState<string | null>(null); // State to store file name
 const router = useRouter(); // Initialize the router
 const [isPending, startTransition] = useTransition(); // loading state
+const {email} = UseAuth()
 
 
 
@@ -131,7 +133,11 @@ const handleSubmit = async (event: React.FormEvent) => {
   
 
       startTransition(async ()=>{
-      const response = await createAdoptPost(formData, location)
+        if(email){
+      const response = await createAdoptPost(formData, location, email)
+        } else {
+          alert("no email")
+        }
     //  // if(response?.success){
     //     router.push('/dashboard')
     //     router.refresh();

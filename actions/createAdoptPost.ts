@@ -1,7 +1,7 @@
 "use server"
 import axios from 'axios'
 
-export async function createAdoptPost(formData:FormData, locationPost:string){
+export async function createAdoptPost(formData:FormData, locationPost:string, email: string){
 
     const images = formData.getAll('images');
     const category = formData.get("category")?.toString() || ""
@@ -14,6 +14,7 @@ export async function createAdoptPost(formData:FormData, locationPost:string){
     const spol = formData.get("spol")?.toString() || ""
     const starost = formData.get("starost")?.toString() || ""
     const location = locationPost;
+    const emailString = email.toString();
 
     const formDataToSend = new FormData();
     formDataToSend.append('category', category)
@@ -26,6 +27,7 @@ export async function createAdoptPost(formData:FormData, locationPost:string){
     formDataToSend.append('spol', spol)
     formDataToSend.append('starost', starost)
     formDataToSend.append('location', location)
+    formDataToSend.append('email', emailString)
 
    if(images.length === 0){
     return {
