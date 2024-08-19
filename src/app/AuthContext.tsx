@@ -40,6 +40,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 const response = await axios.get('http://localhost:8080/checkAuth', {
                     withCredentials: true // Ensure cookies are sent with the request
                 });
+                console.log("RESPONSE", response)
 
                 if (response.status === 200) {
                     setIsAuthenticated(true);
@@ -47,17 +48,19 @@ export function AuthProvider({ children }: AuthProviderProps) {
                     setEmail(response.data.email)
                 } else {
                     setIsAuthenticated(false);
+                    router.push('/login')
                 }
             } catch (error) {
                 console.error("Error checking authentication:", error);
                 setIsAuthenticated(false);
+                router.push('/login')
             } finally {
                 setLoading(false); // End loading
             }
         }
 
         checkAuth();
-    }, []);
+    }, [router]);
 
     const Login = async (formData: FormData): Promise<void> => {
         console.log("SENT FORM DATA LOGIN", formData);

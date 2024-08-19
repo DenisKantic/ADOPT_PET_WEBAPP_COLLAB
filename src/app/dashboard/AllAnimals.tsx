@@ -9,7 +9,9 @@ import { PiDogBold } from "react-icons/pi";
 import { FaCat } from "react-icons/fa";
 import { SiAnimalplanet } from "react-icons/si";
 import { getAdoptPostDashboard } from '@public/actions/getAdoptPost';
-import { notFound } from 'next/navigation';
+import { notFound, useRouter } from 'next/navigation';
+import LoadingSpinner from '../globalComponents/Spinner';
+import CreatePost from './CreatePost';
 import { UseAuth } from '../AuthContext';
 
 interface AdoptPostItem{
@@ -35,51 +37,56 @@ const formatDate = (dateString: string): string => {
   });
 };
 
+
 export default function AllAnimals() {
   const [animalPost, setAnimalPost] = useState<AdoptPostItem[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const {email} = UseAuth(); 
+  const [message, setMessage] = useState<string>("Ucitavanje...")
+  const [newEmail, setNewEmail] = useState<string>("");
+  const router = useRouter()
+  const {loading,email} = UseAuth()
 
-  console.log("EMAIL:", email)
-
+  
   const sendEmail = email.toString();
+  console.log("EMAIL:", sendEmail)
 
-  const fetchPost = async () =>{
-    try {
-        const response = await getAdoptPostDashboard({sendEmail})
-        const processedPost: AdoptPostItem[] = response.adopt_post.map((postItem) => {
-            const imagePaths = typeof postItem.image_paths === 'string'
-            ? ((postItem.image_paths as string)
-                .replace(/{|}/g, '') // Remove curly braces
-                .split(',') // Split by comma
-                .map((path: string) => path.trim())) // Trim whitespace
-            : postItem.image_paths;
-          return {
-            ...postItem,
-            image_paths: imagePaths
-          }
-        })
-        setAnimalPost(processedPost)
-        setLoading(false)
-    }
-        catch (err){
-            console.log("error happened", err)
-            setLoading(false)
-        }
-    }
 
     useEffect(()=>{
-        if(!email == false){
-          fetchPost()
+      
+      const fetchPost = async () =>{
+        if(!email) return
+        try {
+            if(sendEmail){
+            const response = await getAdoptPostDashboard({email})
+            const processedPost: AdoptPostItem[] = response.adopt_post.map((postItem) => {
+                const imagePaths = typeof postItem.image_paths === 'string'
+                ? ((postItem.image_paths as string)
+                    .replace(/{|}/g, '') // Remove curly braces
+                    .split(',') // Split by comma
+                    .map((path: string) => path.trim())) // Trim whitespace
+                : postItem.image_paths;
+              return {
+                ...postItem,
+                image_paths: imagePaths
+              }
+            })
+            setAnimalPost(processedPost)
+        }}
+            catch (err){
+                console.log("error happened", err)
+            }
         }
-    },[email])
+        
+        if(!loading){
+        fetchPost()
+        }
+      }, [email, loading])
+
+      if(loading) return <LoadingSpinner />
 
 
   return (
-    <>
-         {animalPost.length === 0 ? (
-          <p>No posts available</p>
-      ) : (
+    <div>
+         {
       animalPost.map(item => {
         return (
           <div className="h-auto rounded-xl my-5 w-full pb-2" key={item.id}>
@@ -112,7 +119,7 @@ export default function AllAnimals() {
             </div>
           </div>
         );
-      }))}
-    </>
+      })}
+    </div>
   );
 }

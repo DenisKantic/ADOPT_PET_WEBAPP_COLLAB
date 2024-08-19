@@ -1,3 +1,4 @@
+'use server'
 import React from 'react';
 import CardItem from './globalComponents/CardItem';
 import LostAnimals from './globalComponents/LostAnimals';
@@ -7,7 +8,7 @@ import Image from 'next/image';
 import SecondNavigation from './globalComponents/navbar/SecondNavigation';
 
 
-export default function Home() {
+export default async function Home() {
 
 
   return (

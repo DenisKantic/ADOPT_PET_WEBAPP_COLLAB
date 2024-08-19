@@ -251,7 +251,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		//Secure:   true,
 		Path:     "/",
 		SameSite: http.SameSiteLaxMode,
-		Expires:  time.Now().Add(24 * time.Hour),
+		Expires:  time.Now().Add(1 * time.Minute),
 	})
 
 	fmt.Println("User is logged in")

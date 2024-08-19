@@ -11,7 +11,7 @@ export async function middleware(req: NextRequest) {
 
     if (token) {
         try {
-            const verifyResponse = await fetch('http://localhost:8080/checkAuth', {
+            const verifyResponse = await fetch('http://localhost:8080/verifyToken', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },
