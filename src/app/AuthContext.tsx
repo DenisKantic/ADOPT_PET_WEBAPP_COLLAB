@@ -64,6 +64,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
         console.log("SENT FORM DATA LOGIN", formData);
         setLoading(true); // Start loading
 
+        document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+
+
         try {
             const response = await axios.post('http://localhost:8080/login',
                 formData,
@@ -94,6 +97,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
         setLoading(true); // Start loading
 
         try {
+            // clear cookies on the client side 
+            document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+
             await axios.post('http://localhost:8080/logout', null, {
                 withCredentials: true,
             });

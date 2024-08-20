@@ -35,7 +35,6 @@ export async function middleware(req: NextRequest) {
         // Allow guest users to access all pages except protected ones
         if (!token && pathname.startsWith('/dashboard')) {
             console.log("REDIRECTING TO LOGIN");
-            req.cookies.delete(token);
             url.pathname = '/login';
             return NextResponse.redirect(url, { status: 303 });
         }
