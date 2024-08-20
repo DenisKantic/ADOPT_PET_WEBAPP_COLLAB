@@ -106,7 +106,7 @@ func GetAllAdoptPost(w http.ResponseWriter, r *http.Request) {
 
 	defer database.Close()
 
-	query := "SELECT id, image_paths, category, petname, spol, starost, location, slug, created_at FROM adoptPost"
+	query := "SELECT id, image_paths, category, petname, spol, starost, location, slug, created_at FROM adoptPost ORDER BY created_at limit 5"
 	rows, err := database.Query(query)
 	if err != nil {
 		http.Error(w, "Error querying the database", http.StatusInternalServerError)

@@ -24,7 +24,13 @@ export default function Dashboard() {
   const {loading} = UseAuth();
   const adoptPostCounter = 3;
 
-  if(loading) return <LoadingSpinner />
+  useEffect(()=>{
+    if(loading){ 
+    <LoadingSpinner />
+    }
+  },[])
+
+ 
 
 
   return (

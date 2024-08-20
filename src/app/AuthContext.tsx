@@ -48,12 +48,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
                     setEmail(response.data.email)
                 } else {
                     setIsAuthenticated(false);
-                    router.push('/login')
                 }
             } catch (error) {
                 console.error("Error checking authentication:", error);
                 setIsAuthenticated(false);
-                router.push('/login')
             } finally {
                 setLoading(false); // End loading
             }
