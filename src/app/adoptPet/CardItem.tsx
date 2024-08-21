@@ -12,6 +12,8 @@ import { PiDogBold } from "react-icons/pi";
 import { FaCat } from "react-icons/fa";
 import { SiAnimalplanet } from "react-icons/si";
 import { getAdoptPost } from '@public/actions/getAdoptPost';
+import { UseAuth } from '../AuthContext';
+import LoadingSpinner from '../globalComponents/Spinner';
 
 interface AdoptPost{
     id: number,
@@ -36,7 +38,13 @@ export default function CardItem() {
     const[post, setPost] = useState<AdoptPost[]>([]);
     const [totalPages, setTotalPages] = useState(0)
     const [page, setPage] = useState(1)
-    const [loading,setLoading] = useState(false)
+
+    const {loading} = UseAuth()
+
+    useEffect(()=>{
+        fetchPost()
+    },[])
+
     
     const fetchPost = async () =>{
     try {
@@ -54,17 +62,13 @@ export default function CardItem() {
           }
         })
         setPost(processedPost)
-        setLoading(false)
     }
         catch (err){
             console.log("error happened", err)
-            setLoading(false)
         }
     }
 
-    useEffect(()=>{
-        fetchPost()
-    },[])
+
 
 
 
@@ -76,7 +80,7 @@ const handlePageChange = (page:number)=>{
   return (
         <>
          {post.length === 0 ? (
-                <p>No posts available</p>
+                <p>Ucitavanje</p>
             ) : (
         post.map((item)=>{
 

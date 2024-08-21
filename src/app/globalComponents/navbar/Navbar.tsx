@@ -10,8 +10,10 @@ import {useRouter} from 'next/navigation'
 
 const Navbar = ()=>{
 
-  const {isAuthenticated,Logout, username} =  UseAuth()
+  const {isAuthenticated,Logout, username, loading} =  UseAuth()
   const router = useRouter()
+
+  if(loading) return <LoadingSpinner/>
 
   return (
     <div className="navbar bg-[#F0F0F0] xxs:px-2 md:px-14 py-1 fixed z-10">
@@ -40,7 +42,7 @@ const Navbar = ()=>{
     >
       Prijavi se
     </Link>
-    <div className={ isAuthenticated  ? "dropdown dropdown-end" : "hidden"}>
+    <div className={ isAuthenticated ? "dropdown dropdown-end" : "hidden"}>
       <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar flex flex-col">
         <div className="w-10 rounded-full">
                 <Image

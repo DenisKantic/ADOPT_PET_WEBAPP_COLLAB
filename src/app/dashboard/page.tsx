@@ -1,37 +1,14 @@
-'use client'
-import React,{useState, useEffect} from 'react'
+'use server'
+import React from 'react'
 import Image from "next/image";
 import type { Metadata } from "next";
-import Link from "next/link";
 import AllAnimals from "./AllAnimals";
-import { IoIosMale } from "react-icons/io";
-import { IoMaleFemale } from "react-icons/io5";
-import { IoLocationOutline } from "react-icons/io5";
-import { MdOutlinePets } from "react-icons/md";
-import { PiDogBold } from "react-icons/pi";
-import { FaCat } from "react-icons/fa";
-import { SiAnimalplanet } from "react-icons/si";
-import DonationPost from "./DonationPost";
-import LostPetPost from "./LostPetPost"
-import CreatePost from './CreatePost';
 import CardItem from '../globalComponents/CardItem';
-import LoadingSpinner from '../globalComponents/Spinner';
-import { UseAuth } from '../AuthContext';
 
 
-export default function Dashboard() {
+export default async function Dashboard() {
 
-  const {loading} = UseAuth();
-  const adoptPostCounter = 3;
-
-  useEffect(()=>{
-    if(loading){ 
-    <LoadingSpinner />
-    }
-  },[])
-
- 
-
+  const adoptPostCounter = 3
 
   return (
     <div className='min-h-screen w-full bg-white xxs:px-4 md:px-14 py-20'>
@@ -40,7 +17,7 @@ export default function Dashboard() {
                     <h1 className="text-xl text-black">Vaši oglasi: </h1>
                        <span className="text-md font-bold text-gray-700">{adoptPostCounter}</span> <br />
                       <span className='text-sm text-gray-600'>{"*Maksimalno tri oglasa"}</span>
-                     <div className="grid gap-10 shadow-2xl rounded-2xl p-5 xxs:grid-cols-1 sm:grid-cols-2 xl:grid-cols-4">
+                     <div className="grid gap-10 shadow-2xl rounded-2xl p-5 xxs:grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 bg-green-400">
                     
                 <AllAnimals/>
                 </div>
@@ -53,7 +30,7 @@ export default function Dashboard() {
         <div className="col-span-3 row-span-2 p-5">
         <p>Najnoviji ljubimci</p>
         <div className="grid grid-cols-3 gap-20">
-            <AllAnimals/>
+            <CardItem />
         </div>
                
         </div>

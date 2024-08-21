@@ -248,10 +248,10 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		Name:     "token",
 		Value:    token,
 		HttpOnly: true,
-		//Secure:   true,
+		Secure:   true,
 		Path:     "/",
 		SameSite: http.SameSiteLaxMode,
-		Expires:  time.Now().Add(1 * time.Minute),
+		Expires:  time.Now().Add(7 * 24 * time.Hour), // token activated for one week
 	})
 
 	fmt.Println("User is logged in")

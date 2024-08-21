@@ -8,7 +8,8 @@ import {
     ReactNode
 } from 'react'
 import axios from 'axios'
-
+import { getAdoptPostDashboard } from "@public/actions/getAdoptPost"
+import AllAnimals from "./dashboard/AllAnimals"
 interface AuthContextType {
     isAuthenticated: boolean
     username: string
@@ -46,6 +47,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
                     setIsAuthenticated(true);
                     setUsername(response.data.username);
                     setEmail(response.data.email)
+                    setLoading(false)
+                    router.push('/dashboard')
                 } else {
                     setIsAuthenticated(false);
                 }
@@ -82,6 +85,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 setIsAuthenticated(true);
                 setUsername(response.data.username);
                 setEmail(response.data.email)
+                setLoading(false)
             } else {
                 setIsAuthenticated(false);
             }
@@ -116,7 +120,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     return (
         <AuthContext.Provider value={{ isAuthenticated, Login, Logout, loading, username, email }}>
-            {children}
+            {loading ? null : children}
         </AuthContext.Provider>
     )
 }

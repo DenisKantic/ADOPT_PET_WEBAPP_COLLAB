@@ -41,48 +41,41 @@ const formatDate = (dateString: string): string => {
 export default function AllAnimals() {
   const [animalPost, setAnimalPost] = useState<AdoptPostItem[]>([]);
   const [message, setMessage] = useState<string>("Ucitavanje...")
-  const [newEmail, setNewEmail] = useState<string>("");
   const router = useRouter()
-  const {loading,email} = UseAuth()
+  const {email,loading} = UseAuth()
 
-  
-  const sendEmail = email.toString();
-  console.log("EMAIL:", sendEmail)
+  useEffect(()=>{
+    
+      fetchPost(email)
+    
+  },[email])  
 
 
-    useEffect(()=>{
-      
-      const fetchPost = async () =>{
-        if(!email) return
-        try {
-            if(sendEmail){
-            const response = await getAdoptPostDashboard({email})
-            const processedPost: AdoptPostItem[] = response.adopt_post.map((postItem) => {
-                const imagePaths = typeof postItem.image_paths === 'string'
-                ? ((postItem.image_paths as string)
-                    .replace(/{|}/g, '') // Remove curly braces
-                    .split(',') // Split by comma
-                    .map((path: string) => path.trim())) // Trim whitespace
-                : postItem.image_paths;
-              return {
-                ...postItem,
-                image_paths: imagePaths
-              }
-            })
-            setAnimalPost(processedPost)
-        }}
-            catch (err){
-                console.log("error happened", err)
-            }
+  const fetchPost = async (email:any) =>{
+    if(!email) return
+    try {
+        if(email){
+        const response = await getAdoptPostDashboard({email})
+        const processedPost: AdoptPostItem[] = response.adopt_post.map((postItem) => {
+            const imagePaths = typeof postItem.image_paths === 'string'
+            ? ((postItem.image_paths as string)
+                .replace(/{|}/g, '') // Remove curly braces
+                .split(',') // Split by comma
+                .map((path: string) => path.trim())) // Trim whitespace
+            : postItem.image_paths;
+          return {
+            ...postItem,
+            image_paths: imagePaths
+          }
+        })
+        setAnimalPost(processedPost)
+    }}
+        catch (err){
+            console.log("error happened", err)
         }
-        
-        if(!loading){
-        fetchPost()
-        }
-      }, [email, loading])
+      }
 
-      if(loading) return <LoadingSpinner />
-
+      if(loading) return <LoadingSpinner/>
 
   return (
     <div>

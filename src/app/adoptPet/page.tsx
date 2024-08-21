@@ -16,9 +16,11 @@ import { SiAnimalplanet } from "react-icons/si";
 import LoadingSpinner from "../globalComponents/Spinner";
 import { format } from 'date-fns';
 import CardItem from "./CardItem";
+import { UseAuth } from "../AuthContext";
 
 
 export default function AdoptPet() {
+
 
 
   return (
