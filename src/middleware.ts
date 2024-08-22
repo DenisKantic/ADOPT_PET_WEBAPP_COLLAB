@@ -22,6 +22,8 @@ export async function middleware(req: NextRequest) {
                 console.log("USER LOGGED IN");
                 // Redirect authenticated users away from the login page
                 if (pathname === '/login') {
+                    url.pathname='/dashboard'
+                    return NextResponse.redirect(url)
                 }
                 return NextResponse.next();
             }

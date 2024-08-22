@@ -13,6 +13,7 @@ import { notFound, useRouter } from 'next/navigation';
 import LoadingSpinner from '../globalComponents/Spinner';
 import CreatePost from './CreatePost';
 import { UseAuth } from '../AuthContext';
+import { revalidatePath } from 'next/cache';
 
 interface AdoptPostItem{
   id: number,
@@ -41,20 +42,12 @@ const formatDate = (dateString: string): string => {
 export default function AllAnimals() {
   const [animalPost, setAnimalPost] = useState<AdoptPostItem[]>([]);
   const [message, setMessage] = useState<string>("Ucitavanje...")
+  const [loading,setLoading] = useState<boolean>(true)
   const router = useRouter()
-  const {email,loading} = UseAuth()
-
-  useEffect(()=>{
-    
-      fetchPost(email)
-    
-  },[email])  
-
+  const {email} = UseAuth()
 
   const fetchPost = async (email:any) =>{
-    if(!email) return
     try {
-        if(email){
         const response = await getAdoptPostDashboard({email})
         const processedPost: AdoptPostItem[] = response.adopt_post.map((postItem) => {
             const imagePaths = typeof postItem.image_paths === 'string'
@@ -69,13 +62,20 @@ export default function AllAnimals() {
           }
         })
         setAnimalPost(processedPost)
-    }}
+    }
         catch (err){
             console.log("error happened", err)
         }
       }
 
-      if(loading) return <LoadingSpinner/>
+  useEffect(()=>{
+    fetchPost(email)
+    setLoading(false)
+    
+  },[email])  
+
+  if(loading) return <LoadingSpinner/>
+
 
   return (
     <div>
@@ -105,7 +105,7 @@ export default function AllAnimals() {
                 <li className="flex items-center"><MdOutlinePets className='text-[#2F5382] text-lg' /><span className="pl-3">{item.starost}</span></li>
               </ul>
               <Link
-                href={`/animalDetails/${item.slug}`}
+                href={`/dashboard/animalDetails/${item.slug}`}
                 className="btn bg-white text-lg text-[#2F5382] border-[#2F5382] rounded-full w-full mt-5
                  hover:bg-[#2F5382] hover:text-white">Pogledaj detalje</Link>
               <p className='text-sm text-center py-2 text-gray-600'>Objavljeno: {formatDate(item.created_at)}</p>

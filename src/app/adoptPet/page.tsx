@@ -21,8 +21,6 @@ import { UseAuth } from "../AuthContext";
 
 export default function AdoptPet() {
 
-
-
   return (
     <div className="min-h-screen pt-20 bg-[#f1f4f5] w-full text-black xxs:px-5 md:px-14">
       <div className='mt-2 grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 w-full h-full'>

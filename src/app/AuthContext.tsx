@@ -48,7 +48,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
                     setUsername(response.data.username);
                     setEmail(response.data.email)
                     setLoading(false)
-                    router.push('/dashboard')
                 } else {
                     setIsAuthenticated(false);
                 }
