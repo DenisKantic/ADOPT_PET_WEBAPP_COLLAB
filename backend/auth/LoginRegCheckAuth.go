@@ -148,7 +148,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	database, err := db.DbConnect()
 
 	if err != nil {
-		http.Error(w, "Error proccessing database connection", http.StatusInternalServerError)
+		http.Error(w, "Error proccessing database POV connection", http.StatusInternalServerError)
 		return
 	}
 
@@ -195,11 +195,12 @@ func Register(w http.ResponseWriter, r *http.Request) {
 
 func Login(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
-	w.Header().Set("Access-Control-Allow-Methods", "POST")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	w.Header().Set("Access-Control-Allow-Credentials", "true")
 
 	if r.Method == http.MethodOptions {
+		w.WriteHeader(http.StatusOK)
 		return
 	}
 
@@ -335,6 +336,7 @@ func CheckAuth(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println("USER EMAIL", email)
+	fmt.Println("username", username)
 
 	response := map[string]interface{}{
 		"isLoggedIn": isLoggedIn,
