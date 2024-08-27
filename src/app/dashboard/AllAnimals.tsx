@@ -46,6 +46,9 @@ export default function AllAnimals() {
   console.log('EMAIL HERE TESTING TESTING', email)
 
   const fetchPost = async (email: any) => {
+    if (!email) {
+      router.refresh()
+    }
     try {
       const response = await getAdoptPostDashboard({ email })
       const processedPost: AdoptPostItem[] = response.adopt_post.map(
