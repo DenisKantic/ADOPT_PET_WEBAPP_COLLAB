@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import userImage from '@public/public/images/user.png'
@@ -7,15 +7,23 @@ import MobileNavbar from './MobileNavbar'
 import LoadingSpinner from '../Spinner'
 import { UseAuth } from '@/app/AuthContext'
 import { useRouter } from 'next/navigation'
+import SecondNavigation from './SecondNavigation'
 
 const Navbar = () => {
-  const { isAuthenticated, Logout, username, loading, email } = UseAuth()
+  const { isAuthenticated, Logout, username, loading } = UseAuth()
+
   const router = useRouter()
 
-  if (loading) return <LoadingSpinner />
+  useEffect(() => {
+    if (!isAuthenticated && !loading) {
+      return // Redirect to login if not authenticated and loading is complete
+    }
+  }, [isAuthenticated, loading, router])
+
+  if (loading) return <LoadingSpinner /> // Show a loading spinner while authentication is being checked
 
   return (
-    <div className="navbar bg-[#F0F0F0] xxs:px-2 md:px-14 py-1 fixed z-10">
+    <div className="navbar bg-[#F0F0F0] xxs:px-2 md:px-14 py-1 fixed z-10 shadow-lg">
       <div className="flex-1 xxs:justify-between md:justify-start">
         <Link href="/" className="xxs:hidden md:flex cursor-pointer">
           <Image src="/images/logo.png" alt="logo" height={40} width={40} />
