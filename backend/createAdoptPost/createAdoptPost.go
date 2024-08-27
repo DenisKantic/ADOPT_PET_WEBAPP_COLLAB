@@ -217,7 +217,7 @@ func SaveToDB(filePathsWithCommas string, category string,
 	}
 
 	//query := "INSERT INTO adoptPost (filePaths, category, petName, phoneNumber, description, vakcinisan, cipovan, pasos,spol, starost, location, slug) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11,$12)"
-	_, err = database.Exec("INSERT INTO adoptPost ( image_paths, category, petname, phonenumber, description, vakcinisan, cipovan, pasos,spol, starost, location, slug, user_email) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11, $12, $13)", filePathsWithCommas, category, petname, phonenumber, description, vakcinisanBool, cipovanBool, pasosBool, spol, starost, location, uniqueSlug, email)
+	_, err = database.Exec("INSERT INTO adoptPost ( image_paths, category, petname, phonenumber, description, vakcinisan, cipovan, pasos,spol, starost, location, slug, user_email) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11,$12,$13)", filePathsWithCommas, category, petname, phonenumber, description, vakcinisanBool, cipovanBool, pasosBool, spol, starost, location, uniqueSlug, email)
 	if err != nil {
 		return fmt.Errorf("error u izvrsenju baze: %v", err)
 	}
