@@ -8,6 +8,7 @@ import {
   ReactNode,
 } from 'react'
 import axios from 'axios'
+import { revalidatePath } from 'next/cache'
 interface AuthContextType {
   isAuthenticated: boolean
   username: string
@@ -108,6 +109,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setIsAuthenticated(false)
       setUsername('')
       setEmail('')
+      revalidatePath('/dashboard')
+      revalidatePath('/')
     } catch (error) {
       console.error('Error logging out:', error)
     } finally {

@@ -8,8 +8,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useTransition } from 'react'
 import * as z from 'zod'
 import { loginZod } from '@public/actions/login'
-import { useRouter } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import { UseAuth } from '@/app/AuthContext'
+import { revalidatePath } from 'next/cache'
 
 export default function Register() {
   const [error, setError] = useState<string | undefined>('')
@@ -44,6 +45,7 @@ export default function Register() {
   const checkUser = () => {
     if (isAuthenticated) {
       router.push('/dashboard')
+      router.refresh()
     }
   }
 

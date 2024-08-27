@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 
 export default function Logout() {
   const router = useRouter()
-  const { isAuthenticated, Logout } = UseAuth()
+  const { Logout } = UseAuth()
 
   return (
     <>
@@ -13,12 +13,9 @@ export default function Logout() {
         onClick={() => {
           Logout()
           router.push('/')
+          router.refresh()
         }}
-        className={
-          isAuthenticated
-            ? 'btn btn-primary flex items-center justify-center mt-5'
-            : 'hidden'
-        }
+        className="btn btn-primary flex items-center justify-center mt-5"
       >
         SignOut
       </li>

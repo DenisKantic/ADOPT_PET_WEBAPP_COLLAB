@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 
 export async function middleware(req: NextRequest) {
   console.log('middleware is running on route, ', req.nextUrl.pathname)
@@ -22,6 +23,7 @@ export async function middleware(req: NextRequest) {
         // Redirect authenticated users away from the login page
         if (pathname === '/login') {
           url.pathname = '/dashboard'
+          revalidatePath('/dashboard')
           return NextResponse.redirect(url)
         }
         return NextResponse.next()

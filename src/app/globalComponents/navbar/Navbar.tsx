@@ -5,6 +5,8 @@ import Link from 'next/link'
 import userImage from '@public/public/images/user.png'
 import axios from 'axios'
 import { cookies } from 'next/headers'
+import Logout from './Logout'
+import { revalidatePath } from 'next/cache'
 
 export default async function Navbar() {
   const cookie = cookies().get('token')?.value
@@ -24,6 +26,7 @@ export default async function Navbar() {
     if (response.status === 200) {
       isAuthenticated = true
       username = response.data.username
+      revalidatePath('/dashboard')
     }
   } catch (error) {
     console.log('SHIT HAPPENS')
@@ -127,6 +130,7 @@ export default async function Navbar() {
                 Objavi oglas
               </Link>
             </li>
+            <Logout />
           </ul>
         </div>
       </div>
