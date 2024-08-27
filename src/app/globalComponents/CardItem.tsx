@@ -1,3 +1,4 @@
+'use server'
 import Image from 'next/image'
 import Link from 'next/link'
 import { IoIosMale } from 'react-icons/io'
@@ -44,9 +45,9 @@ export default async function CardItem() {
           typeof item.image_paths === 'string'
             ? (item.image_paths as string).replace(/[{}]/g, '').split(',')
             : [] // Fallback to empty array if image_paths is not a string
-        imagePaths.map((path: string, index: number) =>
-          console.log('FOTKE', path, index)
-        )
+        // imagePaths.map((path: string, index: number) =>
+        //   console.log('FOTKE', path, index)
+        // )
 
         const firstImagePath = imagePaths[0] || ''
 

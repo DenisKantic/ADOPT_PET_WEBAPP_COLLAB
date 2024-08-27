@@ -1,26 +1,44 @@
-'use client'
-import React, { useEffect, useState } from 'react'
+'use server'
+import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import userImage from '@public/public/images/user.png'
-import MobileNavbar from './MobileNavbar'
-import LoadingSpinner from '../Spinner'
-import { UseAuth } from '@/app/AuthContext'
-import { useRouter } from 'next/navigation'
-import SecondNavigation from './SecondNavigation'
+import axios from 'axios'
+import { cookies } from 'next/headers'
 
-const Navbar = () => {
-  const { isAuthenticated, Logout, username, loading } = UseAuth()
+export default async function Navbar() {
+  const cookie = cookies().get('token')?.value
 
-  const router = useRouter()
+  let isAuthenticated = false
+  let username = ''
 
-  useEffect(() => {
-    if (!isAuthenticated && !loading) {
-      return // Redirect to login if not authenticated and loading is complete
+  try {
+    const response = await axios.get('http://localhost:8080/checkAuth', {
+      headers: {
+        Cookie: `token=${cookie}`, // Include the cookie in the request headers
+      },
+      withCredentials: true, // Ensure cookies are sent with the request
+    })
+    console.log('RESPONSE', response)
+
+    if (response.status === 200) {
+      isAuthenticated = true
+      username = response.data.username
     }
-  }, [isAuthenticated, loading, router])
+  } catch (error) {
+    console.log('SHIT HAPPENS')
+  }
+  // const { isAuthenticated, Logout, username, loading } = UseAuth()
 
-  if (loading) return <LoadingSpinner /> // Show a loading spinner while authentication is being checked
+  // const router = useRouter()
+
+  // useEffect(() => {
+  //   if (!isAuthenticated && !loading) {
+  //     return // Redirect to login if not authenticated and loading is complete
+  //   }
+  // }, [isAuthenticated, loading, router])
+
+  // if (loading) return <LoadingSpinner /> // Show a loading spinner while authentication is being checked
 
   return (
     <div className="navbar bg-[#F0F0F0] xxs:px-2 md:px-14 py-1 fixed z-10 shadow-lg">
@@ -109,19 +127,6 @@ const Navbar = () => {
                 Objavi oglas
               </Link>
             </li>
-            <li
-              onClick={() => {
-                Logout()
-                router.push('/')
-              }}
-              className={
-                isAuthenticated
-                  ? 'btn btn-primary flex items-center justify-center mt-5'
-                  : 'hidden'
-              }
-            >
-              SignOut
-            </li>
           </ul>
         </div>
       </div>
@@ -148,5 +153,3 @@ const Navbar = () => {
 </div>
 </div> */
 }
-
-export default Navbar

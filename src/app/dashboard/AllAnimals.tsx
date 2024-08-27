@@ -74,8 +74,6 @@ export default function AllAnimals() {
     setLoading(false)
   }, [email])
 
-  if (loading) return <LoadingSpinner />
-
   return (
     <>
       {animalPost.map((item) => {
