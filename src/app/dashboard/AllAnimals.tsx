@@ -11,9 +11,7 @@ import { SiAnimalplanet } from 'react-icons/si'
 import { getAdoptPostDashboard } from '@public/actions/getAdoptPost'
 import { notFound, useRouter } from 'next/navigation'
 import LoadingSpinner from '../globalComponents/Spinner'
-import CreatePost from './CreatePost'
 import { UseAuth } from '../AuthContext'
-import { revalidatePath } from 'next/cache'
 
 interface AdoptPostItem {
   id: number
@@ -79,19 +77,22 @@ export default function AllAnimals() {
   if (loading) return <LoadingSpinner />
 
   return (
-    <div>
+    <>
       {animalPost.map((item) => {
         return (
-          <div className="h-auto rounded-xl my-5 w-full pb-2" key={item.id}>
+          <div
+            className="relative rounded-xl my-5 w-full pb-2 shadow-2xl overflow-hidden group"
+            key={item.id}
+          >
             <Image
               src={`http://localhost:8080/${item.image_paths[0]}`}
               alt={item.petname}
               height={50}
               width={50}
               unoptimized
-              className="object-cover rounded-2xl h-[20vh] bg-purple-400 w-full"
+              className="object-cover h-[20vh] shadow-xl w-full"
             />
-            <div className="w-full">
+            <div className="w-full px-5">
               <ul className="text-black mt-2 flex flex-col">
                 <li className="flex items-center">
                   {item.category === 'pas' ? (
@@ -123,20 +124,33 @@ export default function AllAnimals() {
                   <span className="pl-3">{item.starost}</span>
                 </li>
               </ul>
-              <Link
-                href={`/dashboard/animalDetails/${item.slug}`}
-                className="btn bg-white text-lg text-[#2F5382] border-[#2F5382] rounded-full w-full mt-5
-                 hover:bg-[#2F5382] hover:text-white"
-              >
-                Pogledaj detalje
-              </Link>
               <p className="text-sm text-center py-2 text-gray-600">
                 Objavljeno: {formatDate(item.created_at)}
               </p>
             </div>
+            <div className="absolute inset-0 bg-black px-20 gap-5 bg-opacity-70 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <Link
+                href={`/adoptPet/${item.slug}`}
+                className="btn border-[#2F5382] w-full bg-[#2F5382] text-lg text-white hover:bg-white hover:text-[#2F5382]"
+              >
+                Pročitaj više...
+              </Link>
+              <Link
+                href={`/adoptPet/${item.slug}`}
+                className="btn border-[#2F5382] w-full bg-[#2F5382] text-lg text-white hover:bg-white hover:text-[#2F5382]"
+              >
+                Uredi
+              </Link>
+              <Link
+                href={`/adoptPet/${item.slug}`}
+                className="btn border-[#2F5382] w-full bg-red-400 text-lg text-white hover:bg-white hover:text-[#2F5382]"
+              >
+                Obriši
+              </Link>
+            </div>
           </div>
         )
       })}
-    </div>
+    </>
   )
 }

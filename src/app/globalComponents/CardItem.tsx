@@ -1,10 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
 import { IoIosMale } from 'react-icons/io'
 import { IoMaleFemale } from 'react-icons/io5'
 import { IoLocationOutline } from 'react-icons/io5'
-import { MdOutlinePets } from 'react-icons/md'
 import { PiDogBold } from 'react-icons/pi'
 import { FaCat } from 'react-icons/fa'
 import { SiAnimalplanet } from 'react-icons/si'
@@ -47,7 +45,7 @@ export default async function CardItem() {
             ? (item.image_paths as string).replace(/[{}]/g, '').split(',')
             : [] // Fallback to empty array if image_paths is not a string
         imagePaths.map((path: string, index: number) =>
-          console.log(path, index)
+          console.log('FOTKE', path, index)
         )
 
         const firstImagePath = imagePaths[0] || ''

@@ -21,7 +21,14 @@ services:
       dockerfile: go.dockerfile
     ports:
       - '8080:8080'
-    command: ./myapp
+    develop:
+      watch:
+        - action: rebuild
+          path: ./backend
+          files:
+            - '**/*.go'
+            - 'go.mod'
+            - 'go.sum'
     depends_on:
       - postgres
     environment:
