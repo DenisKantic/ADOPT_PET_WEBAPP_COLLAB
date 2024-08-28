@@ -79,6 +79,42 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	database, err := db.DbConnect()
+	if err != nil {
+		http.Error(w, "Problem with connecting to database", http.StatusInternalServerError)
+		return
+	}
+
+	defer func(database *sql.DB) {
+		err := database.Close()
+		if err != nil {
+
+		}
+	}(database)
+
+	var totalCountPost int
+
+	err = database.QueryRow("SELECT COUNT(*) FROM adoptpost WHERE user_email = $1", email).Scan(&totalCountPost)
+	if err != nil {
+		http.Error(w, "Error counting the created post", http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Println("Total created post", totalCountPost)
+
+	if totalCountPost >= 3 {
+		response := map[string]string{
+			"error": "User has already created 3 posts",
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusForbidden)
+		if err := json.NewEncoder(w).Encode(response); err != nil {
+			http.Error(w, "Error encoding response", http.StatusInternalServerError)
+			return
+		}
+		return
+	}
+
 	// creating slug from the pets name for dynamic route
 	var slug = strings.ToLower(petname)
 	slug = strings.ReplaceAll(slug, " ", "-")
