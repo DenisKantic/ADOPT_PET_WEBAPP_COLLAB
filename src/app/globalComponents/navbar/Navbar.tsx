@@ -44,7 +44,7 @@ export default async function Navbar() {
   // if (loading) return <LoadingSpinner /> // Show a loading spinner while authentication is being checked
 
   return (
-    <div className="navbar bg-[#F0F0F0] xxs:px-2 md:px-14 py-1 fixed z-10 shadow-lg">
+    <div className="navbar h-[7svh] bg-[#F0F0F0] xxs:px-2 md:px-14 py-1 fixed z-10 shadow-lg">
       <div className="flex-1 xxs:justify-between md:justify-start">
         <Link href="/" className="xxs:hidden md:flex cursor-pointer">
           <Image src="/images/logo.png" alt="logo" height={40} width={40} />
