@@ -31,6 +31,9 @@ services:
             - 'go.sum'
     depends_on:
       - postgres
+    volumes:
+      - ./backend/adoptImages:/app/adoptImages
+      - ./backend/lostPetImages:/app/lostPetImages
     environment:
       DATABASE_URL: postgresql://postgres:password@postgres/testing?sslmode=disable
 
