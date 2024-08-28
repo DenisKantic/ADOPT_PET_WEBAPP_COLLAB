@@ -228,3 +228,34 @@ func GetOneAdoptPost(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to encode the item", http.StatusInternalServerError)
 	}
 }
+
+func DeleteAdoptPost(w http.ResponseWriter, r *http.Request) {
+
+	// extract ID from URL path
+	id := r.URL.Query().Get("id")
+	if id == "" {
+		http.Error(w, "Missing ID", http.StatusBadRequest)
+		return
+	}
+
+	database, err := db.DbConnect()
+	if err != nil {
+		http.Error(w, "Problem with connecting to database", http.StatusInternalServerError)
+		return
+	}
+
+	defer func(database *sql.DB) {
+		err := database.Close()
+		if err != nil {
+
+		}
+	}(database)
+
+	_, err = database.Exec("DELETE FROM adoptPost WHERE id = $1", id)
+	if err != nil {
+		http.Error(w, "Error deleting post", http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+}

@@ -12,6 +12,7 @@ import { getAdoptPostDashboard } from '@public/actions/getAdoptPost'
 import { notFound, useRouter } from 'next/navigation'
 import LoadingSpinner from '../globalComponents/Spinner'
 import { UseAuth } from '../AuthContext'
+import { DeleteAdoptPost } from '@public/actions/deletePost'
 
 interface AdoptPostItem {
   id: number
@@ -142,12 +143,20 @@ export default function AllAnimals() {
               >
                 Uredi
               </Link>
-              <Link
-                href={`/adoptPet/${item.slug}`}
+              <button
                 className="btn border-[#2F5382] w-full bg-red-400 text-lg text-white hover:bg-white hover:text-[#2F5382]"
+                onClick={async () => {
+                  console.log('ID TEST', item.id)
+                  const response = await DeleteAdoptPost(item.id)
+                  if (response?.success) {
+                    router.push('/dashboard')
+                  } else {
+                    alert('shit')
+                  }
+                }}
               >
                 Obriši
-              </Link>
+              </button>
             </div>
           </div>
         )

@@ -2,6 +2,7 @@ package createAdoptPost
 
 import (
 	"backend/db"
+	"backend/helper"
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -85,6 +86,17 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	slug = re.ReplaceAllString(slug, "")
 	fmt.Println("NEW SLUG,", slug)
 
+	parentFolder := "adoptPostImages"
+	slugFolderPath := filepath.Join(parentFolder, slug)
+
+	slugFolderPath = helper.GenerateUniqueSlugPath(slugFolderPath, slug, parentFolder)
+
+	err = os.MkdirAll(slugFolderPath, os.ModePerm)
+	if err != nil {
+		http.Error(w, "Error creating directory for slug", http.StatusInternalServerError)
+		return
+	}
+
 	// opening images, saving in file server, retrieving paths and storing in database
 	var filePaths []string
 
@@ -107,7 +119,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 		newFileName := fmt.Sprintf("%s%d%s", slug, i+1, fileExtension)
 
 		// create a new file in the server
-		dstPath := filepath.Join("adoptImages", newFileName)
+		dstPath := filepath.Join(slugFolderPath, newFileName)
 		dst, err := os.Create(dstPath)
 		if err != nil {
 			http.Error(w, "Error creating a new file in the server", http.StatusInternalServerError)

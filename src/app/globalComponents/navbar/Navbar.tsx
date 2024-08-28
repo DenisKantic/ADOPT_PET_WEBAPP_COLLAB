@@ -7,6 +7,8 @@ import axios from 'axios'
 import { cookies } from 'next/headers'
 import Logout from './Logout'
 import { revalidatePath } from 'next/cache'
+import { IoIosDocument } from 'react-icons/io'
+import { IoMdSettings } from 'react-icons/io'
 
 export default async function Navbar() {
   const cookie = cookies().get('token')?.value
@@ -107,7 +109,8 @@ export default async function Navbar() {
                 href="/dashboard"
                 className="badge rounded-xl border-none bg-[#F0F0F0] text-black text-start flex flex-row justify-between my-2 py-5 px-4 text-md w-full"
               >
-                <span>Moj profil</span>
+                <IoIosDocument size={20} className="text-[#2f5382]" />
+                <span>Moji oglasi</span>
                 <span className="block py-1 px-3 badge-neutral rounded-full text-center bg-[#2f5382] text-white">
                   {username?.substring(0, 10) + '...'}
                 </span>
@@ -117,15 +120,16 @@ export default async function Navbar() {
               <Link
                 className="my-2 badge rounded-xl border-none bg-[#F0F0F0] text-black text-start 
           flex justify-start py-5 px-4 text-md w-full"
-                href="/profile-settings"
+                href="/dashboard/profile-settings"
               >
+                <IoMdSettings size={20} className="text-[#2f5382]" />
                 Postavke
               </Link>
             </li>
             <li className={isAuthenticated ? 'block' : 'hidden'}>
               <Link
                 href="/dashboard"
-                className="mt-3 py-1 btn bg-[#2f5382] w-full rounded-full text-white"
+                className="mt-3 py-1 btn text-[#2f5382] w-full rounded-full bg-white hover:text-white hover:bg-[#2f5382]"
               >
                 Objavi oglas
               </Link>

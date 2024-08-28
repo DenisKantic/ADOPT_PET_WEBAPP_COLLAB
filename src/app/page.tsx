@@ -10,6 +10,7 @@ import SecondNavigation from './globalComponents/navbar/SecondNavigation'
 export default async function Home() {
   return (
     <div className="min-h-screen overflow-hidden bg-[#f1f4f5] w-full text-black xxs:px-5 md:px-14 pt-20">
+      <SecondNavigation />
       <div className="w-full overflow-hidden min-h-[30svh] grid grid-cols-2 rounded-2xl shadow-2xl border-[1px] border-[#2F5382] p-5 mt-20 mb-5 bg-[#2F5382] font-bold">
         <div>
           <Image

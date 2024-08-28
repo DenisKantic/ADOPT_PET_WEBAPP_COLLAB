@@ -10,6 +10,7 @@ import { PiSyringe } from 'react-icons/pi'
 import { GrCircleInformation } from 'react-icons/gr'
 import { TbEPassport } from 'react-icons/tb'
 import { getOneAdoptPost } from '@public/actions/getAdoptPost'
+import LoadingSpinner from '@/app/globalComponents/Spinner'
 
 interface OneAdoptPost {
   id: number
@@ -77,9 +78,9 @@ export default function AnimalDetails({ params: { slug } }: Props) {
     setLoading(false)
   }, [slug])
 
-  if (loading) return <div>Loading...</div>
+  if (!post) return <LoadingSpinner />
 
-  if (!post) return <div>Post not found</div>
+  //if (!post) return <div>Post not found</div>
 
   return (
     <div className="min-h-screen xxs:px-4 md:px-14 bg-white">

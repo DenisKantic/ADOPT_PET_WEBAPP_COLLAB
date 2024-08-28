@@ -26,10 +26,10 @@ func corsMiddleware(next http.Handler) http.Handler {
 }
 
 func serveStaticFiles(mux *http.ServeMux) {
-	adoptImages := "adoptImages"
+	adoptImages := "adoptPostImages"
 
 	fmt.Println("Serving adopt images directory")
-	mux.Handle("/adoptImages/", http.StripPrefix("/adoptImages/", http.FileServer(http.Dir(adoptImages))))
+	mux.Handle("/adoptPostImages/", http.StripPrefix("/adoptPostImages/", http.FileServer(http.Dir(adoptImages))))
 }
 
 func setupRoutes() {
@@ -45,6 +45,9 @@ func setupRoutes() {
 
 	// API FOR LOST PET CATEGORY
 	mux.HandleFunc("/createLostPost", createLostPost.CreatePost)
+
+	// DELETING ADOPT POST
+	mux.HandleFunc("/deleteAdoptPost", AdoptPostGetDelete.DeleteAdoptPost)
 
 	// register API
 	mux.HandleFunc("/register", auth.Register)

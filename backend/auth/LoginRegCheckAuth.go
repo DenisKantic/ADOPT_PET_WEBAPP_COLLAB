@@ -62,7 +62,7 @@ func GenerateToken(email, username string) (string, error) {
 		Email:    email,
 		Username: username,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Hour * 1).Unix(),
+			ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
 		},
 	}
 
@@ -168,7 +168,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = database.Exec("INSERT INTO users (email,username,password, is_active, activation_token) VALUES ($1,$2,$3, $4,$5)",
+	_, err = database.Exec("INSERT INTO users (email,username,password, is_activated, activation_token) VALUES ($1,$2,$3, $4,$5)",
 		email, username, hashedPassword, false, activationToken)
 	if err != nil {
 		http.Error(w, "Error creating user", http.StatusInternalServerError)
@@ -223,25 +223,36 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	defer database.Close()
 
 	var storedPassword, username string
+	var isActivated bool
 
-	compareHash := database.QueryRow("SELECT password, username FROM users WHERE email=$1", email).Scan(&storedPassword, &username)
-
-	if compareHash != nil {
-		http.Error(w, "Invalid email", http.StatusBadRequest)
+	err = database.QueryRow("SELECT password, username, is_activated FROM users WHERE email=$1", email).Scan(&storedPassword, &username, &isActivated)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			http.Error(w, "Invalid email", http.StatusBadRequest)
+		} else {
+			http.Error(w, "Internal server error", http.StatusInternalServerError)
+		}
 		return
 	}
 
-	compareHash = bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(password))
+	// Check if the user is activated
+	if !isActivated {
+		http.Error(w, "Please activate your account by clicking the link sent to your email.", http.StatusForbidden)
+		fmt.Println("Profile not activated.")
+		return
+	}
 
-	if compareHash != nil {
+	// Check the password
+	err = bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(password))
+	if err != nil {
 		http.Error(w, "Invalid password", http.StatusBadRequest)
 		return
 	}
 
-	// generate token
+	// Generate token
 	token, err := GenerateToken(email, username)
 	if err != nil {
-		http.Error(w, "Internal generating token", http.StatusInternalServerError)
+		http.Error(w, "Internal server error while generating token", http.StatusInternalServerError)
 		return
 	}
 

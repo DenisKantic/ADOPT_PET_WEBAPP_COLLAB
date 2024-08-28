@@ -3,7 +3,6 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Navbar from './globalComponents/navbar/Navbar'
 import { AuthProvider } from './AuthContext'
-import SecondNavigation from './globalComponents/navbar/SecondNavigation'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,11 +22,7 @@ export default async function RootLayout({
       <body className={inter.className}>
         <AuthProvider>
           <Navbar />
-          <div className="pt-[calc(7svh)]">
-            <SecondNavigation />{' '}
-            {/* Adjust padding-top to account for both navbars */}
-            {children}
-          </div>
+          {children}
         </AuthProvider>
       </body>
     </html>
