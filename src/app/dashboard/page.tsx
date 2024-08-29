@@ -4,6 +4,7 @@ import Image from 'next/image'
 import type { Metadata } from 'next'
 import AllAnimals from './AllAnimals'
 import CardItem from '../globalComponents/CardItem'
+import CreatePost from './CreatePost'
 
 export default async function Dashboard() {
   return (
@@ -15,7 +16,7 @@ export default async function Dashboard() {
           <span className="text-sm text-gray-600">
             {'*Maksimalno tri oglasa'}
           </span>
-          <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 grid-rows-1 shadow-2xl rounded-2xl p-5">
+          <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 grid-rows-1 items-center shadow-2xl rounded-2xl p-5 h-[40vh] bg-gray-100">
             <AllAnimals />
           </div>
         </div>

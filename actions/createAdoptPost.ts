@@ -60,7 +60,7 @@ export async function createAdoptPost(
       }
     )
     console.log(response)
-    return response.status
+    return { success: true }
   } catch (error: any) {
     console.log('error happened', error)
     return error.status

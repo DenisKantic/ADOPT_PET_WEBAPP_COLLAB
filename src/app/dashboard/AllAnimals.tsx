@@ -13,6 +13,7 @@ import { notFound, useRouter } from 'next/navigation'
 import LoadingSpinner from '../globalComponents/Spinner'
 import { UseAuth } from '../AuthContext'
 import { DeleteAdoptPost } from '@public/actions/deletePost'
+import CreatePost from './CreatePost'
 
 interface AdoptPostItem {
   id: number
@@ -40,9 +41,11 @@ const formatDate = (dateString: string): string => {
 export default function AllAnimals() {
   const [animalPost, setAnimalPost] = useState<AdoptPostItem[]>([])
   const [message, setMessage] = useState<string>('Ucitavanje...')
+  const [error, setError] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(true)
   const router = useRouter()
   const { email } = UseAuth()
+  const postCounter = animalPost.length
 
   console.log('EMAIL HERE TESTING TESTING', email)
 
@@ -68,8 +71,11 @@ export default function AllAnimals() {
         }
       )
       setAnimalPost(processedPost)
+      setLoading(false)
     } catch (err) {
       console.log('error happened', err)
+      setLoading(false)
+      setError(true)
     }
   }
 
@@ -77,6 +83,18 @@ export default function AllAnimals() {
     fetchPost(email)
     setLoading(false)
   }, [email])
+
+  if (loading) return <LoadingSpinner />
+
+  if (error)
+    return (
+      <p className="text-center text-black text-xl">
+        Desila se greška. Molimo Vas da kontaktirate podršku na{' '}
+        <span className="text-[#2F5382] font-bold">
+          contact@petconnectbosnia.com
+        </span>
+      </p>
+    )
 
   return (
     <>
@@ -161,6 +179,10 @@ export default function AllAnimals() {
           </div>
         )
       })}
+      {() => {
+        if (loading) return
+        else <CreatePost postCounter={postCounter} />
+      }}
     </>
   )
 }
