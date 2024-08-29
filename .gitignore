@@ -33,6 +33,7 @@ backend/.env
 
 #static directory in backend
 backend/adoptPostImages
+backend/lostPetImages
 
 # vercel
 .vercel
