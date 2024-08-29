@@ -32,7 +32,7 @@ yarn-error.log*
 backend/.env
 
 #static directory in backend
-backend/adoptImages
+backend/adoptPostImages
 
 # vercel
 .vercel
