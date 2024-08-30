@@ -11,6 +11,14 @@ import { IoIosDocument } from 'react-icons/io'
 import { IoMdSettings } from 'react-icons/io'
 
 export default async function Navbar() {
+  const usernameLength = (username: string) => {
+    if (username.length > 10) {
+      return username.substring(0, 10)
+    } else {
+      return username
+    }
+  }
+
   const cookie = cookies().get('token')?.value
 
   let isAuthenticated = false
@@ -104,16 +112,16 @@ export default async function Navbar() {
             tabIndex={0}
             className="mt-3 z-[1] p-4 shadow menu menu-sm border-[1px] border-[#2f5382] dropdown-content bg-white rounded-box w-[250px]"
           >
+            <span className="block py-1 px-3 badge-neutral rounded-full text-start bg-[#2f5382] text-white">
+              {usernameLength(username)}
+            </span>
             <li>
               <Link
                 href="/dashboard"
-                className="badge rounded-xl border-none bg-[#F0F0F0] text-black text-start flex flex-row justify-between my-2 py-5 px-4 text-md w-full"
+                className="badge rounded-xl border-none bg-[#F0F0F0] text-black text-start flex flex-row justify-start my-2 py-5 px-4 text-md w-full"
               >
                 <IoIosDocument size={20} className="text-[#2f5382]" />
-                <span>Moji oglasi</span>
-                <span className="block py-1 px-3 badge-neutral rounded-full text-center bg-[#2f5382] text-white">
-                  {username?.substring(0, 10) + '...'}
-                </span>
+                Moji oglasi
               </Link>
             </li>
             <li className={isAuthenticated ? 'block' : 'hidden'}>

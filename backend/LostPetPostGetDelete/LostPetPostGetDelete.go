@@ -1,4 +1,4 @@
-package AdoptPostGetDelete
+package LostPetPostGetDelete
 
 import (
 	"backend/db"
@@ -9,7 +9,7 @@ import (
 	"net/http"
 )
 
-func GetThreeAdoptPost(w http.ResponseWriter, r *http.Request) {
+func GetThreeLostPost(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 	w.Header().Set("Access-Control-Allow-Methods", "GET")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
@@ -35,7 +35,7 @@ func GetThreeAdoptPost(w http.ResponseWriter, r *http.Request) {
 
 	defer database.Close()
 
-	query := "SELECT id, image_paths, category, phonenumber, petname, spol, starost, location, slug, created_at FROM adoptPost WHERE user_email = $1 LIMIT 3"
+	query := "SELECT id, image_paths, category, phonenumber, petname, spol, location, slug, created_at FROM lostPetPost WHERE user_email = $1 LIMIT 3"
 	rows, err := database.Query(query, email)
 	if err != nil {
 		http.Error(w, "Error querying the database", http.StatusInternalServerError)
@@ -44,15 +44,15 @@ func GetThreeAdoptPost(w http.ResponseWriter, r *http.Request) {
 
 	defer rows.Close()
 
-	var adoptPost []map[string]interface{}
+	var lostPost []map[string]interface{}
 
 	for rows.Next() {
 		var id int
-		var image_paths, category, petname, location, spol, starost string
+		var image_paths, category, petname, location, spol string
 		var created_at, phonenumber string
 		var slug string
 
-		err := rows.Scan(&id, &image_paths, &category, &phonenumber, &petname, &spol, &starost, &location, &slug, &created_at)
+		err := rows.Scan(&id, &image_paths, &category, &phonenumber, &petname, &spol, &location, &slug, &created_at)
 		if err != nil {
 			http.Error(w, "Error scanning the row", http.StatusInternalServerError)
 			return
@@ -67,12 +67,11 @@ func GetThreeAdoptPost(w http.ResponseWriter, r *http.Request) {
 			"location":     location,
 			"created_at":   created_at,
 			"spol":         spol,
-			"starost":      starost,
 			"phonenumber":  phonenumber,
 			"slug":         slug,
 		}
 
-		adoptPost = append(adoptPost, post)
+		lostPost = append(lostPost, post)
 	}
 
 	if err := rows.Err(); err != nil {
@@ -81,7 +80,7 @@ func GetThreeAdoptPost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	response := map[string]interface{}{
-		"adopt_post": adoptPost,
+		"lost_post": lostPost,
 	}
 
 	w.Header().Set("Content-Type", "application/json")
@@ -90,7 +89,7 @@ func GetThreeAdoptPost(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func GetAllAdoptPost(w http.ResponseWriter, r *http.Request) {
+func GetAllLostPost(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 	w.Header().Set("Access-Control-Allow-Methods", "GET")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
@@ -107,7 +106,7 @@ func GetAllAdoptPost(w http.ResponseWriter, r *http.Request) {
 
 	defer database.Close()
 
-	query := "SELECT id, image_paths, category, petname, spol, starost, location, slug, created_at FROM adoptPost ORDER BY created_at limit 5"
+	query := "SELECT id, image_paths, category, petname, spol, location, slug, created_at FROM lostPetPost ORDER BY created_at limit 5"
 	rows, err := database.Query(query)
 	if err != nil {
 		http.Error(w, "Error querying the database", http.StatusInternalServerError)
@@ -116,15 +115,15 @@ func GetAllAdoptPost(w http.ResponseWriter, r *http.Request) {
 
 	defer rows.Close()
 
-	var adoptPost []map[string]interface{}
+	var lostPost []map[string]interface{}
 
 	for rows.Next() {
 		var id int
-		var image_paths, category, petname, location, spol, starost string
+		var image_paths, category, petname, location, spol string
 		var created_at string
 		var slug string
 
-		err := rows.Scan(&id, &image_paths, &category, &petname, &spol, &starost, &location, &slug, &created_at)
+		err := rows.Scan(&id, &image_paths, &category, &petname, &spol, &location, &slug, &created_at)
 		if err != nil {
 			http.Error(w, "Error scanning the row", http.StatusInternalServerError)
 			return
@@ -139,11 +138,10 @@ func GetAllAdoptPost(w http.ResponseWriter, r *http.Request) {
 			"location":     location,
 			"created_at":   created_at,
 			"spol":         spol,
-			"starost":      starost,
 			"slug":         slug,
 		}
 
-		adoptPost = append(adoptPost, post)
+		lostPost = append(lostPost, post)
 	}
 
 	if err := rows.Err(); err != nil {
@@ -152,7 +150,7 @@ func GetAllAdoptPost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	response := map[string]interface{}{
-		"adopt_post": adoptPost,
+		"lost_post": lostPost,
 	}
 
 	w.Header().Set("Content-Type", "application/json")
@@ -166,18 +164,14 @@ type Post struct {
 	Image_paths string `json:"image_paths"`
 	Category    string `json:"category"`
 	Petname     string `json:"petname"`
-	Phonenumber string `json:"phoneNumber"`
+	Phonenumber string `json:"phonenumber"`
 	Description string `json:"description"`
-	Vakcinisan  bool   `json:"vakcinisan"`
-	Cipovan     bool   `json:"cipovan"`
-	Pasos       bool   `json:"pasos"`
 	Spol        string `json:"spol"`
-	Starost     string `json:"starost"`
 	Location    string `json:"location"`
 	Created_at  string `json:"created_at"`
 }
 
-func GetOneAdoptPost(w http.ResponseWriter, r *http.Request) {
+func GetOneLostPost(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 	w.Header().Set("Access-Control-Allow-Methods", "GET")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
@@ -204,9 +198,8 @@ func GetOneAdoptPost(w http.ResponseWriter, r *http.Request) {
 	}
 	defer database.Close()
 
-	err = database.QueryRow("SELECT id, image_paths, category, petname, phonenumber, description, vakcinisan, cipovan, pasos, spol ,starost, location, created_at FROM adoptPost WHERE slug = $1", slug).
-		Scan(&post.ID, &post.Image_paths, &post.Category, &post.Petname, &post.Phonenumber, &post.Description,
-			&post.Vakcinisan, &post.Cipovan, &post.Pasos, &post.Spol, &post.Starost, &post.Location, &post.Created_at)
+	err = database.QueryRow("SELECT id, image_paths, category, petname, phonenumber, description, spol , location, created_at FROM lostPetPost WHERE slug = $1", slug).
+		Scan(&post.ID, &post.Image_paths, &post.Category, &post.Petname, &post.Phonenumber, &post.Description, &post.Spol, &post.Location, &post.Created_at)
 
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
@@ -220,7 +213,7 @@ func GetOneAdoptPost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	response := map[string]interface{}{
-		"adopt_post": post,
+		"lost_post": post,
 	}
 
 	w.Header().Set("Content-Type", "application/json")
@@ -230,7 +223,7 @@ func GetOneAdoptPost(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func DeleteAdoptPost(w http.ResponseWriter, r *http.Request) {
+func DeleteLostPetPost(w http.ResponseWriter, r *http.Request) {
 
 	// extract ID from URL path
 	id := r.URL.Query().Get("id")

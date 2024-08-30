@@ -4,10 +4,8 @@ import Image from 'next/image'
 import { IoIosMale } from 'react-icons/io'
 import { IoMaleFemale } from 'react-icons/io5'
 import { MdOutlinePets } from 'react-icons/md'
-import { PiSyringe } from 'react-icons/pi'
 import { GrCircleInformation } from 'react-icons/gr'
-import { TbEPassport } from 'react-icons/tb'
-import { getOneAdoptPost } from '../../../../../actions/getAdoptPost'
+import { getOneLostPetPost } from '@public/actions/getLostPetPost'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination } from 'swiper/modules'
 
@@ -16,19 +14,15 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 
-interface OneAdoptPost {
+interface LostPetPost {
   id: number
   image_paths: string[]
   category: string
   petname: string
   phonenumber: string
-  description: string
-  vakcinisan: boolean
-  cipovan: boolean
-  pasos: boolean
-  spol: string
-  starost: string
   location: string
+  description: string
+  spol: string
   created_at: string
 }
 type Props = {
@@ -45,9 +39,9 @@ const usernameLength = (user: string) => {
   }
 }
 
-export default function AnimalDetails({ params: { slug } }: Props) {
+export default function LostPetDetails({ params: { slug } }: Props) {
   console.log('SLUG I RECEIVE', slug)
-  const [post, setPost] = useState<OneAdoptPost | null>(null)
+  const [post, setPost] = useState<LostPetPost | null>(null)
   const [loading, setLoading] = useState(false)
   const [fullscreen, setFullscreen] = useState<boolean>(false)
   const [currentSlide, setCurrentSlide] = useState<number>(0)
@@ -55,8 +49,9 @@ export default function AnimalDetails({ params: { slug } }: Props) {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await getOneAdoptPost(slug)
-        const postItem = response.adopt_post
+        const response = await getOneLostPetPost(slug)
+        const postItem = response.lost_post
+        console.log('HERE I GET RESPONSE', response.lost_post)
 
         // Process image_paths if it's a string
         const imagePaths =
@@ -67,7 +62,7 @@ export default function AnimalDetails({ params: { slug } }: Props) {
                 .map((path: string) => path.trim()) // Trim whitespace
             : postItem.image_paths
 
-        const processedPost: OneAdoptPost = {
+        const processedPost: LostPetPost = {
           ...postItem,
           image_paths: imagePaths,
         }
@@ -122,6 +117,7 @@ export default function AnimalDetails({ params: { slug } }: Props) {
                   height={50}
                   width={50}
                   unoptimized
+                  priority={true}
                   className="w-[90%] mx-auto h-[60svh] object-cover cursor-pointer"
                   src={`http://localhost:8080/${url}`}
                   // onClick={() => openFullscreen(index)} // Open fullscreen on click
@@ -138,40 +134,6 @@ export default function AnimalDetails({ params: { slug } }: Props) {
               <div>
                 <span className="font-bold text-[#2F5382]">
                   {usernameLength(post.petname)}
-                </span>
-              </div>
-            </div>
-
-            <div className="flex flex-row justify-between items-center bg-[#2F53821F] text-black p-5 h-[3rem] rounded-full">
-              <div className="flex items-center">
-                <PiSyringe />
-                <span className="ml-2">Vakcinisan</span>
-              </div>
-              <div>
-                <span className="font-bold text-[#2F5382]">
-                  {post.vakcinisan ? 'DA' : 'NE'}
-                </span>
-              </div>
-            </div>
-
-            <div className="flex flex-row justify-between items-center bg-[#2F53821F] text-black p-5 h-[3rem] rounded-full">
-              <div className="flex items-center">
-                <GrCircleInformation />
-                <span className="ml-2">Starost</span>
-              </div>
-              <div>
-                <span className="font-bold text-[#2F5382]">{post.starost}</span>
-              </div>
-            </div>
-
-            <div className="flex flex-row justify-between items-center bg-[#2F53821F] text-black p-5 h-[3rem] rounded-full">
-              <div className="flex items-center">
-                <TbEPassport />
-                <span className="ml-2">Pasoš</span>
-              </div>
-              <div>
-                <span className="font-bold text-[#2F5382]">
-                  {post.pasos ? 'DA' : 'NE'}
                 </span>
               </div>
             </div>

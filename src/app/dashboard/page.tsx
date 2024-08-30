@@ -5,6 +5,7 @@ import type { Metadata } from 'next'
 import AllAnimals from './AllAnimals'
 import CardItem from '../globalComponents/CardItem'
 import CreatePost from './CreatePost'
+import LostPetPost from './LostPetPost'
 
 export default async function Dashboard() {
   return (
@@ -18,6 +19,28 @@ export default async function Dashboard() {
           </span>
           <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 grid-rows-1 items-center shadow-2xl rounded-2xl p-5 h-[40vh] bg-gray-100">
             <AllAnimals />
+          </div>
+        </div>
+
+        <div className="rounded-xl h-full col-span-4 row-span-1">
+          <h1 className="text-xl text-black">Donacijski oglasi: </h1>
+          <span className="text-md font-bold text-gray-700">3</span> <br />
+          <span className="text-sm text-gray-600">
+            {'*Maksimalno tri oglasa'}
+          </span>
+          <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 grid-rows-1 items-center shadow-2xl rounded-2xl p-5 h-[40vh] bg-gray-100">
+            <AllAnimals />
+          </div>
+        </div>
+
+        <div className="rounded-xl h-full col-span-4 row-span-1">
+          <h1 className="text-xl text-black">Izgubljeni ljubimci: </h1>
+          <span className="text-md font-bold text-gray-700">3</span> <br />
+          <span className="text-sm text-gray-600">
+            {'*Maksimalno tri oglasa'}
+          </span>
+          <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 grid-rows-1 items-center shadow-2xl rounded-2xl p-5 h-[40vh] bg-gray-100">
+            <LostPetPost />
           </div>
         </div>
 

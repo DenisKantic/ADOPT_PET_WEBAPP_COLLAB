@@ -150,7 +150,7 @@ export default function AllAnimals() {
             </div>
             <div className="absolute inset-0 bg-black px-20 gap-5 bg-opacity-70 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <Link
-                href={`/adoptPet/${item.slug}`}
+                href={`/dashboard/animalDetails/${item.slug}`}
                 className="btn border-[#2F5382] w-full bg-[#2F5382] text-lg text-white hover:bg-white hover:text-[#2F5382]"
               >
                 Pročitaj više...

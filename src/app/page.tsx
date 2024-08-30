@@ -6,6 +6,7 @@ import DonationPost from './globalComponents/DonationPost'
 import Link from 'next/link'
 import Image from 'next/image'
 import SecondNavigation from './globalComponents/navbar/SecondNavigation'
+import LostPetPost from './dashboard/LostPetPost'
 
 export default async function Home() {
   return (
@@ -77,6 +78,7 @@ export default async function Home() {
         >
           Pogledaj sve
         </Link>
+        <LostPetPost />
       </div>
       <div className="grid gap-10 xxs:grid-cols-1 sn:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
         {/* <LostAnimals/>  */}

@@ -2,6 +2,7 @@ package main
 
 import (
 	"backend/AdoptPostGetDelete"
+	"backend/LostPetPostGetDelete"
 	"backend/auth"
 	"backend/createAdoptPost"
 	"backend/createLostPost"
@@ -27,9 +28,12 @@ func corsMiddleware(next http.Handler) http.Handler {
 
 func serveStaticFiles(mux *http.ServeMux) {
 	adoptImages := "adoptPostImages"
+	lostPetImages := "lostPetImages"
 
 	fmt.Println("Serving adopt images directory")
 	mux.Handle("/adoptPostImages/", http.StripPrefix("/adoptPostImages/", http.FileServer(http.Dir(adoptImages))))
+	mux.Handle("/lostPetImages/", http.StripPrefix("/lostPetImages/", http.FileServer(http.Dir(lostPetImages))))
+
 }
 
 func setupRoutes() {
@@ -45,6 +49,10 @@ func setupRoutes() {
 
 	// API FOR LOST PET CATEGORY
 	mux.HandleFunc("/createLostPost", createLostPost.CreatePost)
+	mux.HandleFunc("/getLostPetPostHome", LostPetPostGetDelete.GetAllLostPost)
+	mux.HandleFunc("/getLostPetPostDashboard", LostPetPostGetDelete.GetThreeLostPost)
+	mux.HandleFunc("/getOneLostPetPost", LostPetPostGetDelete.GetOneLostPost)
+	mux.HandleFunc("/deleteLostPetPost", LostPetPostGetDelete.DeleteLostPetPost)
 
 	// DELETING ADOPT POST
 	mux.HandleFunc("/deleteAdoptPost", AdoptPostGetDelete.DeleteAdoptPost)
