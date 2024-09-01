@@ -40,7 +40,7 @@ export async function getLostPetPost() {
     return response.data
   } catch (err) {
     console.log('error happened on server side', err)
-    return { adopt_post: [] }
+    return { lost_post: [] }
   }
 }
 
