@@ -196,7 +196,7 @@ const ImageUpload = () => {
 
   return (
     <div
-      className="min-h-screen w-full bg-gray-200 px-10 py-20
+      className="min-h-screen w-full bg-gray-200 px-10 py-5
                     xxs:px-4 md:px-10"
     >
       <div

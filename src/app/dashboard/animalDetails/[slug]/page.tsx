@@ -10,11 +10,6 @@ import { TbEPassport } from 'react-icons/tb'
 import { getOneAdoptPost } from '../../../../../actions/getAdoptPost'
 import ImagesSlide from './ImagesSlide'
 
-// Import Swiper styles
-import 'swiper/css'
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
-
 interface OneAdoptPost {
   id: number
   image_paths: string[]
@@ -82,7 +77,7 @@ export default async function AnimalDetails({ params: { slug } }: Props) {
 
   return (
     <div className="min-h-screen xxs:px-4 md:px-20 bg-white overflow-hidden">
-      <p className="pt-20 text-[#2F5382] text-xl font-bold">{post.petname}</p>
+      <p className="pt-5 text-[#2F5382] text-xl font-bold">{post.petname}</p>
 
       <div className="h-full w-full mx-auto py-5 flex justify-between xxs:flex-col xl:flex-row ">
         <div className="w-full">

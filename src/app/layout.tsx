@@ -22,7 +22,7 @@ export default async function RootLayout({
       <body className={inter.className}>
         <AuthProvider>
           <Navbar />
-          {children}
+          <div className="pt-[7svh]">{children}</div>
         </AuthProvider>
       </body>
     </html>

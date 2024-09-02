@@ -8,17 +8,10 @@ import LostPet from './globalComponents/LostPet'
 
 export default async function Home() {
   return (
-    <div className="min-h-screen overflow-hidden bg-[#f1f4f5] w-full text-black xxs:px-5 md:px-14 pt-20">
+    <div className="min-h-screen overflow-hidden bg-[#f1f4f5] w-full text-black xxs:px-5 md:px-14">
       <SecondNavigation />
-      <div className="w-full relative overflow-hidden min-h-[30svh] grid grid-cols-2 rounded-2xl shadow-2xl border-[1px] border-[#2F5382] bg-[#2F5382] p-5 mt-20 mb-5 font-bold">
+      <div className="w-full relative overflow-hidden min-h-[30svh] grid grid-cols-2 rounded-2xl shadow-2xl border-[1px] border-[#2F5382] bg-[#2F5382] p-5 mt-10 mb-5 font-bold">
         <div>
-          <Image
-            alt="logo image"
-            src="/images/logo.png"
-            height={50}
-            width={50}
-            className="pb-3"
-          />
           <p className="w-full xxs:text-sm md:text-4xl md:mt-0 text-white pb-5 tracking-wide">
             PetConnect <br />
             Bosnia i Hercegovina
@@ -31,12 +24,12 @@ export default async function Home() {
         </div>
 
         <Image
-          src="/images/dog_home.svg"
-          alt="dog_image"
+          alt="logo image"
+          src="/images/logo.png"
+          height={50}
+          width={50}
           unoptimized
-          height={200}
-          width={200}
-          className="absolute right-0 bottom-0 translate-y-1 translate-x-[-200px]"
+          className="pb-3 w-1/4"
         />
       </div>
 

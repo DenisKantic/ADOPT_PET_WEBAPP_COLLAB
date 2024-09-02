@@ -9,7 +9,7 @@ import LostPetPost from './LostPetPost'
 
 export default async function Dashboard() {
   return (
-    <div className="min-h-screen w-full bg-white xxs:px-4 md:px-14 py-20">
+    <div className="min-h-screen w-full bg-white xxs:px-4 md:px-14 pt-5">
       <div className="flex flex-col">
         <div className="rounded-xl h-full col-span-4 row-span-1">
           <h1 className="text-xl text-black">Vaši oglasi: </h1>
@@ -17,7 +17,7 @@ export default async function Dashboard() {
           <span className="text-sm text-gray-600">
             {'*Maksimalno tri oglasa'}
           </span>
-          <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 grid-rows-1 items-center shadow-2xl rounded-2xl p-5 h-[40vh] bg-gray-100">
+          <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 grid-rows-1 items-center shadow-2xl rounded-2xl p-5 min-h-[40vh] bg-gray-100">
             <AllAnimals />
           </div>
         </div>
@@ -28,7 +28,7 @@ export default async function Dashboard() {
           <span className="text-sm text-gray-600">
             {'*Maksimalno tri oglasa'}
           </span>
-          <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 grid-rows-1 items-center shadow-2xl rounded-2xl p-5 h-[40vh] bg-gray-100">
+          <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 grid-rows-1 items-center shadow-2xl rounded-2xl p-5 min-h-[40vh] bg-gray-100">
             <AllAnimals />
           </div>
         </div>
@@ -39,7 +39,7 @@ export default async function Dashboard() {
           <span className="text-sm text-gray-600">
             {'*Maksimalno tri oglasa'}
           </span>
-          <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 grid-rows-1 items-center shadow-2xl rounded-2xl p-5 h-[40vh] bg-gray-100">
+          <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 grid-rows-1 items-center shadow-2xl rounded-2xl p-5 min-h-[40vh] bg-gray-100">
             <LostPetPost />
           </div>
         </div>

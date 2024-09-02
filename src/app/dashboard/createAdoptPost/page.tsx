@@ -223,7 +223,7 @@ const CreateAdoptPost = () => {
   }
 
   return (
-    <div className="min-h-screen w-full bg-gray-200 xxs:px-4 md:px-10 py-20">
+    <div className="min-h-screen w-full bg-gray-200 xxs:px-4 md:px-10 py-5">
       <div
         className="w-[50%] bg-gray-100 mx-auto min-h-[50vh] shadow-2xl rounded-md
                         xxs:w-full md:w-[60%] xl:w-[50%]"

@@ -14,6 +14,8 @@ import LoadingSpinner from '../globalComponents/Spinner'
 import { UseAuth } from '../AuthContext'
 import { DeleteAdoptPost } from '@public/actions/deletePost'
 import CreatePost from './CreatePost'
+import { format, parseISO } from 'date-fns'
+import formatDate from '../dateHelper/date'
 
 interface AdoptPostItem {
   id: number
@@ -25,17 +27,6 @@ interface AdoptPostItem {
   starost: string
   slug: string
   created_at: string
-}
-
-const formatDate = (dateString: string): string => {
-  const date = new Date(dateString)
-
-  // Format to dd/mm/yy
-  return date.toLocaleDateString('bs-BA', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  })
 }
 
 export default function AllAnimals() {
@@ -110,7 +101,7 @@ export default function AllAnimals() {
               height={50}
               width={50}
               unoptimized
-              className="object-cover h-[20vh] shadow-xl w-full"
+              className="object-cover overflow-hidden h-[20vh] shadow-xl w-full"
             />
             <div className="w-full px-5">
               <ul className="text-black mt-2 flex flex-col">
@@ -179,10 +170,7 @@ export default function AllAnimals() {
           </div>
         )
       })}
-      {() => {
-        if (loading) return
-        else <CreatePost postCounter={postCounter} />
-      }}
+      <CreatePost postCounter={postCounter} />
     </>
   )
 }
