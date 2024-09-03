@@ -14,6 +14,7 @@ import LoadingSpinner from '../globalComponents/Spinner'
 import { UseAuth } from '../AuthContext'
 import { DeleteAdoptPost } from '@public/actions/deletePost'
 import CreateLostPost from './CreateLostPost'
+import formatDate from '../dateHelper/date'
 
 interface LostPetItem {
   id: number
@@ -24,17 +25,6 @@ interface LostPetItem {
   spol: string
   slug: string
   created_at: string
-}
-
-const formatDate = (dateString: string): string => {
-  const date = new Date(dateString)
-
-  // Format to dd/mm/yy
-  return date.toLocaleDateString('bs-BA', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  })
 }
 
 export default function LostPetPost() {
@@ -174,11 +164,8 @@ export default function LostPetPost() {
             </div>
           </div>
         )
-      })}
-      {() => {
-        if (loading) return
-        else <CreateLostPost postCounter={postCounter} />
-      }}
+      })}{' '}
+      <CreateLostPost postCounter={postCounter} />
     </>
   )
 }

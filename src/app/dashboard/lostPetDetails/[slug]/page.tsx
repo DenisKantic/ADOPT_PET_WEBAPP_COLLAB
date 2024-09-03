@@ -7,6 +7,7 @@ import { MdOutlinePets } from 'react-icons/md'
 import { GrCircleInformation } from 'react-icons/gr'
 import { getOneLostPetPost } from '@public/actions/getLostPetPost'
 import ImagesSlide from './ImagesSlide'
+import formatDate from '@/app/dateHelper/date'
 
 interface LostPetPost {
   id: number
@@ -70,7 +71,7 @@ export default async function LostPetDetails({ params: { slug } }: Props) {
   }
 
   return (
-    <div className="min-h-screen xxs:px-4 md:px-20 bg-white overflow-hidden">
+    <div className="min-h-screen xxs:px-4 md:px-20 bg-white overflow-hidden focus:outline-none">
       <p className="pt-5 text-[#2F5382] text-xl font-bold">{post.petname}</p>
 
       <div className="h-full w-full mx-auto py-5 flex justify-between xxs:flex-col xl:flex-row ">
@@ -116,7 +117,7 @@ export default async function LostPetDetails({ params: { slug } }: Props) {
           <div className="w-full shadow-2xl min-h-[10vh] border-t-[#2F5382] border-2">
             <textarea
               value={post.description}
-              className="w-full p-3 rounded-2xl h-[40vh] text-lg bg-white resize-none text-gray-800 overflow-hidden"
+              className="w-full p-3 rounded-2xl h-[20vh] text-lg bg-white resize-none text-gray-800 overflow-hidden"
               disabled
             />
           </div>
@@ -133,7 +134,8 @@ export default async function LostPetDetails({ params: { slug } }: Props) {
               <span className="text-black">{post.phonenumber}</span>
             </p>
             <p className="pb-5 text-[#2F5382]">
-              Kreirano: <span className="text-black">{post.created_at}</span>
+              Kreirano:{' '}
+              <span className="text-black">{formatDate(post.created_at)}</span>
             </p>
           </div>
           <div className="text-black mx-auto rounded-xl flex flex-col justify-center items-center">

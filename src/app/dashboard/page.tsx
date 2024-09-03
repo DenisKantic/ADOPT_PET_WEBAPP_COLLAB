@@ -12,8 +12,7 @@ export default async function Dashboard() {
     <div className="min-h-screen w-full bg-white xxs:px-4 md:px-14 pt-5">
       <div className="flex flex-col">
         <div className="rounded-xl h-full col-span-4 row-span-1">
-          <h1 className="text-xl text-black">Vaši oglasi: </h1>
-          <span className="text-md font-bold text-gray-700">3</span> <br />
+          <h1 className="text-xl text-black">Oglasi udomljavanja</h1>
           <span className="text-sm text-gray-600">
             {'*Maksimalno tri oglasa'}
           </span>
@@ -22,9 +21,8 @@ export default async function Dashboard() {
           </div>
         </div>
 
-        <div className="rounded-xl h-full col-span-4 row-span-1">
-          <h1 className="text-xl text-black">Donacijski oglasi: </h1>
-          <span className="text-md font-bold text-gray-700">3</span> <br />
+        <div className="rounded-xl h-full col-span-4 row-span-1 mt-10">
+          <h1 className="text-xl text-black">Donacijski oglasi </h1>
           <span className="text-sm text-gray-600">
             {'*Maksimalno tri oglasa'}
           </span>
@@ -33,9 +31,8 @@ export default async function Dashboard() {
           </div>
         </div>
 
-        <div className="rounded-xl h-full col-span-4 row-span-1">
-          <h1 className="text-xl text-black">Izgubljeni ljubimci: </h1>
-          <span className="text-md font-bold text-gray-700">3</span> <br />
+        <div className="rounded-xl h-full col-span-4 row-span-1 mt-10">
+          <h1 className="text-xl text-black">Izgubljeni ljubimci </h1>
           <span className="text-sm text-gray-600">
             {'*Maksimalno tri oglasa'}
           </span>

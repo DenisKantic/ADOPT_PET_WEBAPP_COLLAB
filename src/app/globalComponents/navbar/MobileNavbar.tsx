@@ -38,7 +38,7 @@ export default function MobileNavbar({
 
   return (
     <div className="xxs:flex md:hidden z-10 bg-gray-200">
-      <div className="flex justify-between flex-row w-full p-5 h-[7svh] z-10  overflow-y-scroll">
+      <div className="flex justify-between items-center flex-row w-full p-5 h-[7svh] z-10  overflow-y-scroll">
         <AiOutlineMenu
           size={30}
           onClick={handleNav}
@@ -47,8 +47,8 @@ export default function MobileNavbar({
         <p>PetConnect</p>
         <Image
           alt="logo"
-          height={50}
-          width={50}
+          height={30}
+          width={30}
           src={petLogo}
           onClick={handleNav}
           className="cursor-pointer object-contain"
@@ -64,7 +64,7 @@ export default function MobileNavbar({
         <div
           className={
             nav
-              ? 'bg-white w-[280px] fixed top-0 left-0 z-10 h-screen duration-200'
+              ? 'bg-white w-[280px] fixed top-0 left-0 z-10 h-screen duration-200 overflow-y-scroll'
               : 'fixed left-[-100%] w-[-300px] top-0 duration-300'
           }
         >
@@ -99,9 +99,10 @@ export default function MobileNavbar({
               </span>
 
               {navMob && (
-                <ul className="border-[#2f5382] w-full mb-5">
+                <ul className="w-full mb-5">
                   <li>
                     <Link
+                      onClick={handleNav}
                       href="/dashboard"
                       className="badge rounded-xl border-none bg-[#F0F0F0] text-black text-start flex flex-row justify-start my-2 py-5 px-4 text-md w-full"
                     >
@@ -111,6 +112,7 @@ export default function MobileNavbar({
                   </li>
                   <li className={isAuthenticated ? 'block' : 'hidden'}>
                     <Link
+                      onClick={handleNav}
                       className="my-2 badge rounded-xl border-none bg-[#F0F0F0] text-black text-start 
                     flex flex-row justify-start py-5 px-4 text-md w-full"
                       href="/dashboard/profile-settings"
@@ -121,12 +123,14 @@ export default function MobileNavbar({
                   </li>
                   <li className={isAuthenticated ? 'block' : 'hidden'}>
                     <Link
+                      onClick={handleNav}
                       href="/dashboard"
                       className="mt-3 py-1 btn text-[#2f5382] border-[#2f5382] w-full rounded-full bg-white hover:text-white hover:bg-[#2f5382]"
                     >
                       Kreiraj oglas
                     </Link>
                   </li>
+                  <li className="border-b-4 border-[#2f5382] mt-5"></li>
                 </ul>
               )}
             </li>

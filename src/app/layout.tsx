@@ -22,7 +22,7 @@ export default async function RootLayout({
       <body className={inter.className}>
         <AuthProvider>
           <Navbar />
-          <div className="pt-[7svh]">{children}</div>
+          <div className="pt-[7svh] focus:outline-none">{children}</div>
         </AuthProvider>
       </body>
     </html>

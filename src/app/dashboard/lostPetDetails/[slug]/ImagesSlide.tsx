@@ -15,7 +15,7 @@ type Props = {
 
 export default function ImagesSlide({ post }: any) {
   return (
-    <div className="w-full">
+    <div className="w-full focus:outline-none">
       <Swiper
         modules={[Navigation, Pagination]}
         spaceBetween={0}
@@ -28,13 +28,16 @@ export default function ImagesSlide({ post }: any) {
         onSwiper={(swiper) => console.log(swiper)}
       >
         {post.image_paths.map((url: string, index: number) => (
-          <SwiperSlide className="h-[60vh] w-full" key={index}>
+          <SwiperSlide
+            className="h-[60vh] w-full focus:outline-none"
+            key={index}
+          >
             <Image
               alt={post.petname}
               height={50}
               width={50}
               unoptimized
-              className="w-[90%] mx-auto h-[60svh] object-cover cursor-pointer"
+              className="w-[90%] mx-auto h-[60svh] object-cover cursor-pointer outline-none focus:outline-none"
               src={`http://localhost:8080/${url}`}
               // onClick={() => openFullscreen(index)} // Open fullscreen on click
             />

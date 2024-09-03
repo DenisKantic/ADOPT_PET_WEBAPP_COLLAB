@@ -9,6 +9,7 @@ import { GrCircleInformation } from 'react-icons/gr'
 import { TbEPassport } from 'react-icons/tb'
 import { getOneAdoptPost } from '../../../../../actions/getAdoptPost'
 import ImagesSlide from './ImagesSlide'
+import formatDate from '@/app/dateHelper/date'
 
 interface OneAdoptPost {
   id: number
@@ -156,7 +157,7 @@ export default async function AnimalDetails({ params: { slug } }: Props) {
           <div className="w-full shadow-2xl min-h-[10vh] border-t-[#2F5382] border-2">
             <textarea
               value={post.description}
-              className="w-full p-3 rounded-2xl h-[40vh] text-lg bg-white resize-none text-gray-800 overflow-hidden"
+              className="w-full p-3 rounded-2xl h-[20vh] text-lg bg-white resize-none text-gray-800 overflow-hidden"
               disabled
             />
           </div>
@@ -173,7 +174,8 @@ export default async function AnimalDetails({ params: { slug } }: Props) {
               <span className="text-black">{post.phonenumber}</span>
             </p>
             <p className="pb-5 text-[#2F5382]">
-              Kreirano: <span className="text-black">{post.created_at}</span>
+              Kreirano:{' '}
+              <span className="text-black">{formatDate(post.created_at)}</span>
             </p>
           </div>
           <div className="text-black mx-auto rounded-xl flex flex-col justify-center items-center">
