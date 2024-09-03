@@ -6,6 +6,7 @@ import AllAnimals from './AllAnimals'
 import CardItem from '../globalComponents/CardItem'
 import CreatePost from './CreatePost'
 import LostPetPost from './LostPetPost'
+import DonationPost from './DonationPost'
 
 export default async function Dashboard() {
   return (
@@ -27,7 +28,7 @@ export default async function Dashboard() {
             {'*Maksimalno tri oglasa'}
           </span>
           <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 grid-rows-1 items-center shadow-2xl rounded-2xl p-5 min-h-[40vh] bg-gray-100">
-            <AllAnimals />
+            <DonationPost />
           </div>
         </div>
 

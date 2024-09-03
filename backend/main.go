@@ -61,6 +61,7 @@ func setupRoutes() {
 	// API FOR DONATION POST
 	mux.HandleFunc("/createDonationPost", createDonationPost.CreatePost)
 	mux.HandleFunc("/getDonationPostHome", DonationPostGetDelete.GetDonationPosts)
+	mux.HandleFunc("/getDonationPostDashboard", DonationPostGetDelete.GetThreeDonationPost)
 
 	// DELETING ADOPT POST
 	mux.HandleFunc("/deleteAdoptPost", AdoptPostGetDelete.DeleteAdoptPost)

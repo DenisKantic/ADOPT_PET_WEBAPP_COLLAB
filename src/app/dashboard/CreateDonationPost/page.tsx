@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react'
 import { useTransition } from 'react'
 import { useRouter } from 'next/navigation'
-import { createAdoptPost } from '@public/actions/createAdoptPost'
 import Image from 'next/image'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination } from 'swiper/modules'
@@ -12,7 +11,7 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import { UseAuth } from '@/app/AuthContext'
-import CreateDonationPost from '../../../../actions/createDonationPost'
+import { createDonationPost } from '@public/actions/createDonationPost'
 
 const CreateDonation = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
@@ -211,7 +210,7 @@ const CreateDonation = () => {
 
     startTransition(async () => {
       try {
-        const response = await createAdoptPost(formData, location, email)
+        const response = await createDonationPost(formData, location, email)
         if (response?.success) {
           router.push('/dashboard')
           router.refresh()
@@ -335,37 +334,37 @@ const CreateDonation = () => {
               </ul>
             </div>
 
-            <label htmlFor="category" className="py-2">
+            <label htmlFor="post_category" className="py-2">
               Kategorija:
             </label>
             <div className="flex items-center py-2">
               <input
                 type="radio"
-                name="category"
+                name="post_category"
                 value="lijekovi"
                 className="radio radio-info"
               />
-              <label htmlFor="category" className="ml-3">
+              <label htmlFor="post_category" className="ml-3">
                 Lijekovi
               </label>
 
               <input
                 type="radio"
-                name="category"
+                name="post_category"
                 value="hrana"
                 className="radio radio-info ml-5"
               />
-              <label htmlFor="category" className="ml-3">
+              <label htmlFor="post_category" className="ml-3">
                 Hrana
               </label>
 
               <input
                 type="radio"
-                name="category"
+                name="post_category"
                 value="oprema"
                 className="radio radio-info ml-5"
               />
-              <label htmlFor="category" className="ml-3">
+              <label htmlFor="post_category" className="ml-3">
                 Oprema
               </label>
             </div>
@@ -376,7 +375,7 @@ const CreateDonation = () => {
             <input
               className="input input-bordered border-[#2F5382] bg-white rounded-full mt-2 p-5 w-full text-lg
                 focus:border-2 focus:border-[#2F5382]"
-              name="name"
+              name="post_name"
               type="text"
               placeholder="Npr. Vakcina, Hrana..."
               required
@@ -385,37 +384,37 @@ const CreateDonation = () => {
 
           <div className="flex flex-col items-start">
             <div className="flex flex-col py-2">
-              <label htmlFor="animalCategory" className="py-2">
+              <label htmlFor="animal_category" className="py-2">
                 Za:
               </label>
               <div className="flex items-center py-2">
                 <input
                   type="radio"
-                  name="animalCategory"
+                  name="animal_category"
                   value="mačka"
                   className="radio radio-info"
                 />
-                <label htmlFor="animalCategory" className="ml-3">
+                <label htmlFor="animal_category" className="ml-3">
                   Mačku
                 </label>
 
                 <input
                   type="radio"
-                  name="animalCategory"
+                  name="animal_category"
                   value="pas"
                   className="radio radio-info ml-5"
                 />
-                <label htmlFor="animalCategory" className="ml-3">
+                <label htmlFor="animal_category" className="ml-3">
                   Psa
                 </label>
 
                 <input
                   type="radio"
-                  name="animalCategory"
+                  name="animal_category"
                   value="ostalo"
                   className="radio radio-info ml-5"
                 />
-                <label htmlFor="animalCategory" className="ml-3">
+                <label htmlFor="animal_category" className="ml-3">
                   Ostalo
                 </label>
               </div>
@@ -424,14 +423,14 @@ const CreateDonation = () => {
 
           <br />
 
-          <label className="text-lg" htmlFor="phoneNumber">
+          <label className="text-lg" htmlFor="phonenumber">
             Broj telefona{' '}
             <span className="text-sm text-gray-600">{'(061 - xxx -...)'}</span>
           </label>
           <input
             className="input input-bordered border-[#2F5382] bg-white rounded-full mt-2 p-5 w-[50%] xxs:w-full sm:w-[60%] text-lg
              focus:border-2 focus:border-[#2F5382]"
-            name="phoneNumber"
+            name="phonenumber"
             type="text"
             placeholder="Upišite broj telefona"
             required
