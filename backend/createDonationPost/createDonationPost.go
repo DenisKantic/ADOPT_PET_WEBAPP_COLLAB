@@ -152,7 +152,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	// separating images (if it has 2 or more) with commas
 	filePathsWithCommas := "{" + strings.Join(filePaths, ",") + "}"
 	fmt.Println("\nNEW FILE NAMES IN ARRAY", filePathsWithCommas)
-	err = SaveToDB(filePathsWithCommas, animal_category, post_category, post_name, phonenumber, description, location, slug, email)
+	err = SaveToDB(filePathsWithCommas, post_category, animal_category, post_name, phonenumber, description, location, slug, email)
 	if err != nil {
 		http.Error(w, fmt.Sprintf("ERROR here %v", err), http.StatusInternalServerError)
 		return
@@ -193,8 +193,8 @@ func generateUniqueSlug(db *sql.DB, baseSlug string) (string, error) {
 }
 
 func SaveToDB(filePathsWithCommas string,
-	post_name string, phonenumber string, description string,
-	post_category string, animal_category string,
+	post_category string, animal_category string, post_name string,
+	phonenumber string, description string,
 	location string, slug string, email string) error {
 
 	database, err := db.DbConnect()
@@ -209,8 +209,8 @@ func SaveToDB(filePathsWithCommas string,
 		return fmt.Errorf("error generating unique slug: %v", err)
 	}
 
-	//query := "INSERT INTO adoptPost (filePaths, category, petName, phoneNumber, description, vakcinisan, cipovan, pasos,spol, starost, location, slug) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11,$12)"
-	_, err = database.Exec("INSERT INTO donationPost ( image_paths, post_category, animal_category, post_name, phonenumber, description, location, slug, user_email) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9)", filePathsWithCommas, post_category, animal_category, post_name, phonenumber, description, location, uniqueSlug, email)
+	//query := "INSERT INTO adoptPost (filePaths, category, petName, phoneNumber, description, location, slug) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9)"
+	_, err = database.Exec("INSERT INTO donationPost ( image_paths, post_category, animal_category, post_name, phone_number, description, location, slug, user_email) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9)", filePathsWithCommas, post_category, animal_category, post_name, phonenumber, description, location, uniqueSlug, email)
 	if err != nil {
 		return fmt.Errorf("error u izvrsenju baze: %v", err)
 	}

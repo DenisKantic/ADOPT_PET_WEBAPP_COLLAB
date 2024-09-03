@@ -2,6 +2,7 @@ package main
 
 import (
 	"backend/AdoptPostGetDelete"
+	"backend/DonationPostGetDelete"
 	"backend/LostPetPostGetDelete"
 	"backend/auth"
 	"backend/createAdoptPost"
@@ -58,7 +59,8 @@ func setupRoutes() {
 	mux.HandleFunc("/deleteLostPetPost", LostPetPostGetDelete.DeleteLostPetPost)
 
 	// API FOR DONATION POST
-	mux.HandleFunc("/createLostPost", createDonationPost.CreatePost)
+	mux.HandleFunc("/createDonationPost", createDonationPost.CreatePost)
+	mux.HandleFunc("/getDonationPostHome", DonationPostGetDelete.GetDonationPosts)
 
 	// DELETING ADOPT POST
 	mux.HandleFunc("/deleteAdoptPost", AdoptPostGetDelete.DeleteAdoptPost)
