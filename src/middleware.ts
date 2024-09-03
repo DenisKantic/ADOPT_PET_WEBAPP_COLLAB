@@ -1,58 +1,47 @@
-import authConfig from "@public/auth.config"
-import NextAuth from "next-auth"
-import { DEFAULT_LOGIN_REDIRECT, publicRoutes, authRoutes, apiAuthPrefix, protectedRoutes } from "@public/routes"
+import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 
-const {auth} = NextAuth(authConfig)
+export async function middleware(req: NextRequest) {
+  console.log('middleware is running on route, ', req.nextUrl.pathname)
+  const url = req.nextUrl.clone()
+  const pathname = url.pathname
 
-export default auth((req) => {
-  console.log("middleware is running on route:", req.nextUrl.pathname)
-    const {nextUrl} = req;
-    const isLoggedIn = !!req.auth;
+  const token = req.cookies.get('token')?.value || ''
 
-    const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix)
-    const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
-    const isAuthRoute = authRoutes.includes(nextUrl.pathname)
-    const isProtectedRoute = protectedRoutes.includes(nextUrl.pathname);
+  console.log('TOKEN', token)
 
-    if(isApiAuthRoute && isLoggedIn){
-      return;
-    }
+  if (token) {
+    try {
+      const verifyResponse = await fetch('http://localhost:8080/verifyToken', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
 
-    if(isAuthRoute){
-      if(isLoggedIn){
-        return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl)) // we need to include nextUrl so it can create absolute URL
+      if (verifyResponse.status === 200) {
+        console.log('RESPONSE', verifyResponse)
+
+        // Redirect authenticated users away from the login page
+        if (pathname === '/login') {
+          url.pathname = '/dashboard'
+          revalidatePath('/dashboard')
+          return NextResponse.redirect(url)
+        }
+        return NextResponse.next()
       }
-      return;
+    } catch (error) {
+      console.error('Error verifying token:', error)
     }
-    /*this means that we will allow auth route, to login, but only if the user is logged off */
+  }
 
-    if(isPublicRoute){
-      return;
-    }
-
-    if(isProtectedRoute && !isLoggedIn){
-      return Response.redirect(new URL("/login", nextUrl))
-
-    }
-
-
-    // if(!isLoggedIn && !isPublicRoute){
-    //   return Response.redirect(new URL("/login", nextUrl))
-    // }
-
-    return;
-})
- 
-// // Optionally, don't invoke Middleware on some paths
-// export const config = {
-//   matcher: ["/login",]
-// } this is example of how middleware works, as you can see on this example
-// it will not work on "/login" path. Of course that could be "/register" or any path
-
+  // Allow guest users to access all pages except protected ones
+  if (!token && pathname.startsWith('/dashboard')) {
+    console.log('REDIRECTING TO LOGIN')
+    url.pathname = '/login'
+    return NextResponse.redirect(url, { status: 303 })
+  }
+  return NextResponse.next()
+}
 export const config = {
-    matcher: ['/((?!.+\\.[\\w]+$|_next).*)',
-             '/', 
-             '/(api|trpc)(.*)',
-            '/lostPet/:path*'] // boilerplate code from clerkjs documentation which 
-                                    // handles this for all /api calls better
+  matcher: ['/login', '/dashboard/:path*'],
 }

@@ -19,27 +19,27 @@ export default function Register() {
   const router = useRouter()
 
   
-  const {register, handleSubmit, formState: {errors}} = useForm<z.infer<typeof RegisterSchema>>({
-      resolver: zodResolver(RegisterSchema),
-      defaultValues:{
-        email: "",
-        password: "",
-        name: "",
-      }
-  })
+  // const {register, handleSubmit, formState: {errors}} = useForm<z.infer<typeof RegisterSchema>>({
+  //     resolver: zodResolver(RegisterSchema),
+  //     defaultValues:{
+  //       email: "",
+  //       password: "",
+  //       name: "",
+  //     }
+  // })
 
-  const onSubmit = (values: z.infer<typeof RegisterSchema>) =>{
-    setError("")
-    setSuccess("")
+  // const onSubmit = (values: z.infer<typeof RegisterSchema>) =>{
+  //   setError("")
+  //   setSuccess("")
 
-    startTransition(()=>{
-      registerZod(values)
-      .then((data)=>{
-        router.push("/login");
-        setError(data?.error)
-        setSuccess(data?.sucess)
-      })
-    })
+  //   startTransition(()=>{
+  //     registerZod(values)
+  //     .then((data)=>{
+  //       router.push("/login");
+  //       setError(data?.error)
+  //       setSuccess(data?.sucess)
+  //     })
+  //   })
   }
   // const delay = (data: any) => {
   //   if (data?.success) {
@@ -47,6 +47,20 @@ export default function Register() {
   //     }, 1000);
   //   }
   // }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    const formData = new FormData()
+    formData.append('email', email)
+    formData.append('password', password)
+    formData.append('username', username)
+
+    console.log('WHICH SENDING FILES', email, password, username)
+
+    await Login(formData)
+  
+  }
   
 
   return (
