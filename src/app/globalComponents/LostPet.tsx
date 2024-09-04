@@ -20,17 +20,6 @@ interface LostPetPost {
   created_at: string
 }
 
-const formatDate = (dateString: string): string => {
-  const date = new Date(dateString)
-
-  // Format to dd/mm/yy
-  return date.toLocaleDateString('bs-BA', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  })
-}
-
 export default async function LostPet() {
   const response = await getLostPetPost()
 

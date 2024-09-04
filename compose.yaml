@@ -34,6 +34,8 @@ services:
     volumes:
       - ./backend/adoptPostImages:/app/adoptPostImages/
       - ./backend/lostPetImages:/app/lostPetImages
+      - ./backend/donationPostImages:/app/donationPostImages
+
     environment:
       DATABASE_URL: postgresql://postgres:password@postgres/testing?sslmode=disable
 

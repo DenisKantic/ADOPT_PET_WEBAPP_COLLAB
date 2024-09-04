@@ -168,10 +168,18 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = database.Exec("INSERT INTO users (email,username,password, is_activated, activation_token) VALUES ($1,$2,$3, $4,$5)",
-		email, username, hashedPassword, false, activationToken)
+	_, err = database.Exec("INSERT INTO users (email,username,password, is_activated) VALUES ($1,$2,$3, $4)",
+		email, username, hashedPassword, false)
 	if err != nil {
 		http.Error(w, "Error creating user", http.StatusInternalServerError)
+		return
+	}
+
+	// Store activation token in inactivated_accounts table
+	_, err = database.Exec("INSERT INTO unactivated_accounts (token, user_email) VALUES ($1, $2)",
+		activationToken, email)
+	if err != nil {
+		http.Error(w, "Error storing activation token", http.StatusInternalServerError)
 		return
 	}
 
@@ -190,6 +198,56 @@ func Register(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Fprintln(w, "USER IS CREATED, please check your email to activate your account")
 
+	w.WriteHeader(http.StatusOK)
+}
+
+func ActivateAccount(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Methods", "POST")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
+
+	if r.Method == http.MethodOptions {
+		return
+	}
+
+	token := r.URL.Query().Get("token")
+
+	// database initialization
+	database, err := db.DbConnect()
+	if err != nil {
+		http.Error(w, "Error connecting to database", http.StatusInternalServerError)
+		return
+	}
+	defer database.Close()
+
+	// Check if the token exists
+	var userEmail string
+	err = database.QueryRow("SELECT user_email FROM inactivated_accounts WHERE token=$1", token).Scan(&userEmail)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			http.Error(w, "Invalid token", http.StatusBadRequest)
+			return
+		}
+		http.Error(w, "Error querying token", http.StatusInternalServerError)
+		return
+	}
+
+	// Activate the user account
+	_, err = database.Exec("UPDATE users SET is_activated=true WHERE email=$1", userEmail)
+	if err != nil {
+		http.Error(w, "Error activating user", http.StatusInternalServerError)
+		return
+	}
+
+	// Delete the token from inactivated_accounts
+	_, err = database.Exec("DELETE FROM inactivated_accounts WHERE token=$1", token)
+	if err != nil {
+		http.Error(w, "Error deleting activation token", http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Fprintln(w, "Account activated successfully")
 	w.WriteHeader(http.StatusOK)
 }
 

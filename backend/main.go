@@ -68,6 +68,9 @@ func setupRoutes() {
 
 	// register API
 	mux.HandleFunc("/register", auth.Register)
+
+	// ACTIVATE ACCOUNT
+	mux.HandleFunc("/activateAccount", auth.ActivateAccount)
 	//login API
 	mux.HandleFunc("/login", auth.Login)
 	// check is user logged in
