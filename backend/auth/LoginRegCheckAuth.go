@@ -93,7 +93,7 @@ func SendActivationEmail(email, token string) error {
 		"Da bi nastavili koristiti našu aplikaciju, morate kliknuti ispod na link " +
 		"kako bi aktivirali svoj korisnički nalog. \r\n " +
 		"\r\n" +
-		"http://localhost:3000/activate?token=" + token + "\r\n" +
+		"http://localhost:3000/ActivateAccount?token=" + token + "\r\n" +
 		"\r\n" +
 		"Za sva dodatna pitanja, primjedbe ili žalbe, molimo Vas da se slobodno obratite " +
 		"na naš email contact@petconnectbosnia.com")
@@ -223,7 +223,7 @@ func ActivateAccount(w http.ResponseWriter, r *http.Request) {
 
 	// Check if the token exists
 	var userEmail string
-	err = database.QueryRow("SELECT user_email FROM inactivated_accounts WHERE token=$1", token).Scan(&userEmail)
+	err = database.QueryRow("SELECT user_email FROM unactivated_accounts WHERE token=$1", token).Scan(&userEmail)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			http.Error(w, "Invalid token", http.StatusBadRequest)
@@ -241,7 +241,7 @@ func ActivateAccount(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Delete the token from inactivated_accounts
-	_, err = database.Exec("DELETE FROM inactivated_accounts WHERE token=$1", token)
+	_, err = database.Exec("DELETE FROM unactivated_accounts WHERE token=$1", token)
 	if err != nil {
 		http.Error(w, "Error deleting activation token", http.StatusInternalServerError)
 		return
