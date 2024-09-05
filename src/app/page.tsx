@@ -5,33 +5,65 @@ import Link from 'next/link'
 import Image from 'next/image'
 import SecondNavigation from './globalComponents/navbar/SecondNavigation'
 import LostPet from './globalComponents/LostPet'
+import { FaFacebookSquare } from 'react-icons/fa'
+import './bgcss.css'
 
 export default async function Home() {
   return (
     <div className="min-h-screen overflow-hidden bg-[#f1f4f5] w-full text-black xxs:px-5 md:px-14">
       <SecondNavigation />
-      <div className="w-full relative overflow-hidden min-h-[30svh] grid grid-cols-2 rounded-2xl shadow-2xl border-[1px] border-[#2F5382] bg-[#2F5382] p-5 mt-10 mb-5 font-bold">
-        <div>
-          <p className="w-full xxs:text-sm md:text-4xl md:mt-0 text-white pb-5 tracking-wide">
-            PetConnect <br />
-            Bosnia i Hercegovina
-          </p>
-          <span className="xxs:text-[0.9em] md:text-md font-extrabold tracking-wide">
-            PetConnect pomaže u udomljavanju i pružanju pomoći svim životinjama
-            kao i njihov pronalazak u slučaju izgubljenosti širom Bosne i
-            Hercegovine.
-          </span>
+      {/* hero section */}
+      <div className="flex justify-between bg-[#2F5382] rounded-b-xl rounded-sm h-[30svh]">
+        {/* left side */}
+        <div className="flex flex-col justify-center items-start w-[60%]">
+          <Image
+            src="/images/logo.png"
+            alt="logo"
+            width={50}
+            height={50}
+            className="pl-3 mt-2"
+          />
+          <div className="text-[#fafafa] text-[44px] p-4 leading-10 font-bold">
+            <h1 className="pb-3">PetConnect</h1>
+            <h1>Bosnia and Herzegovina</h1>
+          </div>
+          <div className="text-[16px] text-[#fafafa] leading-5 px-4 font-normal py-2 opacity-60 mb-5">
+            <p>
+              PetConnect pomaže u udomljavanju i pružanju pomoći svim
+              životinjama, kao i njihov pronalazak u slučaju izgubljenosti širom
+              Bosne i Herzegovine.
+            </p>
+          </div>
         </div>
 
-        <Image
-          alt="logo image"
-          src="/images/logo.png"
-          height={50}
-          width={50}
-          unoptimized
-          className="pb-3 w-1/4"
-        />
+        {/* right side */}
+        <div className="w-[40%] flex flex-col items-center justify-center bg-white overflow-hidden h-full clip-path">
+          {/* Content */}
+          <div className="relative z-10">
+            <Image
+              src="/images/logo.png"
+              alt="hero-dog"
+              height={50}
+              width={50}
+              className="h-40 w-40 right-[3%] bottom-[30%]"
+              unoptimized
+            />
+            <p className="text-center">Pratite nas na:</p>
+            <div className="flex flex-row items-center justify-center gap-5">
+              <Link href="/">
+                <FaFacebookSquare className="hover:text-red-400" size={30} />
+              </Link>
+              <Link href="/">
+                <FaFacebookSquare className="hover:text-red-400" size={30} />
+              </Link>
+              <Link href="/">
+                <FaFacebookSquare className="hover:text-red-400" size={30} />
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
+      {/* end of hero section */}
 
       <div className="flex justify-between items-center pt-20 xxs:flex-row">
         <p className="xxs:text-md md:text-2xl">Udomi svog ljubimca</p>

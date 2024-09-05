@@ -61,6 +61,9 @@ export default function LostPetPost() {
       )
       setAnimalPost(processedPost)
       setLoading(false)
+      if (postCounter) {
+        return <p>Kreirajte Vas oglas</p>
+      }
     } catch (err) {
       console.log('error happened on client side')
       setLoading(false)
@@ -74,16 +77,6 @@ export default function LostPetPost() {
   }, [email])
 
   if (loading) return <LoadingSpinner />
-
-  if (error)
-    return (
-      <p className="text-center text-black text-xl">
-        Desila se greška. Molimo Vas da kontaktirate podršku na{' '}
-        <span className="text-[#2F5382] font-bold">
-          contact@petconnectbosnia.com
-        </span>
-      </p>
-    )
 
   return (
     <>
@@ -164,7 +157,8 @@ export default function LostPetPost() {
             </div>
           </div>
         )
-      })}{' '}
+      })}
+
       <CreateLostPost postCounter={postCounter} />
     </>
   )

@@ -77,16 +77,6 @@ export default function AllAnimals() {
 
   if (loading) return <LoadingSpinner />
 
-  if (error)
-    return (
-      <p className="text-center text-black text-xl">
-        Desila se greška. Molimo Vas da kontaktirate podršku na{' '}
-        <span className="text-[#2F5382] font-bold">
-          contact@petconnectbosnia.com
-        </span>
-      </p>
-    )
-
   return (
     <>
       {animalPost.map((item) => {
