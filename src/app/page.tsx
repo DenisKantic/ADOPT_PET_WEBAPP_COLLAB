@@ -6,7 +6,10 @@ import Image from 'next/image'
 import SecondNavigation from './globalComponents/navbar/SecondNavigation'
 import LostPet from './globalComponents/LostPet'
 import { FaFacebookSquare } from 'react-icons/fa'
+import { FaInstagram } from 'react-icons/fa'
+
 import './bgcss.css'
+import DonationPost from './globalComponents/DonationPost'
 
 export default async function Home() {
   return (
@@ -44,7 +47,7 @@ export default async function Home() {
                   <FaFacebookSquare className="hover:text-red-400" size={30} />
                 </Link>
                 <Link href="/">
-                  <FaFacebookSquare className="hover:text-red-400" size={30} />
+                  <FaInstagram className="hover:text-red-400" size={30} />
                 </Link>
                 <Link href="/">
                   <FaFacebookSquare className="hover:text-red-400" size={30} />
@@ -72,7 +75,7 @@ export default async function Home() {
                 <FaFacebookSquare className="hover:text-red-400" size={30} />
               </Link>
               <Link href="/">
-                <FaFacebookSquare className="hover:text-red-400" size={30} />
+                <FaInstagram className="hover:text-red-400" size={30} />
               </Link>
               <Link href="/">
                 <FaFacebookSquare className="hover:text-red-400" size={30} />
@@ -93,24 +96,12 @@ export default async function Home() {
           Pogledaj sve
         </Link>
       </div>
-      <div className="grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
-        {/* <div className='w-[90%] mx-auto h-[30vh] my-5 p-5 rounded-xl flex flex-col justify-center items-center border-[1px] shadow-2xl border-[#2F5382]'>
-          <Image
-          src="/images/logo.png"
-          alt="logo"
-          height={100}
-          width={100}
-          unoptimized
-          className='w-full object-cover'
-          />
-          <p>Vaše mjesto za reklamu</p>
-          <p>Kontaktirajte nas..</p>
-          </div> */}
+      <div className="grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-5">
         <CardItem />
       </div>
 
       <div className="flex justify-between items-center pt-10 xxs:flex-row">
-        <p className="xxs:text-sm md:text-2xl">Izgubljene zivotinje</p>
+        <p className="xxs:text-sm md:text-2xl">Izgubljene životinje</p>
         <Link
           href="/lostPet"
           className="badge py-4 px-4 bg-[#2F5382] text-md text-white rounded-full
@@ -119,21 +110,9 @@ export default async function Home() {
           Pogledaj sve
         </Link>
       </div>
-      <div className="grid gap-10 xxs:grid-cols-1 sn:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
+      <div className="grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-5">
         <LostPet />
       </div>
-
-      {/* <div className='flex justify-between items-center pt-10 xxs:flex-row'>
-        <p className='xxs:text-md md:text-2xl'>Pomozi zivotinji:</p>
-        <Link href="/Building"  
-        className="badge py-4 px-4 bg-[#2F5382] text-md text-white rounded-full
-                                    hover:bg-white hover:border-[#2F5382] hover:text-[#2F5382]">
-                                      Pogledaj sve
-        </Link>
-      </div>
-      <div className="grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 xxl:grid-cols-5">
-          <CardItem/> 
-      </div> */}
 
       <div className="flex justify-between items-center pt-10 xxs:flex-row">
         <p className="xxs:text-md md:text-2xl">Donacije:</p>
@@ -145,8 +124,8 @@ export default async function Home() {
           Pogledaj sve
         </Link>
       </div>
-      <div className="grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-        {/* <DonationPost/>  */}
+      <div className="grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-5">
+        <DonationPost />
       </div>
     </div>
   )

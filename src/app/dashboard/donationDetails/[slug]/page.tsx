@@ -43,7 +43,7 @@ const usernameLength = (user: string) => {
   }
 }
 
-export default async function LostPetDetails({ params: { slug } }: Props) {
+export default async function DonationDetails({ params: { slug } }: Props) {
   let post: LostPetPost | null = null
 
   try {

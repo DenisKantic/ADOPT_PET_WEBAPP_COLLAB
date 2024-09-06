@@ -40,8 +40,8 @@ export async function middleware(req: NextRequest) {
     url.pathname = '/login'
     return NextResponse.redirect(url, { status: 303 })
   }
-  return NextResponse.next()
 }
+
 export const config = {
   matcher: ['/login', '/dashboard/:path*'],
 }

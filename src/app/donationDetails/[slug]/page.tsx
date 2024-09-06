@@ -1,18 +1,12 @@
-'use client'
-import React, { useEffect, useState } from 'react'
+'use server'
+import React from 'react'
 import Image from 'next/image'
 import { IoIosMale } from 'react-icons/io'
 import { IoMaleFemale } from 'react-icons/io5'
 import { MdOutlinePets } from 'react-icons/md'
 import { GrCircleInformation } from 'react-icons/gr'
 import { getOneLostPetPost } from '@public/actions/getLostPetPost'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation, Pagination } from 'swiper/modules'
-
-// Import Swiper styles
-import 'swiper/css'
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
+import ImagesSlide from './ImagesSlide'
 import formatDate from '@/app/dateHelper/date'
 
 interface LostPetPost {
@@ -32,6 +26,15 @@ type Props = {
   }
 }
 
+export async function generateMetadata({ params: { slug } }: Props) {
+  const response = await getOneLostPetPost(slug)
+  const post = response.lost_post
+
+  return {
+    title: post.petname || 'Detalji životinje',
+  }
+}
+
 const usernameLength = (user: string) => {
   if (user.length > 15) {
     return user.substring(0, 15) + '...'
@@ -40,89 +43,41 @@ const usernameLength = (user: string) => {
   }
 }
 
-export default function LostPetDetails({ params: { slug } }: Props) {
-  const [post, setPost] = useState<LostPetPost | null>(null)
-  const [loading, setLoading] = useState(false)
-  const [fullscreen, setFullscreen] = useState<boolean>(false)
-  const [currentSlide, setCurrentSlide] = useState<number>(0)
+export default async function LostPetDetails({ params: { slug } }: Props) {
+  let post: LostPetPost | null = null
 
-  useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        const response = await getOneLostPetPost(slug)
-        const postItem = response.lost_post
-        console.log('HERE I GET RESPONSE', response.lost_post)
+  try {
+    const response = await getOneLostPetPost(slug)
+    const postItem = response.lost_post
 
-        // Process image_paths if it's a string
-        const imagePaths =
-          typeof postItem.image_paths === 'string'
-            ? (postItem.image_paths as string)
-                .replace(/{|}/g, '') // Remove curly braces
-                .split(',') // Split by comma
-                .map((path: string) => path.trim()) // Trim whitespace
-            : postItem.image_paths
+    const imagePaths =
+      typeof postItem.image_paths === 'string'
+        ? (postItem.image_paths as string)
+            .replace(/{|}/g, '') // Remove curly braces
+            .split(',') // Split by comma
+            .map((path: string) => path.trim()) // Trim whitespace
+        : postItem.image_paths
 
-        const processedPost: LostPetPost = {
-          ...postItem,
-          image_paths: imagePaths,
-        }
-        setPost(processedPost)
-        setLoading(false)
-      } catch (err) {
-        console.log('error happened', err)
-      } finally {
-        setLoading(false)
-      }
+    post = {
+      ...postItem,
+      image_paths: imagePaths,
     }
-    fetchPost()
-    setLoading(false)
-  }, [slug])
-
-  const openFullscreen = (index: number) => {
-    setCurrentSlide(index)
-    setFullscreen(true)
+  } catch (error) {
+    console.error('Error fetching post:', error)
   }
 
-  const closeFullscreen = () => {
-    setFullscreen(false)
+  if (!post) {
+    return <div>Post not found</div>
   }
-
-  if (loading) return <div>Loading...</div>
-
-  if (!post) return <div>Desila se greška.</div>
 
   return (
-    <div className="min-h-screen xxs:px-4 md:px-20 bg-white overflow-hidden">
-      <p className="pt-5 text-[#2F5382] text-2xl font-bold">{post.petname}</p>
+    <div className="min-h-screen xxs:px-4 md:px-20 bg-white overflow-hidden focus:outline-none">
+      <p className="pt-5 text-[#2F5382] text-xl font-bold">{post.petname}</p>
 
       <div className="h-full w-full mx-auto py-5 flex justify-between xxs:flex-col xl:flex-row ">
         <div className="w-full">
-          <Swiper
-            modules={[Navigation, Pagination]}
-            spaceBetween={0}
-            keyboard
-            pagination={{ clickable: true }}
-            navigation={{}} // Enable navigation
-            slidesPerView={1}
-            scrollbar={{ draggable: true }}
-            onSwiper={(swiper) => console.log(swiper)}
-          >
-            {post.image_paths.map((url, index) => (
-              <SwiperSlide className="h-[60vh] w-full" key={index}>
-                <Image
-                  alt={post.petname}
-                  height={50}
-                  width={50}
-                  unoptimized
-                  priority={true}
-                  className="w-[90%] mx-auto h-[60svh] object-cover cursor-pointer"
-                  src={`http://localhost:8080/${url}`}
-                  // onClick={() => openFullscreen(index)} // Open fullscreen on click
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-          <div className="grid grid-rows-1 gap-10 w-full py-5 xxs:grid-cols-1 md:grid-cols-3">
+          <ImagesSlide post={post} />
+          <div className="grid grid-rows-1 gap-5 w-full py-5 xxs:grid-cols-1 md:grid-cols-3">
             <div className="flex flex-row justify-between items-center bg-[#2F53821F] text-black p-5 h-[3rem] rounded-full">
               <div className="flex items-center">
                 <MdOutlinePets />
@@ -162,7 +117,7 @@ export default function LostPetDetails({ params: { slug } }: Props) {
           <div className="w-full shadow-2xl min-h-[10vh] border-t-[#2F5382] border-2">
             <textarea
               value={post.description}
-              className="w-full p-3 rounded-2xl h-[40vh] text-lg bg-white resize-none text-gray-800 overflow-hidden"
+              className="w-full p-3 rounded-2xl h-[20vh] text-lg bg-white resize-none text-gray-800 overflow-hidden"
               disabled
             />
           </div>
