@@ -10,34 +10,52 @@ import './bgcss.css'
 
 export default async function Home() {
   return (
-    <div className="min-h-screen overflow-hidden bg-[#f1f4f5] w-full text-black xxs:px-5 md:px-14">
+    <div className="min-h-[100svh] overflow-hidden bg-[#f1f4f5] w-full text-black xxs:px-5 md:px-14">
       <SecondNavigation />
       {/* hero section */}
-      <div className="flex justify-between bg-[#2F5382] rounded-b-xl rounded-sm h-[30svh]">
+      <div className="flex justify-between bg-[#2F5382] rounded-b-xl rounded-sm xxs:mt-5 md:mt-0 xxs:h-[50svh] md:h-[30svh]">
         {/* left side */}
-        <div className="flex flex-col justify-center items-start w-[60%]">
+        <div className="flex flex-col justify-center items-start xxs:w-full md:w-[60%] p-5 overflow-hidden">
           <Image
             src="/images/logo.png"
             alt="logo"
-            width={50}
-            height={50}
-            className="pl-3 mt-2"
+            width={60}
+            height={60}
+            className="pl-3 mt-2 xxs:mx-auto md:mx-0"
           />
-          <div className="text-[#fafafa] text-[44px] p-4 leading-10 font-bold">
-            <h1 className="pb-3">PetConnect</h1>
-            <h1>Bosnia and Herzegovina</h1>
+          <div className="text-[#fafafa]  p-4 leading-10 font-bold xxs:text-lg md:text-6xl">
+            <h1 className="pb-3 xxs:text-center md:text-left">PetConnect</h1>
+            <h1 className="xxs:text-center md:text-left">
+              Bosna i Hercegovina
+            </h1>
           </div>
-          <div className="text-[16px] text-[#fafafa] leading-5 px-4 font-normal py-2 opacity-60 mb-5">
+          <div className="text-[#fafafa] leading-5 px-4 font-normal py-2 opacity-60 mb-5 xxs:text-sm xxs:text-center md:text-lg md:text-left">
             <p>
-              PetConnect pomaže u udomljavanju i pružanju pomoći svim
-              životinjama, kao i njihov pronalazak u slučaju izgubljenosti širom
-              Bosne i Herzegovine.
+              PetConnect pomaže u udomljavanju, objavljivanju donacijskih stvari
+              kao što su hrana, oprema i drugo,pružanju pomoći svim životinjama,
+              kao i njihov pronalazak u slučaju izgubljenosti širom Bosne i
+              Hercegovine.
             </p>
+
+            <div className="xxs:block md:hidden">
+              <p className="mt-5 text-center">Pratite nas na:</p>
+              <div className="flex flex-row items-center justify-center gap-5">
+                <Link href="/">
+                  <FaFacebookSquare className="hover:text-red-400" size={30} />
+                </Link>
+                <Link href="/">
+                  <FaFacebookSquare className="hover:text-red-400" size={30} />
+                </Link>
+                <Link href="/">
+                  <FaFacebookSquare className="hover:text-red-400" size={30} />
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* right side */}
-        <div className="w-[40%] flex flex-col items-center justify-center bg-white overflow-hidden h-full clip-path">
+        <div className="w-[40%] flex flex-col items-center justify-center bg-white overflow-hidden h-full clip-path xxs:hidden md:flex">
           {/* Content */}
           <div className="relative z-10">
             <Image

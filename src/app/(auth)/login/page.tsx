@@ -63,6 +63,7 @@ export default function Register() {
     console.log('WHICH SENDING FILES', email, password)
 
     await Login(formData)
+    router.push('/dashboard')
   }
 
   return (
