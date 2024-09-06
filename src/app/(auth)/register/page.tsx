@@ -2,17 +2,13 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { RegisterSchema } from '@public/schema'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useTransition } from 'react'
-import * as z from 'zod'
 import { useRouter } from 'next/navigation'
 import { RegisterProfile } from '@public/actions/register'
 
 export default function Register() {
-  const [error, setError] = useState<string | undefined>('')
-  const [success, setSuccess] = useState<string | undefined>('')
+  const [error, setError] = useState<boolean | undefined>(false)
+  const [success, setSuccess] = useState<boolean | undefined>(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
@@ -27,15 +23,15 @@ export default function Register() {
     formData.append('password', password)
     formData.append('username', username)
 
-    console.log('WHICH SENDING FILES', email, password, username)
-
     try {
       const response = await RegisterProfile(formData)
       if (response?.success) {
-        alert('Profil je kreiran, molimo Vas da provjerite mail i aktivirate')
+        setSuccess(true)
+        setError(false)
       }
     } catch (error) {
-      alert('ERROR')
+      setError(true)
+      setSuccess(false)
     }
   }
 
@@ -76,7 +72,6 @@ export default function Register() {
             className="outline-none p-4 mt-2 mb-3 input input-bordered input-primary w-full rounded-full 
               peer focus:border-neutral-200 disabled:bg-neutral-200 focus:bg-white bg-slate-200"
           />
-          {/* {errors.email && <span className='text-red-500'>{errors.email.message}</span>} */}
 
           <br />
 
@@ -87,7 +82,6 @@ export default function Register() {
             className="outline-none p-4 mt-2 mb-3 input input-bordered input-primary w-full rounded-full 
               peer focus:border-neutral-200 disabled:bg-neutral-200 focus:bg-white bg-slate-200"
           />
-          {/* {errors.name && <span className='text-red-500'>{errors.name.message}</span>} */}
 
           <br />
 
@@ -103,17 +97,6 @@ export default function Register() {
 
           <br />
 
-          {error && (
-            <span className="w-full py-4 px-4 rounded-xl font-bold tracking-wide text-white bg-red-500 mb-4">
-              {error}
-            </span>
-          )}
-          {success && (
-            <span className="w-full py-4 px-4 rounded-xl font-bold tracking-wide text-white bg-green-500 mb-4">
-              {success}
-            </span>
-          )}
-
           <button
             disabled={isPending}
             type="submit"
@@ -121,6 +104,19 @@ export default function Register() {
           >
             Registruj se
           </button>
+
+          {error && (
+            <span className="text-white rounded-full py-3 mt-2 px-4 bg-red-400">
+              Registracija nije uspješna
+            </span>
+          )}
+
+          {success && (
+            <span className="text-green-400 text-left py-3 mt-2 px-4">
+              Registracija je uspješna. <br />
+              Molimo Vas da provjerite Vaš email i aktivirate svoj profil.
+            </span>
+          )}
         </form>
 
         <div className="text-sm text-center text-neutral-500 mt-5">

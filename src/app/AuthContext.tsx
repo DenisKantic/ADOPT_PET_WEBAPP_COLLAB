@@ -14,7 +14,7 @@ interface AuthContextType {
   username: string
   loading: boolean
   email: string
-  Login: (formData: FormData) => Promise<void>
+  Login: (formData: FormData) => Promise<{ success: boolean }>
   Logout: () => Promise<void>
 }
 
@@ -61,7 +61,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     checkAuth()
   }, [router])
 
-  const Login = async (formData: FormData): Promise<void> => {
+  const Login = async (formData: FormData): Promise<{ success: boolean }> => {
     console.log('SENT FORM DATA LOGIN', formData)
     setLoading(true) // Start loading
 
@@ -78,19 +78,21 @@ export function AuthProvider({ children }: AuthProviderProps) {
           withCredentials: true,
         }
       )
-      console.log('EMAIL', response.data.email)
 
       if (response.status === 200) {
         setIsAuthenticated(true)
         setUsername(response.data.username)
         setEmail(response.data.email)
         setLoading(false)
+        return { success: true }
       } else {
         setIsAuthenticated(false)
+        return { success: false }
       }
     } catch (error) {
-      console.error('Error during login:', error)
+      console.log('Error during login:', error)
       setIsAuthenticated(false)
+      return { success: false }
     } finally {
       setLoading(false) // End loading
     }
