@@ -21,20 +21,29 @@ services:
       dockerfile: go.dockerfile
     ports:
       - '8080:8080'
-    develop:
-      watch:
-        - action: rebuild
-          path: ./backend
-          files:
-            - '**/*.go'
-            - 'go.mod'
-            - 'go.sum'
+    # develop:
+    #   watch:
+    #     - action: rebuild
+    #       path: ./backend
+    #       files:
+    #         - '**/*.go'
+    #         - 'go.mod'
+    #         - 'go.sum'
     depends_on:
       - postgres
     volumes:
-      - ./backend/adoptPostImages:/app/adoptPostImages/
-      - ./backend/lostPetImages:/app/lostPetImages
-      - ./backend/donationPostImages:/app/donationPostImages
+      - ./images/adoptPostImages:/app/adoptPostImages
+      - ./images/lostPetImages:/app/lostPetImages
+      - ./images/donationPostImages:/app/donationPostImages
+
+    # volumes:
+    #   adoptPostImages:
+    #   lostPetImages:
+    #   donationPostImages:
+    #   # volumes:
+    #   #   - ./backend/adoptPostImages:/app/adoptPostImages/
+    #   #   - ./backend/lostPetImages:/app/lostPetImages
+    #   #   - ./backend/donationPostImages:/app/donationPostImages
 
     environment:
       DATABASE_URL: postgresql://postgres:password@postgres/testing?sslmode=disable

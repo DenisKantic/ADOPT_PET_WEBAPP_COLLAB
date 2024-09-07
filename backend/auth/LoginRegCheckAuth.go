@@ -22,6 +22,8 @@ var (
 	JWT_SECRET    string
 	EMAIL_SMTP    string
 	PASSWORD_SMTP string
+	PETURL        string
+	PETLOCAL      string
 )
 
 func init() {
@@ -33,6 +35,8 @@ func init() {
 	JWT_SECRET = os.Getenv("JWT_SECRET")
 	EMAIL_SMTP = os.Getenv("EMAIL_SMTP")
 	PASSWORD_SMTP = os.Getenv("PASSWORD_SMTP")
+	PETURL = os.Getenv("PETURL")
+	PETLOCAL = os.Getenv("PETLOCAL")
 }
 
 type Claims struct {
@@ -110,7 +114,7 @@ func SendActivationEmail(email, token string) error {
 }
 
 func Register(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Origin", PETURL)
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	w.Header().Set("Access-Control-Allow-Credentials", "true")
@@ -202,7 +206,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 }
 
 func ActivateAccount(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Origin", PETURL)
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	w.Header().Set("Access-Control-Allow-Credentials", "true")
@@ -252,7 +256,7 @@ func ActivateAccount(w http.ResponseWriter, r *http.Request) {
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Origin", PETURL)
 	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	w.Header().Set("Access-Control-Allow-Credentials", "true")
@@ -377,7 +381,7 @@ func CheckAuthUser(r *http.Request) (string, string, bool, error) {
 
 func CheckAuth(w http.ResponseWriter, r *http.Request) {
 
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Origin", PETURL)
 	w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 	w.Header().Set("Access-Control-Allow-Credentials", "true")

@@ -4,11 +4,29 @@ import (
 	"backend/db"
 	"encoding/json"
 	"fmt"
+	"github.com/joho/godotenv"
+	"log"
 	"net/http"
+	"os"
 )
 
+var (
+	PETURL   string
+	PETLOCAL string
+)
+
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("Error loading .env file %v", err)
+	}
+
+	PETURL = os.Getenv("PETURL")
+	PETLOCAL = os.Getenv("PETLOCAL")
+}
+
 func GetAllDonationPosts(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Origin", PETURL)
 	w.Header().Set("Access-Control-Allow-Methods", "GET")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
@@ -201,7 +219,7 @@ func GetAllDonationPosts(w http.ResponseWriter, r *http.Request) {
 //}
 
 func GetThreeDonationPost(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Origin", PETURL)
 	w.Header().Set("Access-Control-Allow-Methods", "GET")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 

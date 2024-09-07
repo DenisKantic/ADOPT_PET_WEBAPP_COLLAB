@@ -6,11 +6,35 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/joho/godotenv"
+	"log"
 	"net/http"
+	"os"
 )
 
+var (
+	JWT_SECRET    string
+	EMAIL_SMTP    string
+	PASSWORD_SMTP string
+	PETURL        string
+	PETLOCAL      string
+)
+
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("Error loading .env file %v", err)
+	}
+
+	JWT_SECRET = os.Getenv("JWT_SECRET")
+	EMAIL_SMTP = os.Getenv("EMAIL_SMTP")
+	PASSWORD_SMTP = os.Getenv("PASSWORD_SMTP")
+	PETURL = os.Getenv("PETURL")
+	PETLOCAL = os.Getenv("PETLOCAL")
+}
+
 func GetThreeAdoptPost(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Origin", PETURL)
 	w.Header().Set("Access-Control-Allow-Methods", "GET")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
@@ -91,7 +115,7 @@ func GetThreeAdoptPost(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllAdoptPost(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Origin", PETURL)
 	w.Header().Set("Access-Control-Allow-Methods", "GET")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
@@ -178,7 +202,7 @@ type Post struct {
 }
 
 func GetOneAdoptPost(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Origin", PETURL)
 	w.Header().Set("Access-Control-Allow-Methods", "GET")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
