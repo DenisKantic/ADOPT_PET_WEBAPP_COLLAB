@@ -37,7 +37,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setLoading(true) // Start loading
 
       try {
-        const response = await axios.get('http://localhost:8080/checkAuth', {
+        const response = await axios.get(`/${process.env.API}/checkAuth`, {
           withCredentials: true, // Ensure cookies are sent with the request
         })
         console.log('RESPONSE', response)
@@ -68,16 +68,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
     document.cookie = 'token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
 
     try {
-      const response = await axios.post(
-        'http://localhost:8080/login',
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-          withCredentials: true,
-        }
-      )
+      const response = await axios.post('/api/login', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        withCredentials: true,
+      })
 
       if (response.status === 200) {
         setIsAuthenticated(true)
@@ -105,7 +101,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       // clear cookies on the client side
       document.cookie = 'token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
 
-      await axios.post('http://localhost:8080/logout', null, {
+      await axios.post('/api/Logout', null, {
         withCredentials: true,
       })
       setIsAuthenticated(false)

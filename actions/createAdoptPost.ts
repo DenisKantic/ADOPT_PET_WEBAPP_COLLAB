@@ -50,15 +50,11 @@ export async function createAdoptPost(
   console.log('FORM TO BE SENT', formDataToSend)
 
   try {
-    const response = await axios.post(
-      'http://localhost:8080/createAdoptPost',
-      formDataToSend,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      }
-    )
+    const response = await axios.post('/api/createAdoptPost', formDataToSend, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
     console.log(response)
     return { success: true }
   } catch (error: any) {

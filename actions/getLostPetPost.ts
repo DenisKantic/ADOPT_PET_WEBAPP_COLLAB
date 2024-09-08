@@ -35,7 +35,7 @@ export async function getLostPetPost() {
 
   try {
     response = await axios.get<{ lost_post: AdoptPost[] }>(
-      'http://localhost:8080/getLostPetPostHome'
+      '/api/getLostPetPostHome'
     )
     return response.data
   } catch (err) {
@@ -50,7 +50,7 @@ export async function getLostPetPostDashboard({ email }: Email) {
 
   try {
     response = await axios.get<{ lost_post: AdoptPost[] }>(
-      'http://localhost:8080/getLostPetPostDashboard',
+      '/api/getLostPetPostDashboard',
       {
         params: { email: sendEmail },
       }
@@ -67,7 +67,7 @@ export async function getOneLostPetPost(slug: string) {
 
   try {
     response = await axios.get<{ lost_post: OneAdoptPost }>(
-      `http://localhost:8080/getOneLostPetPost?slug=${slug}`
+      `/api/getOneLostPetPost?slug=${slug}`
     )
     return response.data
   } catch (err) {

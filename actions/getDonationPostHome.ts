@@ -20,7 +20,7 @@ export async function getDonationPosts() {
 
   try {
     response = await axios.get<{ donation_post: DonationPost[] }>(
-      'http://localhost:8080/getAllDonationPost'
+      '/api/getAllDonationPost'
     )
     console.log('RESPONSE HERE', response.data)
     return response.data

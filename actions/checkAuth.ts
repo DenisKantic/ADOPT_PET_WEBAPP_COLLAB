@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export async function checkAuth(cookie: any) {
   try {
-    const response = await axios.get('http://localhost:8080/checkAuth', {
+    const response = await axios.get('/api/checkAuth', {
       headers: {
         Cookie: `token=${cookie}`,
       },

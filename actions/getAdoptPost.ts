@@ -43,7 +43,7 @@ export async function getAdoptPost() {
 
   try {
     response = await axios.get<{ adopt_post: AdoptPost[] }>(
-      'http://localhost:8080/getAdoptPostHome'
+      '/api/getAdoptPostHome'
     )
     return response.data
   } catch (err) {
@@ -58,7 +58,7 @@ export async function getAdoptPostDashboard({ email }: Email) {
 
   try {
     response = await axios.get<{ adopt_post: AdoptPost[] }>(
-      'http://localhost:8080/getAdoptPostDashboard',
+      '/api/getAdoptPostDashboard',
       {
         params: { email: sendEmail },
       }
@@ -75,7 +75,7 @@ export async function getOneAdoptPost(slug: string) {
 
   try {
     response = await axios.get<{ adopt_post: OneAdoptPost }>(
-      `http://localhost:8080/getOneAdoptPost/${slug}?slug=${slug}`
+      `/api/getOneAdoptPost/${slug}?slug=${slug}`
     )
     return response.data
   } catch (err) {

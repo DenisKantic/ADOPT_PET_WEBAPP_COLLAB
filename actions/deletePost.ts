@@ -4,9 +4,7 @@ import { revalidatePath } from 'next/cache'
 
 export async function DeleteAdoptPost(id: number) {
   try {
-    const response = await axios.delete(
-      `http://localhost:8080/deleteAdoptPost?id=${id}`
-    )
+    const response = await axios.delete(`/api/deleteAdoptPost?id=${id}`)
     console.log('POST WITH ID', id, 'IS DELETED')
     revalidatePath('/dashboard')
     return { success: true, data: response.data }
@@ -17,9 +15,7 @@ export async function DeleteAdoptPost(id: number) {
 
 export async function DeleteLostPetPost(id: number) {
   try {
-    const response = await axios.delete(
-      `http://localhost:8080/deleteLostPetPost?id=${id}`
-    )
+    const response = await axios.delete(`/api/deleteLostPetPost?id=${id}`)
     console.log('POST WITH ID', id, 'IS DELETED')
     return { success: true }
   } catch (error) {
@@ -29,9 +25,7 @@ export async function DeleteLostPetPost(id: number) {
 
 export default async function DeleteDonationPost(id: number) {
   try {
-    const response = await axios.delete(
-      `http://localhost:8080/deleteDonationPost?id=${id}`
-    )
+    const response = await axios.delete(`/api/deleteDonationPost?id=${id}`)
     console.log('POST WITH ID', id, 'IS DELETED')
     return { success: true }
   } catch (error) {

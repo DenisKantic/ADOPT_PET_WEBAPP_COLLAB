@@ -24,7 +24,7 @@ export async function getDonationPostDashboard({ email }: Email) {
 
   try {
     response = await axios.get<{ donation_post: DonationPostDashboard[] }>(
-      'http://localhost:8080/getDonationPostDashboard',
+      '/api/getDonationPostDashboard',
       {
         params: { email: sendEmail },
       }

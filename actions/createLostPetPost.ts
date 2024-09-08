@@ -37,15 +37,11 @@ export async function createLostPost(
   console.log('FORM TO BE SENT', formDataToSend)
 
   try {
-    const response = await axios.post(
-      'http://localhost:8080/createLostPost',
-      formDataToSend,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      }
-    )
+    const response = await axios.post('/api/createLostPost', formDataToSend, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
     console.log(response.data)
     return { success: true }
   } catch (error: any) {

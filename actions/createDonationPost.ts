@@ -39,7 +39,7 @@ export async function createDonationPost(
 
   try {
     const response = await axios.post(
-      'http://localhost:8080/createDonationPost',
+      '/api/createDonationPost',
       formDataToSend,
       {
         headers: {
