@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-const DB_CONNECT = "postgresql://postgres:password@postgres:5432/testing?sslmode=disable"
+const DB_CONNECT = "postgresql://petuser:wild12life48@localhost:5434/petdatabase?sslmode=disable"
 
 // DB_CONNECT variable for reading from .env file
 //var (
@@ -35,6 +35,7 @@ func DbConnect() (*sql.DB, error) {
 
 	// Test the connection
 	if err := db.Ping(); err != nil {
+		fmt.Println("Erorr connecting to database")
 		return nil, fmt.Errorf("error connecting to database: %w", err)
 	}
 	fmt.Println("CONNECTED TO THE DATABASE")

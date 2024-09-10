@@ -28,7 +28,8 @@ export default async function Dashboard() {
             {'*Maksimalno tri oglasa'}
           </span>
           <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 grid-rows-1 items-center shadow-2xl rounded-2xl p-5 min-h-[40vh] bg-gray-100">
-            <DonationPost />
+            {/* <DonationPost /> */}
+            <p className="text-xl text-gray-500 font-bold">{'*Uskoro'}</p>
           </div>
         </div>
 
@@ -38,7 +39,8 @@ export default async function Dashboard() {
             {'*Maksimalno tri oglasa'}
           </span>
           <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 grid-rows-1 items-center shadow-2xl rounded-2xl p-5 min-h-[40vh] bg-gray-100">
-            <LostPetPost />
+            {/* <LostPetPost /> */}
+            <p className="text-xl text-gray-500 font-bold">{'*Uskoro'}</p>
           </div>
         </div>
 
@@ -50,8 +52,9 @@ export default async function Dashboard() {
             </div>
           </div>
 
-          <div className="col-span-2 bg-red-200 p-5">
+          <div className="col-span-2 p-5">
             <h1>Vet stanice</h1>
+            <p className="text-xl text-gray-500 font-bold">{'*Uskoro'}</p>
           </div>
         </div>
       </div>

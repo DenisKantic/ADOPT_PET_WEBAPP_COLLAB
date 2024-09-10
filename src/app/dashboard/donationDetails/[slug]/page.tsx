@@ -5,19 +5,20 @@ import { IoIosMale } from 'react-icons/io'
 import { IoMaleFemale } from 'react-icons/io5'
 import { MdOutlinePets } from 'react-icons/md'
 import { GrCircleInformation } from 'react-icons/gr'
-import { getOneLostPetPost } from '@public/actions/getLostPetPost'
-import ImagesSlide from './ImagesSlide'
+import ImagesSlide from '@public/src/app/globalComponents/ImagesSlide'
 import formatDate from '@/app/dateHelper/date'
+import { getOneDonationPost } from '@public/actions/getDonationPostDashboard'
 
-interface LostPetPost {
+interface DonationPost {
   id: number
   image_paths: string[]
-  category: string
-  petname: string
-  phonenumber: string
+  animal_category: string
+  post_category: string
+  post_name: string
+  phone_number: string
   location: string
   description: string
-  spol: string
+  username: string
   created_at: string
 }
 type Props = {
@@ -27,11 +28,11 @@ type Props = {
 }
 
 export async function generateMetadata({ params: { slug } }: Props) {
-  const response = await getOneLostPetPost(slug)
-  const post = response.lost_post
+  const response = await getOneDonationPost(slug)
+  const post = response.donation_post
 
   return {
-    title: post.petname || 'Detalji životinje',
+    title: post.post_name || 'Detalji životinje',
   }
 }
 
@@ -44,11 +45,11 @@ const usernameLength = (user: string) => {
 }
 
 export default async function DonationDetails({ params: { slug } }: Props) {
-  let post: LostPetPost | null = null
+  let post: DonationPost | null = null
 
   try {
-    const response = await getOneLostPetPost(slug)
-    const postItem = response.lost_post
+    const response = await getOneDonationPost(slug)
+    const postItem = response.donation_post
 
     const imagePaths =
       typeof postItem.image_paths === 'string'
@@ -72,7 +73,7 @@ export default async function DonationDetails({ params: { slug } }: Props) {
 
   return (
     <div className="min-h-screen xxs:px-4 md:px-20 bg-white overflow-hidden focus:outline-none">
-      <p className="pt-5 text-[#2F5382] text-xl font-bold">{post.petname}</p>
+      <p className="pt-5 text-[#2F5382] text-xl font-bold">{post.post_name}</p>
 
       <div className="h-full w-full mx-auto py-5 flex justify-between xxs:flex-col xl:flex-row ">
         <div className="w-full">
@@ -85,18 +86,24 @@ export default async function DonationDetails({ params: { slug } }: Props) {
               </div>
               <div>
                 <span className="font-bold text-[#2F5382]">
-                  {usernameLength(post.petname)}
+                  {usernameLength(post.post_name)}
                 </span>
               </div>
             </div>
 
             <div className="flex flex-row justify-between items-center bg-[#2F53821F] text-black p-5 h-[3rem] rounded-full">
               <div className="flex items-center">
-                {post.spol === 'musko' ? <IoIosMale /> : <IoMaleFemale />}
+                {post.post_category === 'musko' ? (
+                  <IoIosMale />
+                ) : (
+                  <IoMaleFemale />
+                )}
                 <span className="ml-2">Spol</span>
               </div>
               <div>
-                <span className="font-bold text-[#2F5382]">{post.spol}</span>
+                <span className="font-bold text-[#2F5382]">
+                  {post.post_category}
+                </span>
               </div>
             </div>
 
@@ -131,7 +138,7 @@ export default async function DonationDetails({ params: { slug } }: Props) {
             </p>
             <p className="pb-2 text-[#2F5382]">
               Broj telefona:{' '}
-              <span className="text-black">{post.phonenumber}</span>
+              <span className="text-black">{post.phone_number}</span>
             </p>
             <p className="pb-5 text-[#2F5382]">
               Kreirano:{' '}

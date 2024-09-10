@@ -136,12 +136,12 @@ export default function AllAnimals() {
               >
                 Pročitaj više...
               </Link>
-              <Link
+              {/* <Link
                 href={`/adoptPet/${item.slug}`}
-                className="btn border-[#2F5382] w-full bg-[#2F5382] text-lg text-white hover:bg-white hover:text-[#2F5382]"
+                className="btn btn-disabled disabled:text-white border-[#2F5382] w-full bg-[#2F5382] text-lg text-white hover:bg-white hover:text-[#2F5382]"
               >
                 Uredi
-              </Link>
+              </Link> */}
               <button
                 className="btn border-[#2F5382] w-full bg-red-400 text-lg text-white hover:bg-white hover:text-[#2F5382]"
                 onClick={async () => {

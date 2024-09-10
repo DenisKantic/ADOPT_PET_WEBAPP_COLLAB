@@ -30,6 +30,7 @@ interface OneAdoptPost {
   pasos: boolean
   spol: string
   starost: string
+  username: string
   location: string
   created_at: string
 }
@@ -38,19 +39,23 @@ type Email = {
   email: Object
 }
 
-export async function getAdoptPost() {
-  let response
-
-  try {
-    response = await axios.get<{ adopt_post: AdoptPost[] }>(
-      '/api/getAdoptPostHome'
+try {
+    response = await axios.get<{
+      adopt_post: AdoptPost[]
+      totalPages: number
+      currentPage: number
+    }>(
+      `https://www.petconnectbosnia.com/api/getAdoptPostHome?page=${page}&pageSize=${PAGE_SIZE}&location=${encodeURIComponent(
+        location
+      )}`
     )
     return response.data
   } catch (err) {
     console.log('error happened on server side', err)
-    return { adopt_post: [] }
+    return { adopt_post: [], totalPages: 0, currentPage: 1 }
   }
 }
+
 
 export async function getAdoptPostDashboard({ email }: Email) {
   let response
@@ -58,7 +63,7 @@ export async function getAdoptPostDashboard({ email }: Email) {
 
   try {
     response = await axios.get<{ adopt_post: AdoptPost[] }>(
-      '/api/getAdoptPostDashboard',
+      'https://www.petconnectbosnia.com/api/getAdoptPostDashboard',
       {
         params: { email: sendEmail },
       }
@@ -75,7 +80,7 @@ export async function getOneAdoptPost(slug: string) {
 
   try {
     response = await axios.get<{ adopt_post: OneAdoptPost }>(
-      `/api/getOneAdoptPost/${slug}?slug=${slug}`
+      `https://www.petconnectbosnia.com/api/getOneAdoptPost/${slug}?slug=${slug}`
     )
     return response.data
   } catch (err) {
@@ -86,6 +91,7 @@ export async function getOneAdoptPost(slug: string) {
         image_paths: [],
         category: '',
         petname: '',
+        username: '',
         phonenumber: '',
         description: '',
         vakcinisan: false,

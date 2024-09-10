@@ -43,7 +43,7 @@ export default async function Navbar() {
   }
 
   return (
-    <div className="fixed z-10 w-full shadow-lg">
+    <div className="fixed z-50 w-full shadow-lg">
       <div className="navbar h-[7svh] bg-[#F0F0F0] xxs:px-2 md:px-14 py-1 xxs:hidden md:flex">
         <div className="flex-1 xxs:justify-between md:justify-start">
           <Link href="/" className="xxs:hidden md:flex cursor-pointer">
@@ -74,7 +74,7 @@ export default async function Navbar() {
             </Link>
           </div>
         </div>
-        <div className="flex-none gap-2">
+        <div className="flex-none gap-2 z-50">
           <Link
             href="/login"
             className={

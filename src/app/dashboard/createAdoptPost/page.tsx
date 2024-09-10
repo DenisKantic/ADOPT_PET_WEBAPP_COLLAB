@@ -24,7 +24,7 @@ const CreateAdoptPost = () => {
   const [fileName, setFileName] = useState<string | null>(null) // State to store file name
   const router = useRouter() // Initialize the router
   const [isPending, startTransition] = useTransition() // loading state
-  const { email } = UseAuth()
+  const { email, username } = UseAuth()
 
   console.log('HERE IS EMAIL', email.toString())
 
@@ -210,7 +210,12 @@ const CreateAdoptPost = () => {
 
     startTransition(async () => {
       try {
-        const response = await createAdoptPost(formData, location, email)
+        const response = await createAdoptPost(
+          formData,
+          location,
+          email,
+          username
+        )
         if (response?.success) {
           router.push('/dashboard')
           router.refresh()
