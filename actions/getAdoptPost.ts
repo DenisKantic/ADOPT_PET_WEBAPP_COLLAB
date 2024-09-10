@@ -30,6 +30,7 @@ interface OneAdoptPost {
   pasos: boolean
   spol: string
   starost: string
+  username: string
   location: string
   created_at: string
 }
@@ -38,17 +39,21 @@ type Email = {
   email: Object
 }
 
-export async function getAdoptPost() {
+export async function getAdoptPost(page: number, PAGE_SIZE: number) {
   let response
 
   try {
-    response = await axios.get<{ adopt_post: AdoptPost[] }>(
-      'http://localhost:8080/getAdoptPostHome'
+    response = await axios.get<{
+      adopt_post: AdoptPost[]
+      totalPages: number
+      currentPage: number
+    }>(
+      `http://localhost:8080/getAdoptPostHome?page=${page}&pageSize=${PAGE_SIZE}`
     )
     return response.data
   } catch (err) {
     console.log('error happened on server side', err)
-    return { adopt_post: [] }
+    return { adopt_post: [], totalPages: 0, currentPage: 1 }
   }
 }
 
@@ -86,6 +91,7 @@ export async function getOneAdoptPost(slug: string) {
         image_paths: [],
         category: '',
         petname: '',
+        username: '',
         phonenumber: '',
         description: '',
         vakcinisan: false,

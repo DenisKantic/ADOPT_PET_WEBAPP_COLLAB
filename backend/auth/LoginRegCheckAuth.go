@@ -23,7 +23,6 @@ var (
 	EMAIL_SMTP    string
 	PASSWORD_SMTP string
 	PETURL        string
-	PETLOCAL      string
 )
 
 func init() {
@@ -36,7 +35,6 @@ func init() {
 	EMAIL_SMTP = os.Getenv("EMAIL_SMTP")
 	PASSWORD_SMTP = os.Getenv("PASSWORD_SMTP")
 	PETURL = os.Getenv("PETURL")
-	PETLOCAL = os.Getenv("PETLOCAL")
 }
 
 type Claims struct {

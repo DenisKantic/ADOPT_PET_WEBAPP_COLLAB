@@ -13,6 +13,7 @@ import { FaCat } from 'react-icons/fa'
 import { SiAnimalplanet } from 'react-icons/si'
 import { getAdoptPost } from '@public/actions/getAdoptPost'
 import { UseAuth } from '../AuthContext'
+import Pagination from './Pagination'
 
 interface AdoptPost {
   id: number
@@ -32,19 +33,18 @@ interface AdoptPost {
 }
 
 export default function CardItem() {
+  const PAGE_SIZE = 20
   const [post, setPost] = useState<AdoptPost[]>([])
   const [totalPages, setTotalPages] = useState(0)
   const [page, setPage] = useState(1)
 
-  const { loading } = UseAuth()
-
   useEffect(() => {
-    fetchPost()
-  }, [])
+    fetchPost(page)
+  }, [page]) // Add page as a dependency
 
-  const fetchPost = async () => {
+  const fetchPost = async (page: number) => {
     try {
-      const response = await getAdoptPost()
+      const response = await getAdoptPost(page, PAGE_SIZE)
       const processedPost: AdoptPost[] = response.adopt_post.map((postItem) => {
         const imagePaths =
           typeof postItem.image_paths === 'string'
@@ -59,12 +59,18 @@ export default function CardItem() {
         }
       })
       setPost(processedPost)
+      console.log('EVO GA', response.totalPages)
+      setTotalPages(response.totalPages)
     } catch (err) {
       console.log('error happened', err)
     }
   }
 
-  const handlePageChange = (page: number) => {}
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setPage(newPage)
+    }
+  }
 
   return (
     <>
@@ -72,9 +78,6 @@ export default function CardItem() {
         <p>Ucitavanje</p>
       ) : (
         post.map((item) => {
-          // const imagePaths = Array.isArray(item.image_paths) ? item.image_paths : [];
-          // const firstImagePath = imagePaths[0] || '';
-
           return (
             <div
               className="relative rounded-xl my-5 w-full pb-2 shadow-2xl overflow-hidden group"
@@ -131,26 +134,11 @@ export default function CardItem() {
           )
         })
       )}
-      <div className="absolute bottom-0 bg-red-400 left-0 w-full flex items-center justify-center">
-        <button
-          className="btn btn-secondary  disabled:text-black disabled:bg-pink-200 text-black text-md"
-          onClick={() => handlePageChange(page - 1)}
-          disabled={page <= 1}
-        >
-          Prethodna
-        </button>
-        <span className="text-black text-sm px-4">
-          {' '}
-          Stranica {page} od {totalPages}{' '}
-        </span>
-        <button
-          className="btn btn-primary text-black disabled:text-black disabled:bg-pink-200 text-md"
-          onClick={() => handlePageChange(page + 1)}
-          disabled={page >= totalPages}
-        >
-          Sljedeća
-        </button>
-      </div>
+      <Pagination
+        page={page}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </>
   )
 }

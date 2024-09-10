@@ -6,7 +6,7 @@ import { IoMaleFemale } from 'react-icons/io5'
 import { MdOutlinePets } from 'react-icons/md'
 import { GrCircleInformation } from 'react-icons/gr'
 import { getOneLostPetPost } from '@public/actions/getLostPetPost'
-import ImagesSlide from './ImagesSlide'
+import ImagesSlide from '@public/src/app/globalComponents/ImagesSlide'
 import formatDate from '@/app/dateHelper/date'
 
 interface LostPetPost {

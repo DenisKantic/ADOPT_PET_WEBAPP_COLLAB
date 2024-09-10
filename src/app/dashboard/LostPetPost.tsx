@@ -12,7 +12,7 @@ import { getLostPetPostDashboard } from '@public/actions/getLostPetPost'
 import { notFound, useRouter } from 'next/navigation'
 import LoadingSpinner from '../globalComponents/Spinner'
 import { UseAuth } from '../AuthContext'
-import { DeleteAdoptPost } from '@public/actions/deletePost'
+import { DeleteLostPetPost } from '@public/actions/deletePost'
 import CreateLostPost from './CreateLostPost'
 import formatDate from '../dateHelper/date'
 
@@ -136,7 +136,7 @@ export default function LostPetPost() {
               </Link>
               <Link
                 href={`/adoptPet/${item.slug}`}
-                className="btn border-[#2F5382] w-full bg-[#2F5382] text-lg text-white hover:bg-white hover:text-[#2F5382]"
+                className="disabled btn border-[#2F5382] w-full bg-[#2F5382] text-lg text-white hover:bg-white hover:text-[#2F5382]"
               >
                 Uredi
               </Link>
@@ -144,7 +144,7 @@ export default function LostPetPost() {
                 className="btn border-[#2F5382] w-full bg-red-400 text-lg text-white hover:bg-white hover:text-[#2F5382]"
                 onClick={async () => {
                   console.log('ID TEST', item.id)
-                  const response = await DeleteAdoptPost(item.id)
+                  const response = await DeleteLostPetPost(item.id)
                   if (response?.success) {
                     router.push('/dashboard')
                   } else {

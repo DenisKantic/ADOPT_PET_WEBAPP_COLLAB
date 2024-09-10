@@ -4,7 +4,8 @@ import axios from 'axios'
 export async function createDonationPost(
   formData: FormData,
   locationPost: string,
-  email: string
+  email: string,
+  username: string
 ) {
   const images = formData.getAll('images')
   const animal_category = formData.get('animal_category')?.toString() || ''
@@ -14,6 +15,7 @@ export async function createDonationPost(
   const description = formData.get('description')?.toString() || ''
   const location = locationPost
   const userEmail = email
+  const name = username
 
   const formDataToSend = new FormData()
 
@@ -24,6 +26,7 @@ export async function createDonationPost(
   formDataToSend.append('description', description)
   formDataToSend.append('location', location)
   formDataToSend.append('email', userEmail)
+  formDataToSend.append('username', name)
 
   images.forEach((image) => {
     if (images.length == 0) {

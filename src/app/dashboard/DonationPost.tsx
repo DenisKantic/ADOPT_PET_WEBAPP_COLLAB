@@ -5,13 +5,14 @@ import Link from 'next/link'
 import { PiDogBold } from 'react-icons/pi'
 import { FaCat } from 'react-icons/fa'
 import { SiAnimalplanet } from 'react-icons/si'
+import { IoLocationOutline } from 'react-icons/io5'
 import { useRouter } from 'next/navigation'
 import LoadingSpinner from '../globalComponents/Spinner'
 import { UseAuth } from '../AuthContext'
 import { DeleteAdoptPost } from '@public/actions/deletePost'
-import CreatePost from './CreatePost'
 import formatDate from '../dateHelper/date'
 import { getDonationPostDashboard } from '@public/actions/getDonationPostDashboard'
+import CreateDonationPost from './CreateDonationPost'
 
 interface DonationPost {
   id: number
@@ -74,16 +75,6 @@ export default function DonationPost() {
 
   if (loading) return <LoadingSpinner />
 
-  if (error)
-    return (
-      <p className="text-center text-black text-xl">
-        Desila se greška. Molimo Vas da kontaktirate podršku na{' '}
-        <span className="text-[#2F5382] font-bold">
-          contact@petconnectbosnia.com
-        </span>
-      </p>
-    )
-
   return (
     <>
       {donationPost.map((item) => {
@@ -125,10 +116,11 @@ export default function DonationPost() {
                   )}
                   <span className="pl-3">{item.post_category}</span>
                 </li>
-                {/* <li className="flex items-center">
+                <li className="flex items-center">
                   <IoLocationOutline className="text-[#2F5382] text-lg" />
                   <span className="pl-3">{item.location}</span>
                 </li>
+                {/*
                 <li className="flex items-center">
                   <MdOutlinePets className="text-[#2F5382] text-lg" />
                   <span className="pl-3">{item.starost}</span>
@@ -169,7 +161,7 @@ export default function DonationPost() {
           </div>
         )
       })}
-      <CreatePost postCounter={postCounter} />
+      <CreateDonationPost postCounter={postCounter} />
     </>
   )
 }

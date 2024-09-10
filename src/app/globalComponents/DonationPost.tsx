@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { PiDogBold } from 'react-icons/pi'
 import { FaCat } from 'react-icons/fa'
 import { SiAnimalplanet } from 'react-icons/si'
+import { IoLocationOutline } from 'react-icons/io5'
 import { getDonationPosts } from '@public/actions/getDonationPostHome'
 import formatDate from '../dateHelper/date'
 import { notFound } from 'next/navigation'
@@ -79,6 +80,10 @@ export default async function DonationPost() {
                       <SiAnimalplanet className="text-[#2F5382] text-xl" />
                     )}
                     <span className="pl-3">{item.post_category}</span>
+                  </li>
+                  <li className="flex items-center">
+                    <IoLocationOutline className="text-[#2F5382] text-lg" />
+                    <span className="pl-3">{item.location}</span>
                   </li>
                 </ul>
                 <p className="text-sm text-center py-2 text-gray-600">

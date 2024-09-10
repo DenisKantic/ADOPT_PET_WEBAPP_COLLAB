@@ -16,19 +16,19 @@ export default async function Home() {
     <div className="min-h-[100svh] overflow-hidden bg-[#f1f4f5] w-full text-black xxs:px-5 md:px-14">
       <SecondNavigation />
       {/* hero section */}
-      <div className="flex justify-between bg-[#2F5382] rounded-b-xl rounded-sm xxs:mt-5 md:mt-0 xxs:h-[50svh] md:h-[30svh]">
+      <div className="flex justify-between bg-[#2F5382] rounded-b-xl rounded-sm xxs:mt-5 md:mt-0 xxs:min-h-[30svh]">
         {/* left side */}
-        <div className="flex flex-col justify-center items-start xxs:w-full md:w-[60%] p-5 overflow-hidden">
+        <div className="flex flex-col justify-center items-start xxs:w-full xl:w-[60%] p-5 overflow-hidden">
           <Image
             src="/images/logo.png"
             alt="logo"
             width={60}
             height={60}
-            className="pl-3 mt-2 xxs:mx-auto md:mx-0"
+            className="py-2 xxs:mx-auto xl:mx-0"
           />
-          <div className="text-[#fafafa]  p-4 leading-10 font-bold xxs:text-lg md:text-6xl">
-            <h1 className="pb-3 xxs:text-center md:text-left">PetConnect</h1>
-            <h1 className="xxs:text-center md:text-left">
+          <div className="text-[#fafafa] xxs:text-center w-full md:text-left  p-4 leading-10 font-bold xxs:text-lg md:text-2xl xxl:text-6xl">
+            <h1 className="pb-3 xxs:text-center xl:text-left">PetConnect</h1>
+            <h1 className="xxs:text-center xl:text-left">
               Bosna i Hercegovina
             </h1>
           </div>
@@ -40,17 +40,23 @@ export default async function Home() {
               Hercegovine.
             </p>
 
-            <div className="xxs:block md:hidden">
+            <div className="xxs:block xl:hidden">
               <p className="mt-5 text-center">Pratite nas na:</p>
               <div className="flex flex-row items-center justify-center gap-5">
                 <Link href="/">
-                  <FaFacebookSquare className="hover:text-red-400" size={30} />
+                  <FaFacebookSquare
+                    className="hover:text-[#2F5382]"
+                    size={30}
+                  />
                 </Link>
                 <Link href="/">
-                  <FaInstagram className="hover:text-red-400" size={30} />
+                  <FaInstagram className="hover:text-[#2F5382]" size={30} />
                 </Link>
                 <Link href="/">
-                  <FaFacebookSquare className="hover:text-red-400" size={30} />
+                  <FaFacebookSquare
+                    className="hover:text-[#2F5382]"
+                    size={30}
+                  />
                 </Link>
               </div>
             </div>
@@ -58,7 +64,7 @@ export default async function Home() {
         </div>
 
         {/* right side */}
-        <div className="w-[40%] flex flex-col items-center justify-center bg-white overflow-hidden h-full clip-path xxs:hidden md:flex">
+        <div className="w-[40%] min-h-[30svh] flex flex-col items-center justify-center bg-white overflow-hidden clip-path xxs:hidden xl:flex">
           {/* Content */}
           <div className="relative z-10">
             <Image
@@ -72,13 +78,13 @@ export default async function Home() {
             <p className="text-center">Pratite nas na:</p>
             <div className="flex flex-row items-center justify-center gap-5">
               <Link href="/">
-                <FaFacebookSquare className="hover:text-red-400" size={30} />
+                <FaFacebookSquare className="hover:text-[#2F5382]" size={30} />
               </Link>
               <Link href="/">
-                <FaInstagram className="hover:text-red-400" size={30} />
+                <FaInstagram className="hover:text-[#2F5382]" size={30} />
               </Link>
               <Link href="/">
-                <FaFacebookSquare className="hover:text-red-400" size={30} />
+                <FaFacebookSquare className="hover:text-[#2F5382]" size={30} />
               </Link>
             </div>
           </div>
@@ -100,7 +106,7 @@ export default async function Home() {
         <CardItem />
       </div>
 
-      <div className="flex justify-between items-center pt-10 xxs:flex-row">
+      {/* <div className="flex justify-between items-center pt-10 xxs:flex-row">
         <p className="xxs:text-sm md:text-2xl">Izgubljene životinje</p>
         <Link
           href="/lostPet"
@@ -126,7 +132,7 @@ export default async function Home() {
       </div>
       <div className="grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-5">
         <DonationPost />
-      </div>
+      </div> */}
     </div>
   )
 }

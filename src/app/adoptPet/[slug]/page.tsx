@@ -8,8 +8,8 @@ import { PiSyringe } from 'react-icons/pi'
 import { GrCircleInformation } from 'react-icons/gr'
 import { TbEPassport } from 'react-icons/tb'
 import { getOneAdoptPost } from '@public/actions/getAdoptPost'
-import ImagesSlide from './ImagesSlide'
 import formatDate from '@/app/dateHelper/date'
+import ImagesSlide from '@/app/globalComponents/ImagesSlide'
 
 interface OneAdoptPost {
   id: number
@@ -17,6 +17,7 @@ interface OneAdoptPost {
   category: string
   petname: string
   phonenumber: string
+  username: string
   description: string
   vakcinisan: boolean
   cipovan: boolean
@@ -167,7 +168,7 @@ export default async function AnimalDetails({ params: { slug } }: Props) {
         <div className="w-full h-full p-5 grid grid-cols-2 text-black">
           <div className="flex flex-col items-start justify-center">
             <p className="py-2 text-[#2F5382]">
-              Ime korisnika: <span className="text-black">Test</span>
+              Ime korisnika: <span className="text-black">{post.username}</span>
             </p>
             <p className="pb-2 text-[#2F5382]">
               Broj telefona:{' '}
