@@ -12,6 +12,10 @@ import { getAdoptPostDashboard } from '@public/actions/getAdoptPost'
 import { notFound, useRouter } from 'next/navigation'
 import LoadingSpinner from '../globalComponents/Spinner'
 import { UseAuth } from '../AuthContext'
+import { DeleteAdoptPost } from '@public/actions/deletePost'
+import CreatePost from './CreatePost'
+import { format, parseISO } from 'date-fns'
+import formatDate from '../dateHelper/date'
 
 interface AdoptPostItem {
   id: number
@@ -25,23 +29,14 @@ interface AdoptPostItem {
   created_at: string
 }
 
-const formatDate = (dateString: string): string => {
-  const date = new Date(dateString)
-
-  // Format to dd/mm/yy
-  return date.toLocaleDateString('bs-BA', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  })
-}
-
 export default function AllAnimals() {
   const [animalPost, setAnimalPost] = useState<AdoptPostItem[]>([])
   const [message, setMessage] = useState<string>('Ucitavanje...')
+  const [error, setError] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(true)
   const router = useRouter()
   const { email } = UseAuth()
+  const postCounter = animalPost.length
 
   console.log('EMAIL HERE TESTING TESTING', email)
 
@@ -67,8 +62,11 @@ export default function AllAnimals() {
         }
       )
       setAnimalPost(processedPost)
+      setLoading(false)
     } catch (err) {
       console.log('error happened', err)
+      setLoading(false)
+      setError(true)
     }
   }
 
@@ -76,6 +74,8 @@ export default function AllAnimals() {
     fetchPost(email)
     setLoading(false)
   }, [email])
+
+  if (loading) return <LoadingSpinner />
 
   return (
     <>
@@ -91,7 +91,7 @@ export default function AllAnimals() {
               height={50}
               width={50}
               unoptimized
-              className="object-cover h-[20vh] shadow-xl w-full"
+              className="object-cover overflow-hidden h-[20vh] shadow-xl w-full"
             />
             <div className="w-full px-5">
               <ul className="text-black mt-2 flex flex-col">
@@ -131,27 +131,36 @@ export default function AllAnimals() {
             </div>
             <div className="absolute inset-0 bg-black px-20 gap-5 bg-opacity-70 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <Link
-                href={`/adoptPet/${item.slug}`}
+                href={`/dashboard/animalDetails/${item.slug}`}
                 className="btn border-[#2F5382] w-full bg-[#2F5382] text-lg text-white hover:bg-white hover:text-[#2F5382]"
               >
                 Pročitaj više...
               </Link>
-              <Link
+              {/* <Link
                 href={`/adoptPet/${item.slug}`}
-                className="btn border-[#2F5382] w-full bg-[#2F5382] text-lg text-white hover:bg-white hover:text-[#2F5382]"
+                className="btn btn-disabled disabled:text-white border-[#2F5382] w-full bg-[#2F5382] text-lg text-white hover:bg-white hover:text-[#2F5382]"
               >
                 Uredi
-              </Link>
-              <Link
-                href={`/adoptPet/${item.slug}`}
+              </Link> */}
+              <button
                 className="btn border-[#2F5382] w-full bg-red-400 text-lg text-white hover:bg-white hover:text-[#2F5382]"
+                onClick={async () => {
+                  console.log('ID TEST', item.id)
+                  const response = await DeleteAdoptPost(item.id)
+                  if (response?.success) {
+                    router.push('/dashboard')
+                  } else {
+                    alert('shit')
+                  }
+                }}
               >
                 Obriši
-              </Link>
+              </button>
             </div>
           </div>
         )
       })}
+      <CreatePost postCounter={postCounter} />
     </>
   )
 }

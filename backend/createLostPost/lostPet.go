@@ -2,11 +2,14 @@ package createLostPost
 
 import (
 	"backend/db"
+	"backend/helper"
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -14,8 +17,22 @@ import (
 	"strings"
 )
 
+var (
+	PETURL   string
+	PETLOCAL string
+)
+
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("Error loading .env file %v", err)
+	}
+	PETURL = os.Getenv("PETURL")
+	PETLOCAL = os.Getenv("PETLOCAL")
+}
+
 func CreatePost(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Origin", PETURL)
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
@@ -37,11 +54,12 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	description := r.FormValue("description")
 	spol := r.FormValue("spol")
 	location := r.FormValue("location")
+	email := r.FormValue("email")
 
 	if category == "" || petname == "" || phonenumber == "" ||
-		description == "" || spol == "" || location == "" {
+		description == "" || spol == "" || location == "" || email == "" {
 		fmt.Println("MISSING REQUIRED FIELDS")
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		http.Error(w, "Missing required fields", http.StatusBadRequest)
 		return
 	}
 
@@ -59,6 +77,9 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 
 	parentFolder := "lostPetImages"
 	slugFolderPath := filepath.Join(parentFolder, slug)
+
+	slugFolderPath = helper.GenerateUniqueSlugPath(slugFolderPath, slug, parentFolder)
+
 	err = os.MkdirAll(slugFolderPath, os.ModePerm)
 	if err != nil {
 		http.Error(w, "Error creating directory for slug", http.StatusInternalServerError)
@@ -110,7 +131,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	// separating images (if it has 2 or more) with commas
 	filePathsWithCommas := "{" + strings.Join(filePaths, ",") + "}"
 	fmt.Println("\nNEW FILE NAMES IN ARRAY", filePathsWithCommas)
-	err = SaveToDB(filePathsWithCommas, category, petname, phonenumber, description, spol, location, slug)
+	err = SaveToDB(filePathsWithCommas, category, petname, phonenumber, description, spol, location, slug, email)
 	if err != nil {
 		http.Error(w, fmt.Sprintf("ERROR here %v", err), http.StatusInternalServerError)
 		return
@@ -163,7 +184,7 @@ func stringToBool(input string) (bool, error) {
 
 func SaveToDB(filePathsWithCommas string, category string,
 	petname string, phonenumber string, description string, spol string,
-	location string, slug string) error {
+	location string, slug string, email string) error {
 
 	database, err := db.DbConnect()
 	if err != nil {
@@ -178,7 +199,7 @@ func SaveToDB(filePathsWithCommas string, category string,
 	}
 
 	//query := "INSERT INTO adoptPost (filePaths, category, petName, phoneNumber, description, vakcinisan, cipovan, pasos,spol, starost, location, slug) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11,$12)"
-	_, err = database.Exec("INSERT INTO lostPetPost ( image_paths, category, petname, phonenumber, description,spol, location, slug) VALUES ($1, $2, $3, $4, $5,$6,$7,$8)", filePathsWithCommas, category, petname, phonenumber, description, spol, location, uniqueSlug)
+	_, err = database.Exec("INSERT INTO lostPetPost ( image_paths, category, petname, phonenumber, description,spol, location, slug, user_email) VALUES ($1, $2, $3, $4, $5,$6,$7,$8, $9)", filePathsWithCommas, category, petname, phonenumber, description, spol, location, uniqueSlug, email)
 	if err != nil {
 		return fmt.Errorf("error u izvrsenju baze: %v", err)
 	}

@@ -15,9 +15,9 @@ export default function Logout() {
           router.push('/')
           router.refresh()
         }}
-        className="btn btn-primary flex items-center justify-center mt-5"
+        className="btn bg-[#2f5382] rounded-full text-white flex items-center justify-center mt-5"
       >
-        SignOut
+        Odjavi se
       </li>
     </>
   )

@@ -1,46 +1,96 @@
 'use server'
 import React from 'react'
 import CardItem from './globalComponents/CardItem'
-import LostAnimals from './globalComponents/LostAnimals'
-import DonationPost from './globalComponents/DonationPost'
 import Link from 'next/link'
 import Image from 'next/image'
 import SecondNavigation from './globalComponents/navbar/SecondNavigation'
+import LostPet from './globalComponents/LostPet'
+import { FaFacebookSquare } from 'react-icons/fa'
+import { FaInstagram } from 'react-icons/fa'
+
+import './bgcss.css'
+import DonationPost from './globalComponents/DonationPost'
 
 export default async function Home() {
   return (
-    <div className="min-h-screen overflow-hidden bg-[#f1f4f5] w-full text-black xxs:px-5 md:px-14 pt-20">
+    <div className="min-h-[100svh] overflow-hidden bg-[#f1f4f5] w-full text-black xxs:px-5 md:px-14">
       <SecondNavigation />
-      <div className="w-full overflow-hidden min-h-[30svh] grid grid-cols-2 rounded-2xl shadow-2xl border-[1px] border-[#2F5382] p-5 mt-20 mb-5 bg-[#2F5382] font-bold">
-        <div>
+      {/* hero section */}
+      <div className="flex justify-between bg-[#2F5382] rounded-b-xl rounded-sm xxs:mt-5 md:mt-0 xxs:min-h-[30svh]">
+        {/* left side */}
+        <div className="flex flex-col justify-center items-start xxs:w-full xl:w-[60%] p-5 overflow-hidden">
           <Image
-            alt="logo image"
             src="/images/logo.png"
-            height={50}
-            width={50}
-            className="pb-3"
+            alt="logo"
+            width={60}
+            height={60}
+            className="py-2 xxs:mx-auto xl:mx-0"
           />
-          <p className="w-full xxs:text-sm md:text-4xl md:mt-0 text-white pb-5 tracking-wide">
-            PetConnect <br />
-            Bosnia i Hercegovina
-          </p>
-          <span className="xxs:text-[0.9em] md:text-md font-extrabold tracking-wide">
-            PetConnect pomaže u udomljavanju i pružanju pomoći svim životinjama
-            kao i njihov pronalazak u slučaju izgubljenosti širom Bosne i
-            Hercegovine.
-          </span>
+          <div className="text-[#fafafa] xxs:text-center w-full md:text-left  p-4 leading-10 font-bold xxs:text-lg md:text-2xl xxl:text-6xl">
+            <h1 className="pb-3 xxs:text-center xl:text-left">PetConnect</h1>
+            <h1 className="xxs:text-center xl:text-left">
+              Bosna i Hercegovina
+            </h1>
+          </div>
+          <div className="text-[#fafafa] leading-5 px-4 font-normal py-2 opacity-60 mb-5 xxs:text-sm xxs:text-center md:text-lg md:text-left">
+            <p>
+              PetConnect pomaže u udomljavanju, objavljivanju donacijskih stvari
+              kao što su hrana, oprema i drugo,pružanju pomoći svim životinjama,
+              kao i njihov pronalazak u slučaju izgubljenosti širom Bosne i
+              Hercegovine.
+            </p>
+
+            <div className="xxs:block xl:hidden">
+              <p className="mt-5 text-center">Pratite nas na:</p>
+              <div className="flex flex-row items-center justify-center gap-5">
+                <Link href="/">
+                  <FaFacebookSquare
+                    className="hover:text-[#2F5382]"
+                    size={30}
+                  />
+                </Link>
+                <Link href="/">
+                  <FaInstagram className="hover:text-[#2F5382]" size={30} />
+                </Link>
+                <Link href="/">
+                  <FaFacebookSquare
+                    className="hover:text-[#2F5382]"
+                    size={30}
+                  />
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <p className="w-full xxs:text-sm md:text-xl md:mt-0 text-white">
-          Web aplikacija je trenutno u beta {'(test)'} fazi i zbog toga su
-          moguće manje greške. <br />
-          Ukoliko primjetite grešku, molimo Vas da nam se javite na <br />
-          <span className="xxs:text-[0.9em] md:text-2xl font-extrabold tracking-wide lowercase">
-            contact@petconnectbosnia.com
-          </span>
-          <br />
-        </p>
+        {/* right side */}
+        <div className="w-[40%] min-h-[30svh] flex flex-col items-center justify-center bg-white overflow-hidden clip-path xxs:hidden xl:flex">
+          {/* Content */}
+          <div className="relative z-10">
+            <Image
+              src="/images/logo.png"
+              alt="hero-dog"
+              height={50}
+              width={50}
+              className="h-40 w-40 right-[3%] bottom-[30%]"
+              unoptimized
+            />
+            <p className="text-center">Pratite nas na:</p>
+            <div className="flex flex-row items-center justify-center gap-5">
+              <Link href="/">
+                <FaFacebookSquare className="hover:text-[#2F5382]" size={30} />
+              </Link>
+              <Link href="/">
+                <FaInstagram className="hover:text-[#2F5382]" size={30} />
+              </Link>
+              <Link href="/">
+                <FaFacebookSquare className="hover:text-[#2F5382]" size={30} />
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
+      {/* end of hero section */}
 
       <div className="flex justify-between items-center pt-20 xxs:flex-row">
         <p className="xxs:text-md md:text-2xl">Udomi svog ljubimca</p>
@@ -52,24 +102,12 @@ export default async function Home() {
           Pogledaj sve
         </Link>
       </div>
-      <div className="grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
-        {/* <div className='w-[90%] mx-auto h-[30vh] my-5 p-5 rounded-xl flex flex-col justify-center items-center border-[1px] shadow-2xl border-[#2F5382]'>
-          <Image
-          src="/images/logo.png"
-          alt="logo"
-          height={100}
-          width={100}
-          unoptimized
-          className='w-full object-cover'
-          />
-          <p>Vaše mjesto za reklamu</p>
-          <p>Kontaktirajte nas..</p>
-          </div> */}
+      <div className="grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-5">
         <CardItem />
       </div>
 
-      <div className="flex justify-between items-center pt-10 xxs:flex-row">
-        <p className="xxs:text-sm md:text-2xl">Izgubljene zivotinje</p>
+      {/* <div className="flex justify-between items-center pt-10 xxs:flex-row">
+        <p className="xxs:text-sm md:text-2xl">Izgubljene životinje</p>
         <Link
           href="/lostPet"
           className="badge py-4 px-4 bg-[#2F5382] text-md text-white rounded-full
@@ -78,21 +116,9 @@ export default async function Home() {
           Pogledaj sve
         </Link>
       </div>
-      <div className="grid gap-10 xxs:grid-cols-1 sn:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-        {/* <LostAnimals/>  */}
+      <div className="grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-5">
+        <LostPet />
       </div>
-
-      {/* <div className='flex justify-between items-center pt-10 xxs:flex-row'>
-        <p className='xxs:text-md md:text-2xl'>Pomozi zivotinji:</p>
-        <Link href="/Building"  
-        className="badge py-4 px-4 bg-[#2F5382] text-md text-white rounded-full
-                                    hover:bg-white hover:border-[#2F5382] hover:text-[#2F5382]">
-                                      Pogledaj sve
-        </Link>
-      </div>
-      <div className="grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 xxl:grid-cols-5">
-          <CardItem/> 
-      </div> */}
 
       <div className="flex justify-between items-center pt-10 xxs:flex-row">
         <p className="xxs:text-md md:text-2xl">Donacije:</p>
@@ -104,9 +130,9 @@ export default async function Home() {
           Pogledaj sve
         </Link>
       </div>
-      <div className="grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-        {/* <DonationPost/>  */}
-      </div>
+      <div className="grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-5">
+        <DonationPost />
+      </div> */}
     </div>
   )
 }

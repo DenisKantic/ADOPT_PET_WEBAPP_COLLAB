@@ -22,6 +22,7 @@ var (
 	JWT_SECRET    string
 	EMAIL_SMTP    string
 	PASSWORD_SMTP string
+	PETURL        string
 )
 
 func init() {
@@ -33,6 +34,7 @@ func init() {
 	JWT_SECRET = os.Getenv("JWT_SECRET")
 	EMAIL_SMTP = os.Getenv("EMAIL_SMTP")
 	PASSWORD_SMTP = os.Getenv("PASSWORD_SMTP")
+	PETURL = os.Getenv("PETURL")
 }
 
 type Claims struct {
@@ -62,7 +64,7 @@ func GenerateToken(email, username string) (string, error) {
 		Email:    email,
 		Username: username,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Hour * 1).Unix(),
+			ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
 		},
 	}
 
@@ -93,7 +95,7 @@ func SendActivationEmail(email, token string) error {
 		"Da bi nastavili koristiti našu aplikaciju, morate kliknuti ispod na link " +
 		"kako bi aktivirali svoj korisnički nalog. \r\n " +
 		"\r\n" +
-		"http://localhost:3000/activate?token=" + token + "\r\n" +
+		"http://localhost:3000/ActivateAccount?token=" + token + "\r\n" +
 		"\r\n" +
 		"Za sva dodatna pitanja, primjedbe ili žalbe, molimo Vas da se slobodno obratite " +
 		"na naš email contact@petconnectbosnia.com")
@@ -110,7 +112,7 @@ func SendActivationEmail(email, token string) error {
 }
 
 func Register(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Origin", PETURL)
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	w.Header().Set("Access-Control-Allow-Credentials", "true")
@@ -168,10 +170,18 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = database.Exec("INSERT INTO users (email,username,password, is_active, activation_token) VALUES ($1,$2,$3, $4,$5)",
-		email, username, hashedPassword, false, activationToken)
+	_, err = database.Exec("INSERT INTO users (email,username,password, is_activated) VALUES ($1,$2,$3, $4)",
+		email, username, hashedPassword, false)
 	if err != nil {
 		http.Error(w, "Error creating user", http.StatusInternalServerError)
+		return
+	}
+
+	// Store activation token in inactivated_accounts table
+	_, err = database.Exec("INSERT INTO unactivated_accounts (token, user_email) VALUES ($1, $2)",
+		activationToken, email)
+	if err != nil {
+		http.Error(w, "Error storing activation token", http.StatusInternalServerError)
 		return
 	}
 
@@ -193,8 +203,58 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
+func ActivateAccount(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", PETURL)
+	w.Header().Set("Access-Control-Allow-Methods", "POST")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
+
+	if r.Method == http.MethodOptions {
+		return
+	}
+
+	token := r.URL.Query().Get("token")
+
+	// database initialization
+	database, err := db.DbConnect()
+	if err != nil {
+		http.Error(w, "Error connecting to database", http.StatusInternalServerError)
+		return
+	}
+	defer database.Close()
+
+	// Check if the token exists
+	var userEmail string
+	err = database.QueryRow("SELECT user_email FROM unactivated_accounts WHERE token=$1", token).Scan(&userEmail)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			http.Error(w, "Invalid token", http.StatusBadRequest)
+			return
+		}
+		http.Error(w, "Error querying token", http.StatusInternalServerError)
+		return
+	}
+
+	// Activate the user account
+	_, err = database.Exec("UPDATE users SET is_activated=true WHERE email=$1", userEmail)
+	if err != nil {
+		http.Error(w, "Error activating user", http.StatusInternalServerError)
+		return
+	}
+
+	// Delete the token from inactivated_accounts
+	_, err = database.Exec("DELETE FROM unactivated_accounts WHERE token=$1", token)
+	if err != nil {
+		http.Error(w, "Error deleting activation token", http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Fprintln(w, "Account activated successfully")
+	w.WriteHeader(http.StatusOK)
+}
+
 func Login(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Origin", PETURL)
 	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	w.Header().Set("Access-Control-Allow-Credentials", "true")
@@ -223,25 +283,36 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	defer database.Close()
 
 	var storedPassword, username string
+	var isActivated bool
 
-	compareHash := database.QueryRow("SELECT password, username FROM users WHERE email=$1", email).Scan(&storedPassword, &username)
-
-	if compareHash != nil {
-		http.Error(w, "Invalid email", http.StatusBadRequest)
+	err = database.QueryRow("SELECT password, username, is_activated FROM users WHERE email=$1", email).Scan(&storedPassword, &username, &isActivated)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			http.Error(w, "Invalid email", http.StatusBadRequest)
+		} else {
+			http.Error(w, "Internal server error", http.StatusInternalServerError)
+		}
 		return
 	}
 
-	compareHash = bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(password))
+	// Check if the user is activated
+	if !isActivated {
+		http.Error(w, "Please activate your account by clicking the link sent to your email.", http.StatusForbidden)
+		fmt.Println("Profile not activated.")
+		return
+	}
 
-	if compareHash != nil {
+	// Check the password
+	err = bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(password))
+	if err != nil {
 		http.Error(w, "Invalid password", http.StatusBadRequest)
 		return
 	}
 
-	// generate token
+	// Generate token
 	token, err := GenerateToken(email, username)
 	if err != nil {
-		http.Error(w, "Internal generating token", http.StatusInternalServerError)
+		http.Error(w, "Internal server error while generating token", http.StatusInternalServerError)
 		return
 	}
 
@@ -308,7 +379,7 @@ func CheckAuthUser(r *http.Request) (string, string, bool, error) {
 
 func CheckAuth(w http.ResponseWriter, r *http.Request) {
 
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Origin", PETURL)
 	w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 	w.Header().Set("Access-Control-Allow-Credentials", "true")

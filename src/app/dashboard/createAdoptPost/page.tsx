@@ -24,7 +24,7 @@ const CreateAdoptPost = () => {
   const [fileName, setFileName] = useState<string | null>(null) // State to store file name
   const router = useRouter() // Initialize the router
   const [isPending, startTransition] = useTransition() // loading state
-  const { email } = UseAuth()
+  const { email, username } = UseAuth()
 
   console.log('HERE IS EMAIL', email.toString())
 
@@ -209,20 +209,26 @@ const CreateAdoptPost = () => {
     const formData = new FormData(event.target as HTMLFormElement)
 
     startTransition(async () => {
-      const response = await createAdoptPost(formData, location, email)
-
-      //  // if(response?.success){
-      //     router.push('/dashboard')
-      //     router.refresh();
-      //   }})
-      // } catch (err) {
-      //   console.error("Failed to create donation post", err);
-      // }
+      try {
+        const response = await createAdoptPost(
+          formData,
+          location,
+          email,
+          username
+        )
+        if (response?.success) {
+          router.push('/dashboard')
+          router.refresh()
+        }
+      } catch (error) {
+        console.log('error happened', error)
+        alert(error)
+      }
     })
   }
 
   return (
-    <div className="min-h-screen w-full bg-gray-200 xxs:px-4 md:px-10 py-20">
+    <div className="min-h-screen w-full bg-gray-200 xxs:px-4 md:px-10 py-5">
       <div
         className="w-[50%] bg-gray-100 mx-auto min-h-[50vh] shadow-2xl rounded-md
                         xxs:w-full md:w-[60%] xl:w-[50%]"

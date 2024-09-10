@@ -2,45 +2,18 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { LoginSchema } from '@public/schema'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useTransition } from 'react'
-import * as z from 'zod'
-import { loginZod } from '@public/actions/login'
-import { redirect, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { UseAuth } from '@/app/AuthContext'
-import { revalidatePath } from 'next/cache'
 
 export default function Register() {
-  const [error, setError] = useState<string | undefined>('')
-  const [success, setSuccess] = useState<string | undefined>('')
+  const [error, setError] = useState<boolean | undefined>(false)
+  const [success, setSuccess] = useState<boolean | undefined>(false)
   const [isPending, startTransition] = useTransition()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const router = useRouter()
   const { isAuthenticated, Login } = UseAuth()
-
-  // const {register, handleSubmit, formState: {errors}} = useForm<z.infer<typeof LoginSchema>>({
-  //     resolver: zodResolver(LoginSchema),
-  //     defaultValues:{
-  //       email: "",
-  //       password: "",
-  //     }
-  // })
-
-  // const onSubmit = (values: z.infer<typeof LoginSchema>) =>{
-  //   setError("")
-  //   setSuccess("")
-
-  // startTransition(async ()=>{
-  //   const response = await loginZod(values)
-  //   if(response === 200){
-  //     router.push('/dashboard')
-  //   } else {
-  //     console.log('login failed')
-  //   }
-  // })
 
   const checkUser = () => {
     if (isAuthenticated) {
@@ -60,13 +33,20 @@ export default function Register() {
     formData.append('email', email)
     formData.append('password', password)
 
-    console.log('WHICH SENDING FILES', email, password)
-
-    await Login(formData)
+    const response = await Login(formData)
+    if (response.success) {
+      setSuccess(true)
+      setError(false)
+      router.push('/dashboard')
+      router.refresh()
+    } else {
+      setError(true)
+      setSuccess(false)
+    }
   }
 
   return (
-    <div className="h-screen w-full flex items-center justify-center bg-[#2f5382]">
+    <div className="h-[100svh]  w-full flex items-center justify-center bg-[#2f5382]">
       <div
         className="card bg-white rounded-xl p-5 text-black 
                         xxs:w-full xxs:h-screen xxs:overflow-y-scroll 
@@ -123,9 +103,6 @@ export default function Register() {
 
           <br />
 
-          {error && <span className="text-red-500 pb-5">{error}</span>}
-          {success && <span className="text-green-500">{success}</span>}
-
           <button
             disabled={isPending}
             type="submit"
@@ -133,6 +110,18 @@ export default function Register() {
           >
             Prijavi se
           </button>
+
+          {error && (
+            <span className="text-white rounded-full py-3 mt-2 px-4 bg-red-400">
+              Prijava nije uspješna
+            </span>
+          )}
+
+          {success && (
+            <span className="text-white rounded-full py-3 mt-2 px-4 bg-green-400">
+              Prijava uspješna
+            </span>
+          )}
         </form>
 
         <div className="text-sm text-center text-neutral-500 mt-5">

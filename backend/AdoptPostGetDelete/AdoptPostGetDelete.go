@@ -6,11 +6,35 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/joho/godotenv"
+	"log"
 	"net/http"
+	"os"
 )
 
+var (
+	JWT_SECRET    string
+	EMAIL_SMTP    string
+	PASSWORD_SMTP string
+	PETURL        string
+	PETLOCAL      string
+)
+
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("Error loading .env file %v", err)
+	}
+
+	JWT_SECRET = os.Getenv("JWT_SECRET")
+	EMAIL_SMTP = os.Getenv("EMAIL_SMTP")
+	PASSWORD_SMTP = os.Getenv("PASSWORD_SMTP")
+	PETURL = os.Getenv("PETURL")
+	PETLOCAL = os.Getenv("PETLOCAL")
+}
+
 func GetThreeAdoptPost(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "http://web:3000")
+	w.Header().Set("Access-Control-Allow-Origin", PETURL)
 	w.Header().Set("Access-Control-Allow-Methods", "GET")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
@@ -35,7 +59,7 @@ func GetThreeAdoptPost(w http.ResponseWriter, r *http.Request) {
 
 	defer database.Close()
 
-	query := "SELECT id, image_paths, category, petname, spol, starost, location, slug, created_at FROM adoptPost WHERE user_email = $1 LIMIT 3"
+	query := "SELECT id, image_paths, category, phonenumber, petname, spol, starost, location, slug, created_at FROM adoptPost WHERE user_email = $1 LIMIT 3"
 	rows, err := database.Query(query, email)
 	if err != nil {
 		http.Error(w, "Error querying the database", http.StatusInternalServerError)
@@ -49,10 +73,10 @@ func GetThreeAdoptPost(w http.ResponseWriter, r *http.Request) {
 	for rows.Next() {
 		var id int
 		var image_paths, category, petname, location, spol, starost string
-		var created_at string
+		var created_at, phonenumber string
 		var slug string
 
-		err := rows.Scan(&id, &image_paths, &category, &petname, &spol, &starost, &location, &slug, &created_at)
+		err := rows.Scan(&id, &image_paths, &category, &phonenumber, &petname, &spol, &starost, &location, &slug, &created_at)
 		if err != nil {
 			http.Error(w, "Error scanning the row", http.StatusInternalServerError)
 			return
@@ -68,6 +92,7 @@ func GetThreeAdoptPost(w http.ResponseWriter, r *http.Request) {
 			"created_at":   created_at,
 			"spol":         spol,
 			"starost":      starost,
+			"phonenumber":  phonenumber,
 			"slug":         slug,
 		}
 
@@ -90,7 +115,7 @@ func GetThreeAdoptPost(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllAdoptPost(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Origin", PETURL)
 	w.Header().Set("Access-Control-Allow-Methods", "GET")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
@@ -177,7 +202,7 @@ type Post struct {
 }
 
 func GetOneAdoptPost(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Origin", PETURL)
 	w.Header().Set("Access-Control-Allow-Methods", "GET")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
@@ -227,4 +252,35 @@ func GetOneAdoptPost(w http.ResponseWriter, r *http.Request) {
 	if err := json.NewEncoder(w).Encode(response); err != nil {
 		http.Error(w, "Failed to encode the item", http.StatusInternalServerError)
 	}
+}
+
+func DeleteAdoptPost(w http.ResponseWriter, r *http.Request) {
+
+	// extract ID from URL path
+	id := r.URL.Query().Get("id")
+	if id == "" {
+		http.Error(w, "Missing ID", http.StatusBadRequest)
+		return
+	}
+
+	database, err := db.DbConnect()
+	if err != nil {
+		http.Error(w, "Problem with connecting to database", http.StatusInternalServerError)
+		return
+	}
+
+	defer func(database *sql.DB) {
+		err := database.Close()
+		if err != nil {
+
+		}
+	}(database)
+
+	_, err = database.Exec("DELETE FROM adoptPost WHERE id = $1", id)
+	if err != nil {
+		http.Error(w, "Error deleting post", http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
 }

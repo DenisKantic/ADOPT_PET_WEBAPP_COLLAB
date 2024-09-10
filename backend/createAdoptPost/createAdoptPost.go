@@ -2,11 +2,14 @@ package createAdoptPost
 
 import (
 	"backend/db"
+	"backend/helper"
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -14,8 +17,22 @@ import (
 	"strings"
 )
 
+var (
+	PETURL   string
+	PETLOCAL string
+)
+
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("Error loading .env file %v", err)
+	}
+	PETURL = os.Getenv("PETURL")
+	PETLOCAL = os.Getenv("PETLOCAL")
+}
+
 func CreatePost(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Origin", PETURL)
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
@@ -78,12 +95,59 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	database, err := db.DbConnect()
+	if err != nil {
+		http.Error(w, "Problem with connecting to database", http.StatusInternalServerError)
+		return
+	}
+
+	defer func(database *sql.DB) {
+		err := database.Close()
+		if err != nil {
+
+		}
+	}(database)
+
+	var totalCountPost int
+
+	err = database.QueryRow("SELECT COUNT(*) FROM adoptpost WHERE user_email = $1", email).Scan(&totalCountPost)
+	if err != nil {
+		http.Error(w, "Error counting the created post", http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Println("Total created post", totalCountPost)
+
+	if totalCountPost >= 3 {
+		response := map[string]string{
+			"error": "User has already created 3 posts",
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusForbidden)
+		if err := json.NewEncoder(w).Encode(response); err != nil {
+			http.Error(w, "Error encoding response", http.StatusInternalServerError)
+			return
+		}
+		return
+	}
+
 	// creating slug from the pets name for dynamic route
 	var slug = strings.ToLower(petname)
 	slug = strings.ReplaceAll(slug, " ", "-")
 	re := regexp.MustCompile(`[^a-z0-9-]`)
 	slug = re.ReplaceAllString(slug, "")
 	fmt.Println("NEW SLUG,", slug)
+
+	parentFolder := "adoptPostImages"
+	slugFolderPath := filepath.Join(parentFolder, slug)
+
+	slugFolderPath = helper.GenerateUniqueSlugPath(slugFolderPath, slug, parentFolder)
+
+	err = os.MkdirAll(slugFolderPath, os.ModePerm)
+	if err != nil {
+		http.Error(w, "Error creating directory for slug", http.StatusInternalServerError)
+		return
+	}
 
 	// opening images, saving in file server, retrieving paths and storing in database
 	var filePaths []string
@@ -107,7 +171,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 		newFileName := fmt.Sprintf("%s%d%s", slug, i+1, fileExtension)
 
 		// create a new file in the server
-		dstPath := filepath.Join("adoptImages", newFileName)
+		dstPath := filepath.Join(slugFolderPath, newFileName)
 		dst, err := os.Create(dstPath)
 		if err != nil {
 			http.Error(w, "Error creating a new file in the server", http.StatusInternalServerError)

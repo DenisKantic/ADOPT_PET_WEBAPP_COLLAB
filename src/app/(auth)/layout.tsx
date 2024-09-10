@@ -8,7 +8,9 @@ interface AuthLayoutProps {
 const AuthLayout: FC<AuthLayoutProps> = ({ children }) => {
   return (
     <div>
-      <AuthProvider>{children}</AuthProvider>
+      <AuthProvider>
+        <div className="focus:outline-none">{children}</div>
+      </AuthProvider>
     </div>
   )
 }

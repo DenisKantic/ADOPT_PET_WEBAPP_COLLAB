@@ -19,7 +19,8 @@ export async function middleware(req: NextRequest) {
       })
 
       if (verifyResponse.status === 200) {
-        console.log('USER LOGGED IN')
+        console.log('RESPONSE', verifyResponse)
+
         // Redirect authenticated users away from the login page
         if (pathname === '/login') {
           url.pathname = '/dashboard'
@@ -39,8 +40,8 @@ export async function middleware(req: NextRequest) {
     url.pathname = '/login'
     return NextResponse.redirect(url, { status: 303 })
   }
-  return NextResponse.next()
 }
+
 export const config = {
   matcher: ['/login', '/dashboard/:path*'],
 }

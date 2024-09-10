@@ -1,49 +1,35 @@
 services:
-  #exclude for now nextjs
-  # web:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   environment:
-  #     NODE_ENV: development
-  #     NEXT_PUBLIC_API_URL: http://api:8080
-  #     DATABASE_URL: postgresql://postgres:password@postgres:5432/testing?sslmode=disable
-  #   ports:
-  #     - '3000:3000'
-  #   command: npm run dev
-  #   depends_on:
-  #     - api
-  #     - postgres
-
   api:
     build:
       context: ./backend
       dockerfile: go.dockerfile
     ports:
       - '8080:8080'
-    develop:
-      watch:
-        - action: rebuild
-          path: ./backend
-          files:
-            - '**/*.go'
-            - 'go.mod'
-            - 'go.sum'
     depends_on:
       - postgres
-    environment:
-      DATABASE_URL: postgresql://postgres:password@postgres/testing?sslmode=disable
+    volumes:
+      - ./images/adoptPostImages:/app/adoptPostImages
+      - ./images/lostPetImages:/app/lostPetImages
+      - ./images/donationPostImages:/app/donationPostImages
+    networks:
+      - my_network
 
   postgres:
-    image: postgres:latest
+    image: postgres:16
+    container_name: petdata
     environment:
-      POSTGRES_DB: testing
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: petuser
+      POSTGRES_PASSWORD: wild12life48
+      POSTGRES_DB: petdatabase
     ports:
-      - '5432:5432'
+      - '5434:5434'
     volumes:
-      - postgres-volume:/var/lib/postgresql/data
+      - petvolume:/var/lib/postgresql/data
+    networks:
+      - my_network
+
+networks:
+  my_network:
 
 volumes:
-  postgres-volume:
+  petvolume:

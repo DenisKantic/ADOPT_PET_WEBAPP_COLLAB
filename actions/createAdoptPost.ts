@@ -4,7 +4,8 @@ import axios from 'axios'
 export async function createAdoptPost(
   formData: FormData,
   locationPost: string,
-  email: string
+  email: string,
+  username: string
 ) {
   const images = formData.getAll('images')
   const category = formData.get('category')?.toString() || ''
@@ -17,6 +18,7 @@ export async function createAdoptPost(
   const spol = formData.get('spol')?.toString() || ''
   const starost = formData.get('starost')?.toString() || ''
   const location = locationPost
+  const name = username
 
   const formDataToSend = new FormData()
   formDataToSend.append('category', category)
@@ -30,6 +32,7 @@ export async function createAdoptPost(
   formDataToSend.append('starost', starost)
   formDataToSend.append('location', location)
   formDataToSend.append('email', email)
+  formDataToSend.append('username', name)
 
   if (images.length === 0) {
     return {
@@ -60,7 +63,7 @@ export async function createAdoptPost(
       }
     )
     console.log(response)
-    return response.status
+    return { success: true }
   } catch (error: any) {
     console.log('error happened', error)
     return error.status
