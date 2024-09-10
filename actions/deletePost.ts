@@ -1,40 +1,40 @@
-"use server"
-import { db } from "@public/lib/db";
+'use server'
+import axios from 'axios'
+import { revalidatePath } from 'next/cache'
 
-
-export async function deletePost(id:string){
-
-    try {
-        await db.adoptAnimal.delete({where: {id}})
-
-        return {success: true}
-        
-    } catch (error) {
-        console.log("Delete post failed", error)
-        return {success: false}
-    }
+export async function DeleteAdoptPost(id: number) {
+  try {
+    const response = await axios.delete(
+      `http://localhost:8080/deleteAdoptPost?id=${id}`
+    )
+    console.log('POST WITH ID', id, 'IS DELETED')
+    revalidatePath('/dashboard')
+    return { success: true, data: response.data }
+  } catch (error) {
+    console.log('ERROR DELETING ADOPT POST', error)
+  }
 }
 
-export async function deleteDonationPost(id:string){
-    try {
-        await db.donationPost.delete({where: {id}})
-
-        return {success: true}
-        
-    } catch (error) {
-        console.log("Delete post failed", error)
-        return {success: false}
-    }
+export async function DeleteLostPetPost(id: number) {
+  try {
+    const response = await axios.delete(
+      `http://localhost:8080/deleteLostPetPost?id=${id}`
+    )
+    console.log('POST WITH ID', id, 'IS DELETED')
+    return { success: true }
+  } catch (error) {
+    console.log('ERROR DELETING ADOPT POST', error)
+  }
 }
 
-export async function deleteLostPetPost(id:string){
-    try {
-        await db.lostPetPost.delete({where: {id}})
-
-        return {success: true, message: "obrisan oglas"}
-        
-    } catch (error) {
-        console.log("Delete post failed", error)
-        return {success: false}
-    }
+export default async function DeleteDonationPost(id: number) {
+  try {
+    const response = await axios.delete(
+      `http://localhost:8080/deleteDonationPost?id=${id}`
+    )
+    console.log('POST WITH ID', id, 'IS DELETED')
+    return { success: true }
+  } catch (error) {
+    console.log('ERROR DELETING ADOPT POST', error)
+  }
 }

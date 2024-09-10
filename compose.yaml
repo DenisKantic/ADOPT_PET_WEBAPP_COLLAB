@@ -1,0 +1,35 @@
+services:
+  api:
+    build:
+      context: ./backend
+      dockerfile: go.dockerfile
+    ports:
+      - '8080:8080'
+    depends_on:
+      - postgres
+    volumes:
+      - ./images/adoptPostImages:/app/adoptPostImages
+      - ./images/lostPetImages:/app/lostPetImages
+      - ./images/donationPostImages:/app/donationPostImages
+    networks:
+      - my_network
+
+  postgres:
+    image: postgres:16
+    container_name: petdata
+    environment:
+      POSTGRES_USER: petuser
+      POSTGRES_PASSWORD: wild12life48
+      POSTGRES_DB: petdatabase
+    ports:
+      - '5434:5434'
+    volumes:
+      - petvolume:/var/lib/postgresql/data
+    networks:
+      - my_network
+
+networks:
+  my_network:
+
+volumes:
+  petvolume:
