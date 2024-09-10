@@ -13,9 +13,9 @@ const Pagination: React.FC<PaginationProps> = ({
   onPageChange,
 }) => {
   return (
-    <div className="bottom-0 left-0 fixed bg-red-400 w-full flex items-center justify-center py-1">
+    <div className="bottom-0 bg-white left-0 fixed border-t-2 border-[#2F5382] w-full flex items-center justify-center py-1">
       <button
-        className="btn btn-secondary disabled:text-black disabled:bg-pink-200 text-black text-md"
+        className="btn bg-[#2F5382] disabled:text-black disabled:bg-gray-200 text-white text-md"
         onClick={() => onPageChange(page - 1)}
         disabled={page <= 1}
       >
@@ -25,7 +25,7 @@ const Pagination: React.FC<PaginationProps> = ({
         Stranica {page} od {totalPages}
       </span>
       <button
-        className="btn btn-primary text-black disabled:text-black disabled:bg-pink-200 text-md"
+        className="btn bg-[#2F5382] text-white disabled:text-black disabled:bg-gray-200 text-md"
         onClick={() => onPageChange(page + 1)}
         disabled={page >= totalPages}
       >

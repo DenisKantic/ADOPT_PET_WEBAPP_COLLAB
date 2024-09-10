@@ -5,7 +5,7 @@ export default function SecondNavigation() {
   return (
     <div className="xxs:hidden md:flex justify-center items-center w-full bg-gray-300 h-[8svh]">
       <div className="md:w-full md:text-sm xl:text-xl xl:w-[90%] text-black font-bold w-[50%] flex justify-between gap-10 items-center text-center">
-        <Link className="hover:text-[#2F5382]" href="/adoptPost">
+        <Link className="hover:text-[#2F5382]" href="/adoptPet">
           Udomi životinju
           <div className="border-t-2 mt-1 border-[#2F5382]"></div>
         </Link>

@@ -39,7 +39,11 @@ type Email = {
   email: Object
 }
 
-export async function getAdoptPost(page: number, PAGE_SIZE: number) {
+export async function getAdoptPost(
+  page: number,
+  PAGE_SIZE: number,
+  location: string
+) {
   let response
 
   try {
@@ -48,7 +52,9 @@ export async function getAdoptPost(page: number, PAGE_SIZE: number) {
       totalPages: number
       currentPage: number
     }>(
-      `http://localhost:8080/getAdoptPostHome?page=${page}&pageSize=${PAGE_SIZE}`
+      `http://localhost:8080/getAdoptPostHome?page=${page}&pageSize=${PAGE_SIZE}&location=${encodeURIComponent(
+        location
+      )}`
     )
     return response.data
   } catch (err) {
