@@ -170,8 +170,10 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = database.Exec("INSERT INTO users (email,username,password, is_activated) VALUES ($1,$2,$3, $4)",
-		email, username, hashedPassword, false)
+	var role = "user"
+
+	_, err = database.Exec("INSERT INTO users (email,username,password, is_activated, role) VALUES ($1,$2,$3, $4, $5)",
+		email, username, hashedPassword, false, role)
 	if err != nil {
 		http.Error(w, "Error creating user", http.StatusInternalServerError)
 		return
@@ -282,10 +284,10 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	defer database.Close()
 
-	var storedPassword, username string
+	var storedPassword, username, role string
 	var isActivated bool
 
-	err = database.QueryRow("SELECT password, username, is_activated FROM users WHERE email=$1", email).Scan(&storedPassword, &username, &isActivated)
+	err = database.QueryRow("SELECT password, username, is_activated, role FROM users WHERE email=$1", email).Scan(&storedPassword, &username, &isActivated, &role)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			http.Error(w, "Invalid email", http.StatusBadRequest)

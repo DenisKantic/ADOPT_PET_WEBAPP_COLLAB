@@ -1,6 +1,7 @@
 package createAdoptPost
 
 import (
+	"backend/auth"
 	"backend/db"
 	"backend/helper"
 	"database/sql"
@@ -18,8 +19,7 @@ import (
 )
 
 var (
-	PETURL   string
-	PETLOCAL string
+	PETURL string
 )
 
 func init() {
@@ -28,7 +28,6 @@ func init() {
 		log.Fatalf("Error loading .env file %v", err)
 	}
 	PETURL = os.Getenv("PETURL")
-	PETLOCAL = os.Getenv("PETLOCAL")
 }
 
 func CreatePost(w http.ResponseWriter, r *http.Request) {
@@ -36,11 +35,27 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
+	// Check if user is logged in
+	isLoggedIn, _, _, err := auth.IsUserLoggedIn(r)
+	if err != nil {
+		if err.Error() == "invalid token" {
+			http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		} else {
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		}
+		return
+	}
+
+	if !isLoggedIn {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+
 	if r.Method == http.MethodOptions {
 		return
 	}
 
-	err := r.ParseMultipartForm(35 << 20) // 35 MB max request per form
+	err = r.ParseMultipartForm(35 << 20) // 35 MB max request per form
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -59,9 +74,10 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	starost := r.FormValue("starost")
 	location := r.FormValue("location")
 	email := r.FormValue("email")
+	username := r.FormValue("username")
 
 	if category == "" || petname == "" || phonenumber == "" || email == "" ||
-		description == "" || vakcinisan == "" || cipovan == "" ||
+		description == "" || vakcinisan == "" || cipovan == "" || username == "" ||
 		pasos == "" || spol == "" || starost == "" || location == "" {
 		fmt.Println("MISSING REQUIRED FIELDS")
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -195,7 +211,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	// separating images (if it has 2 or more) with commas
 	filePathsWithCommas := "{" + strings.Join(filePaths, ",") + "}"
 	fmt.Println("\nNEW FILE NAMES IN ARRAY", filePathsWithCommas)
-	err = SaveToDB(filePathsWithCommas, category, petname, phonenumber, description, vakcinisan, cipovan, pasos, spol, starost, location, slug, email)
+	err = SaveToDB(filePathsWithCommas, category, petname, phonenumber, description, vakcinisan, cipovan, pasos, spol, starost, location, slug, email, username)
 	if err != nil {
 		http.Error(w, fmt.Sprintf("ERROR here %v", err), http.StatusInternalServerError)
 		return
@@ -250,7 +266,7 @@ func SaveToDB(filePathsWithCommas string, category string,
 	petname string, phonenumber string, description string,
 	vakcinisan string, cipovan string,
 	pasos string, spol string,
-	starost string, location string, slug string, email string) error {
+	starost string, location string, slug string, email string, username string) error {
 
 	database, err := db.DbConnect()
 	if err != nil {
@@ -281,7 +297,7 @@ func SaveToDB(filePathsWithCommas string, category string,
 	}
 
 	//query := "INSERT INTO adoptPost (filePaths, category, petName, phoneNumber, description, vakcinisan, cipovan, pasos,spol, starost, location, slug) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11,$12)"
-	_, err = database.Exec("INSERT INTO adoptPost ( image_paths, category, petname, phonenumber, description, vakcinisan, cipovan, pasos,spol, starost, location, slug, user_email) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11,$12,$13)", filePathsWithCommas, category, petname, phonenumber, description, vakcinisanBool, cipovanBool, pasosBool, spol, starost, location, uniqueSlug, email)
+	_, err = database.Exec("INSERT INTO adoptPost ( image_paths, category, petname, phonenumber, description, vakcinisan, cipovan, pasos,spol, starost, location, slug, user_email, username) VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11,$12,$13,$14)", filePathsWithCommas, category, petname, phonenumber, description, vakcinisanBool, cipovanBool, pasosBool, spol, starost, location, uniqueSlug, email, username)
 	if err != nil {
 		return fmt.Errorf("error u izvrsenju baze: %v", err)
 	}
