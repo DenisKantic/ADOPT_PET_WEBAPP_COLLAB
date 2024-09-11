@@ -188,8 +188,6 @@ export default async function AnimalDetails({ params: { slug } }: Props) {
               unoptimized
               className="object-cover"
             />
-            <p>Vaše mjesto za reklamu</p>
-            <p>Kontaktirajte nas..</p>
           </div>
         </div>
       </div>

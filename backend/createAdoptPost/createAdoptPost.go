@@ -1,7 +1,6 @@
 package createAdoptPost
 
 import (
-	"backend/auth"
 	"backend/db"
 	"backend/helper"
 	"database/sql"
@@ -35,27 +34,11 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
-	// Check if user is logged in
-	isLoggedIn, _, _, err := auth.IsUserLoggedIn(r)
-	if err != nil {
-		if err.Error() == "invalid token" {
-			http.Error(w, "Unauthorized", http.StatusUnauthorized)
-		} else {
-			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		}
-		return
-	}
-
-	if !isLoggedIn {
-		http.Error(w, "Unauthorized", http.StatusUnauthorized)
-		return
-	}
-
 	if r.Method == http.MethodOptions {
 		return
 	}
 
-	err = r.ParseMultipartForm(35 << 20) // 35 MB max request per form
+	err := r.ParseMultipartForm(35 << 20) // 35 MB max request per form
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

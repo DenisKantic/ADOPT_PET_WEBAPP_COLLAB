@@ -1,5 +1,6 @@
 'use server'
 import axios from 'axios'
+import { cookies } from 'next/headers'
 
 export async function createAdoptPost(
   formData: FormData,
@@ -37,17 +38,12 @@ export async function createAdoptPost(
   if (images.length === 0) {
     return {
       success: false,
+      message: 'No images provided',
     }
   }
 
   images.forEach((image) => {
-    if (images.length == 0) {
-      return {
-        success: false,
-      }
-    } else {
-      formDataToSend.append('images', image)
-    }
+    formDataToSend.append('images', image)
   })
 
   console.log('FORM TO BE SENT', formDataToSend)
