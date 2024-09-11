@@ -21,22 +21,19 @@ interface AdoptPost {
   created_at: string
 }
 
-const formatDate = (dateString: string): string => {
-  const date = new Date(dateString)
-
-  // Format to dd/mm/yy
-  return date.toLocaleDateString('bs-BA', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  })
-}
-
 export default async function CardItem() {
   const response = await getHomeAdoptPost()
 
   const animals: AdoptPost[] = response.adopt_post || []
   // if(!animals.length) notFound();
+
+  const locationName = (location: string) => {
+    if (location.length > 12) {
+      return location.substring(0, 10) + '...'
+    } else {
+      return location
+    }
+  }
 
   return (
     <>
@@ -92,7 +89,7 @@ export default async function CardItem() {
                   </li>
                   <li className="flex items-center">
                     <IoLocationOutline className="text-[#2F5382] text-lg" />
-                    <span className="pl-3">{item.location}</span>
+                    <span className="pl-3">{locationName(item.location)}</span>
                   </li>
                 </ul>
               </div>

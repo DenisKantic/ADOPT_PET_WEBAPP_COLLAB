@@ -77,6 +77,14 @@ export default function AllAnimals() {
 
   if (loading) return <LoadingSpinner />
 
+  const locationName = (location: string) => {
+    if (location.length > 12) {
+      return location.substring(0, 10) + '...'
+    } else {
+      return location
+    }
+  }
+
   return (
     <>
       {animalPost.map((item) => {
@@ -118,7 +126,7 @@ export default function AllAnimals() {
                 </li>
                 <li className="flex items-center">
                   <IoLocationOutline className="text-[#2F5382] text-lg" />
-                  <span className="pl-3">{item.location}</span>
+                  <span className="pl-3">{locationName(item.location)}</span>
                 </li>
                 <li className="flex items-center">
                   <MdOutlinePets className="text-[#2F5382] text-lg" />
@@ -129,12 +137,12 @@ export default function AllAnimals() {
                 Objavljeno: {formatDate(item.created_at)}
               </p>
             </div>
-            <div className="absolute inset-0 bg-black px-20 gap-5 bg-opacity-70 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div className="absolute inset-0 bg-black xxs:px-5 lg:px-15 gap-5 bg-opacity-70 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <Link
                 href={`/dashboard/animalDetails/${item.slug}`}
                 className="btn border-[#2F5382] w-full bg-[#2F5382] text-lg text-white hover:bg-white hover:text-[#2F5382]"
               >
-                Pročitaj više...
+                Pročitaj više
               </Link>
               {/* <Link
                 href={`/adoptPet/${item.slug}`}

@@ -141,6 +141,14 @@ export default function CardItem() {
     'Živinice',
   ]
 
+  const locationName = (location: string) => {
+    if (location.length > 12) {
+      return location.substring(0, 10) + '...'
+    } else {
+      return location
+    }
+  }
+
   useEffect(() => {
     fetchPost(page, locationFilter)
   }, [page, locationFilter]) // Add page as a dependency
@@ -281,7 +289,9 @@ export default function CardItem() {
                     </li>
                     <li className="flex items-center">
                       <IoLocationOutline className="text-[#2F5382] text-lg" />
-                      <span className="pl-3">{item.location}</span>
+                      <span className="pl-3">
+                        {locationName(item.location)}
+                      </span>
                     </li>
                   </ul>
                 </div>
