@@ -59,7 +59,7 @@ export default async function CardItem() {
             <Link href={`/adoptPet/${item.slug}`} className="">
               {firstImagePath && (
                 <Image
-                  src={`http://localhost:8080/${firstImagePath}`}
+                  src={`https://www.petconnectbosnia.com/api/${firstImagePath}`}
                   alt={item.petname}
                   height={50}
                   width={50}

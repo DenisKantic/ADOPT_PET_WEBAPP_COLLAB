@@ -86,7 +86,7 @@ export default function AllAnimals() {
             key={item.id}
           >
             <Image
-              src={`http://localhost:8080/${item.image_paths[0]}`}
+              src={`https://www.petconnectbosnia.com/api/${item.image_paths[0]}`}
               alt={item.petname}
               height={50}
               width={50}

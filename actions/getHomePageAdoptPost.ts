@@ -7,11 +7,7 @@ export async function getHomeAdoptPost() {
 
   try {
     response = await axios.get<{ adopt_post: AdoptPost[] }>(
-<<<<<<< HEAD
-      '/api/getAdoptPostHome'
-=======
-      'http://localhost:8080/getFiveAdoptPost'
->>>>>>> 76b10501691ac4324151f5ab9580326606b9a68e
+      'https://www.petconnectbosnia.com/api/getAdoptPostHome'
     )
     // console.log("REsponse from server", response.data.adopt_post )
     // return response as {data: {adopt_post: AdoptPost[]}}

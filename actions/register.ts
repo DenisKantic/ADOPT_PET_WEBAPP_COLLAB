@@ -13,7 +13,7 @@ export async function RegisterProfile(formData: any) {
   formDataAppend.append('password', password)
 
   try {
-    const response = await axios.post('/api/register', formDataAppend, {
+    const response = await axios.post('https://www.petconnectbosnia.com/api/register', formDataAppend, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

@@ -37,7 +37,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setLoading(true) // Start loading
 
       try {
-        const response = await axios.get(`/${process.env.API}/checkAuth`, {
+        const response = await axios.get(`https://www.petconnectbosnia.com/api/checkAuth`, {
           withCredentials: true, // Ensure cookies are sent with the request
         })
         console.log('RESPONSE', response)
@@ -68,7 +68,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     document.cookie = 'token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
 
     try {
-      const response = await axios.post('/api/login', formData, {
+      const response = await axios.post('https://www.petconnectbosnia.com/api/login', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -101,7 +101,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       // clear cookies on the client side
       document.cookie = 'token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
 
-      await axios.post('/api/Logout', null, {
+      await axios.post('https://www.petconnectbosnia.com/api/Logout', null, {
         withCredentials: true,
       })
       setIsAuthenticated(false)

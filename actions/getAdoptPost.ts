@@ -39,6 +39,12 @@ type Email = {
   email: Object
 }
 
+export async function getAdoptPost(
+	page: number,
+	PAGE_SIZE: number,
+	location: string
+){
+let response
 try {
     response = await axios.get<{
       adopt_post: AdoptPost[]

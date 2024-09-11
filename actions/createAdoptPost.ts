@@ -53,7 +53,7 @@ export async function createAdoptPost(
   console.log('FORM TO BE SENT', formDataToSend)
 
   try {
-    const response = await axios.post('/api/createAdoptPost', formDataToSend, {
+    const response = await axios.post('https://www.petconnectbosnia.com/api/createAdoptPost', formDataToSend, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

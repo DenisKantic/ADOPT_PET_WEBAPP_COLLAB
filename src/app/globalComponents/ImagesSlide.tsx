@@ -47,7 +47,7 @@ export default function ImagesSlide({ post }: any) {
               width={50}
               unoptimized
               className="w-[90%] mx-auto h-[60svh] object-cover cursor-pointer"
-              src={`http://localhost:8080/${url}`} // Make sure to replace with your actual domain
+              src={`https://www.petconnectbosnia.com/api/${url}`} // Make sure to replace with your actual domain
               onClick={() => openFullscreen(index)} // Open fullscreen on click
             />
           </SwiperSlide>
@@ -81,7 +81,7 @@ export default function ImagesSlide({ post }: any) {
                   width={1000}
                   unoptimized
                   className="p-5 object-contain h-[85svh] w-[90%] mx-auto"
-                  src={`http://localhost:8080/${url}`} // Make sure to replace with your actual domain
+                  src={`https://www.petconnectbosnia.com/api/${url}`} // Make sure to replace with your actual domain
                 />
               </SwiperSlide>
             ))}

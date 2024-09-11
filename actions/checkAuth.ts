@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export async function checkAuth(cookie: any) {
   try {
-    const response = await axios.get('/api/checkAuth', {
+    const response = await axios.get('https://www.petconnectbosnia.com/api/checkAuth', {
       headers: {
         Cookie: `token=${cookie}`,
       },

@@ -18,7 +18,6 @@ interface DonationPost {
   phone_number: string
   location: string
   description: string
-  username: string
   created_at: string
 }
 type Props = {
