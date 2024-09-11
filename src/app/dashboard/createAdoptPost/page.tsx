@@ -12,6 +12,7 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import { UseAuth } from '@/app/AuthContext'
+import LoadingSpinner from './Spinner'
 
 const CreateAdoptPost = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
@@ -26,7 +27,13 @@ const CreateAdoptPost = () => {
   const [isPending, startTransition] = useTransition() // loading state
   const { email, username } = UseAuth()
 
-  console.log('HERE IS EMAIL', email.toString())
+  console.log('CREATE POST EMAIL', email.toString())
+
+  useEffect(() => {
+    if (!email) {
+      router.push('/createAdoptPost')
+    }
+  }, [])
 
   const cities = [
     'Banja Luka',
@@ -153,37 +160,6 @@ const CreateAdoptPost = () => {
       const urls = newFiles.map((file) => URL.createObjectURL(file))
       setPreviewUrls((prevUrls) => [...prevUrls, ...urls])
     }
-
-    // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // if (event.target.files) {
-    //   const files = Array.from(event.target.files);
-
-    //   const maxSize = 3 * 1024 * 1024 // converting 3 MB to bytes
-
-    //   // If an image is already selected, set an error and return early
-    //   if (files.length + selectedFiles.length>1) {
-    //     setError('Možete objaviti samo jednu sliku.');
-    //     event.target.value = ""
-    //     return;
-    //   }
-
-    //   setVisible(true);
-    //   setError(null); // Clear any previous error
-
-    //   if(files[0].size > maxSize){
-    //     setError("Fotografija ne smije biti vise od 3 MB ukupne memorije.")
-    //     setVisible(false);
-    //   } else {
-    //     const newFile = files[0]; // We only allow one image at a time
-    //     const url = URL.createObjectURL(newFile);
-    //     setVisible(true)
-    //     setSelectedFiles([newFile]); // Replace any existing files
-    //     setPreviewUrls([url])
-    //     setFileName(newFile.name); // Update file name
-    //     setInputKey(prevKey => prevKey + 1)
-    //   }
-
-    //  }
   }
 
   // Clean up object URLs to avoid memory leaks
@@ -201,6 +177,10 @@ const CreateAdoptPost = () => {
     setVisible(false)
     setFileName(null) // Clear file name
     setInputKey((prevKey) => prevKey + 1) // Force input re-render by changing key
+  }
+
+  if (!email) {
+    return <LoadingSpinner />
   }
 
   const handleSubmit = async (event: React.FormEvent) => {
