@@ -40,6 +40,12 @@ export default function AllAnimals() {
 
   console.log('EMAIL HERE TESTING TESTING', email)
 
+  useEffect(() => {
+    if (!email) {
+      router.push('/dashboard')
+    }
+  }, [])
+
   const fetchPost = async (email: any) => {
     if (!email) {
       router.refresh()
@@ -156,7 +162,7 @@ export default function AllAnimals() {
                   console.log('ID TEST', item.id)
                   const response = await DeleteAdoptPost(item.id)
                   if (response?.success) {
-                    router.push('/dashboard')
+                    router.refresh()
                   } else {
                     alert('shit')
                   }

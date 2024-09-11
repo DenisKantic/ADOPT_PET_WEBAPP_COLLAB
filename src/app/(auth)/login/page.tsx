@@ -37,8 +37,9 @@ export default function Register() {
     if (response.success) {
       setSuccess(true)
       setError(false)
-      router.push('/dashboard')
-      router.refresh()
+      setTimeout(() => {
+        router.push('/dashboard')
+      }, 1000) // Adjust the delay as needed
     } else {
       setError(true)
       setSuccess(false)
