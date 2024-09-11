@@ -429,7 +429,7 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 		Name:     "token",
 		Value:    "",
 		HttpOnly: true,
-		//Secure:   true,
+		Secure:   true,
 		Path:     "/",
 		SameSite: http.SameSiteLaxMode,
 		MaxAge:   -1,
