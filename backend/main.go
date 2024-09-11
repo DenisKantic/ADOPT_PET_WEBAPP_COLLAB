@@ -61,8 +61,10 @@ func setupRoutes() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/createAdoptPost", createAdoptPost.CreatePost)
 
-	// get all adoptPost for homepage
+	// get all adoptPost with pagination
 	mux.HandleFunc("/getAdoptPostHome", AdoptPostGetDelete.GetAllAdoptPost)
+	// get 5 adoptPost for homepage
+	mux.HandleFunc("/getFiveAdoptPost", AdoptPostGetDelete.GetFiveAdoptPost)
 	// get just 3  adopt post for dashboard
 	mux.HandleFunc("/getAdoptPostDashboard", AdoptPostGetDelete.GetThreeAdoptPost)
 	// get one adoptPost with slug
@@ -79,6 +81,7 @@ func setupRoutes() {
 	mux.HandleFunc("/createDonationPost", createDonationPost.CreatePost)
 	mux.HandleFunc("/getAllDonationPost", DonationPostGetDelete.GetAllDonationPosts)
 	mux.HandleFunc("/getDonationPostDashboard", DonationPostGetDelete.GetThreeDonationPost)
+	//	mux.HandleFunc("/getOneDonationPost", DonationPostGetDelete.GetOneDonationPost)
 
 	// DELETING ADOPT POST
 	mux.HandleFunc("/deleteAdoptPost", AdoptPostGetDelete.DeleteAdoptPost)
