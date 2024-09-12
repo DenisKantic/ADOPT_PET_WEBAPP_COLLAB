@@ -31,6 +31,9 @@ yarn-error.log*
 #backend env file 
 backend/.env
 
+#ignoring images directory
+images
+
 #static directory in backend
 backend/adoptPostImages
 backend/lostPetImages

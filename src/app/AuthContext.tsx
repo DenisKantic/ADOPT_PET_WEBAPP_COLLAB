@@ -101,7 +101,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       // clear cookies on the client side
       document.cookie = 'token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
 
-      await axios.post('https://www.petconnectbosnia.com/api/Logout', null, {
+      await axios.post('https://www.petconnectbosnia.com/api/logout', null, {
         withCredentials: true,
       })
       setIsAuthenticated(false)

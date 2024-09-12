@@ -164,7 +164,7 @@ export default function AllAnimals() {
                   if (response?.success) {
                     router.refresh()
                   } else {
-                    alert('shit')
+                    alert('Desila se greška sa brisanjem.')
                   }
                 }}
               >
