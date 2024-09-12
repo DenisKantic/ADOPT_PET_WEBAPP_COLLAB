@@ -20,6 +20,7 @@ const CreateAdoptPost = () => {
   const [dropdown, setDropdown] = useState<boolean>(false)
   const [previewUrls, setPreviewUrls] = useState<string[]>([])
   const [error, setError] = useState<string | null>(null)
+  const [newError, setNewError] = useState<boolean | null>(false)
   const [visible, setVisible] = useState<boolean>(false)
   const [inputKey, setInputKey] = useState<number>(0) // Add key state to force input re-render
   const [fileName, setFileName] = useState<string | null>(null) // State to store file name
@@ -30,8 +31,6 @@ const CreateAdoptPost = () => {
   console.log('EMAIL TEST', email)
 
   console.log('CREATE POST EMAIL', email.toString())
-
-  const [retry, setRetry] = useState<number>(0)
 
   useEffect(() => {
     // Retry fetching email if it doesn't exist
@@ -192,6 +191,14 @@ const CreateAdoptPost = () => {
     event.preventDefault()
 
     const formData = new FormData(event.target as HTMLFormElement)
+    console.log(
+      'FORM DATA TO BE SENT',
+      formData,
+      'MAIL',
+      email,
+      'USERNAME',
+      username
+    )
 
     startTransition(async () => {
       try {
@@ -206,8 +213,9 @@ const CreateAdoptPost = () => {
           router.refresh()
         }
       } catch (error) {
+        setNewError(true)
+        alert('Desila se greska.')
         console.log('error happened', error)
-        alert(error)
       }
     })
   }
@@ -561,6 +569,7 @@ const CreateAdoptPost = () => {
               <span className="loading loading-dots loading-lg bg-[#2F5382]"></span>
             )}
           </button>
+          {error && <p className="text-red-400 text-xl">Desila se greska</p>}
         </form>
       </div>
     </div>
