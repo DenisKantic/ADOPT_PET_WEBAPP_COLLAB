@@ -64,7 +64,7 @@ func GenerateToken(email, username string) (string, error) {
 		Email:    email,
 		Username: username,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
+			ExpiresAt: time.Now().Add(7 * 24 * time.Hour).Unix(),
 		},
 	}
 
