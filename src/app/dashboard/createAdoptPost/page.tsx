@@ -31,7 +31,7 @@ const CreateAdoptPost = () => {
 
   useEffect(() => {
     if (!email) {
-      router.push('/createAdoptPost')
+      router.push('/dashboard/createAdoptPost')
     }
   }, [])
 
