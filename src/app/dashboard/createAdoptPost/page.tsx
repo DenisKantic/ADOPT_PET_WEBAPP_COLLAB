@@ -25,15 +25,20 @@ const CreateAdoptPost = () => {
   const [fileName, setFileName] = useState<string | null>(null) // State to store file name
   const router = useRouter() // Initialize the router
   const [isPending, startTransition] = useTransition() // loading state
-  const { email, username } = UseAuth()
+  const { email, username, loading } = UseAuth()
+
+  console.log('EMAIL TEST', email)
 
   console.log('CREATE POST EMAIL', email.toString())
 
+  const [retry, setRetry] = useState<number>(0)
+
   useEffect(() => {
-    if (!email) {
-      router.push('/dashboard/createAdoptPost')
+    // Retry fetching email if it doesn't exist
+    if (!loading && !email) {
+      window.location.reload()
     }
-  }, [])
+  }, [loading, email])
 
   const cities = [
     'Banja Luka',
@@ -179,7 +184,7 @@ const CreateAdoptPost = () => {
     setInputKey((prevKey) => prevKey + 1) // Force input re-render by changing key
   }
 
-  if (!email) {
+  if (loading) {
     return <LoadingSpinner />
   }
 
