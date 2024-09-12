@@ -59,11 +59,48 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	email := r.FormValue("email")
 	username := r.FormValue("username")
 
-	if category == "" || petname == "" || phonenumber == "" || email == "" ||
-		description == "" || vakcinisan == "" || cipovan == "" || username == "" ||
-		pasos == "" || spol == "" || starost == "" || location == "" {
-		fmt.Println("MISSING REQUIRED FIELDS")
-		http.Error(w, err.Error(), http.StatusBadRequest)
+	missingFields := []string{}
+
+	if category == "" {
+		missingFields = append(missingFields, "category")
+	}
+	if petname == "" {
+		missingFields = append(missingFields, "petname")
+	}
+	if phonenumber == "" {
+		missingFields = append(missingFields, "phonenumber")
+	}
+	if email == "" {
+		missingFields = append(missingFields, "email")
+	}
+	if description == "" {
+		missingFields = append(missingFields, "description")
+	}
+	if vakcinisan == "" {
+		missingFields = append(missingFields, "vakcinisan")
+	}
+	if cipovan == "" {
+		missingFields = append(missingFields, "cipovan")
+	}
+	if username == "" {
+		missingFields = append(missingFields, "username")
+	}
+	if pasos == "" {
+		missingFields = append(missingFields, "pasos")
+	}
+	if spol == "" {
+		missingFields = append(missingFields, "spol")
+	}
+	if starost == "" {
+		missingFields = append(missingFields, "starost")
+	}
+	if location == "" {
+		missingFields = append(missingFields, "location")
+	}
+
+	if len(missingFields) > 0 {
+		fmt.Printf("MISSING REQUIRED FIELDS: %v\n", missingFields)
+		http.Error(w, fmt.Sprintf("Missing required fields: %v", missingFields), http.StatusBadRequest)
 		return
 	}
 
