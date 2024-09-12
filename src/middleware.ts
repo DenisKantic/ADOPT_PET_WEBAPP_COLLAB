@@ -8,7 +8,7 @@ export async function middleware(req: NextRequest) {
 
   const token = req.cookies.get('token')?.value || ''
 
-  console.log('TOKEN', token)
+  console.log('TOKEN  HERE TOKEN HERE', token)
 
   if (token) {
     try {
@@ -24,7 +24,6 @@ export async function middleware(req: NextRequest) {
         // Redirect authenticated users away from the login page
         if (pathname === '/login') {
           url.pathname = '/dashboard'
-          revalidatePath('/dashboard')
           return NextResponse.redirect(url)
         }
         return NextResponse.next()
