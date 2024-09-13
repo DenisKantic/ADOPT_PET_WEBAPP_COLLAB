@@ -38,7 +38,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err := r.ParseMultipartForm(35 << 20) // 35 MB max request per form
+	err := r.ParseMultipartForm(100 << 20) // 35 MB max request per form
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

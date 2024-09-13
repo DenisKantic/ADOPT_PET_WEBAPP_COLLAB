@@ -95,7 +95,7 @@ func SendActivationEmail(email, token string) error {
 		"Da bi nastavili koristiti našu aplikaciju, morate kliknuti ispod na link " +
 		"kako bi aktivirali svoj korisnički nalog. \r\n " +
 		"\r\n" +
-		"http://www.petconnectbosnia.com/api/ActivateAccount?token=" + token + "\r\n" +
+		"https://www.petconnectbosnia.com/ActivateAccount?token=" + token + "\r\n" +
 		"\r\n" +
 		"Za sva dodatna pitanja, primjedbe ili žalbe, molimo Vas da se slobodno obratite " +
 		"na naš email contact@petconnectbosnia.com")
