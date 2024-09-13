@@ -7,7 +7,7 @@ import { IoLocationOutline } from 'react-icons/io5'
 import { PiDogBold } from 'react-icons/pi'
 import { FaCat } from 'react-icons/fa'
 import { SiAnimalplanet } from 'react-icons/si'
-import { getHomeAdoptPost } from '@public/actions/getHomePageAdoptPost'
+import { getFiveAdoptPostHome } from '@public/actions/getAdoptPost'
 
 interface AdoptPost {
   id: number
@@ -22,7 +22,7 @@ interface AdoptPost {
 }
 
 export default async function CardItem() {
-  const response = await getHomeAdoptPost()
+  const response = await getFiveAdoptPostHome()
 
   const animals: AdoptPost[] = response.adopt_post || []
   // if(!animals.length) notFound();

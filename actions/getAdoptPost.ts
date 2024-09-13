@@ -111,3 +111,17 @@ export async function getOneAdoptPost(slug: string) {
     }
   }
 }
+
+export async function getFiveAdoptPostHome() {
+  let response
+
+  try {
+    response = await axios.get<{ adopt_post: AdoptPost[] }>(
+      'http://localhost:8080/getFiveAdoptPost'
+    )
+    return response.data
+  } catch (err) {
+    console.log('error happened on server side', err)
+    return { adopt_post: [] }
+  }
+}

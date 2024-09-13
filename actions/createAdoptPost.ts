@@ -61,7 +61,8 @@ export async function createAdoptPost(
     console.log(response)
     return { success: true }
   } catch (error: any) {
-    alert(error)
-    return error.status
+    console.error('Error occurred:', error.response || error.message || error)
+    alert('An error occurred. Please try again.')
+    return { success: false, message: 'An error occurred' }
   }
 }

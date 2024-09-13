@@ -200,6 +200,9 @@ const CreateAdoptPost = () => {
       username
     )
 
+    const formDataEntries = Array.from(formData.entries())
+    console.log('Form Data Entries:', formDataEntries)
+
     startTransition(async () => {
       try {
         const response = await createAdoptPost(
