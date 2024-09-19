@@ -212,23 +212,21 @@ const CreateAdoptPost = () => {
         } else {
           // Handle failure case where success is false
           setNewError(true)
-          alert(response?.message || 'Greska ERROR')
+          alert(response?.message || 'Desila se greška.')
         }
       } catch (error: unknown) {
         setNewError(true)
 
         if (error instanceof AxiosError && error.response) {
           // If the error is from Axios and has a response, display the backend message
-          alert(error.response.data.message || 'GRESKA 2')
+          alert(error.response.data.message || 'Desila se greška.')
         } else if (error instanceof Error) {
           // Generic error handling
-          alert(error.message || 'else if 1')
+          alert(error.message || 'Desila se greška.')
         } else {
           // Fallback for unknown errors
-          alert('else 2')
+          alert('Desila se greška.')
         }
-
-        console.log('JBG zadnji:', error)
       }
     })
   }
@@ -402,7 +400,7 @@ const CreateAdoptPost = () => {
                 <input
                   type="radio"
                   name="vakcinisan"
-                  value="da"
+                  value="true"
                   className="radio radio-info"
                 />
                 <label htmlFor="vakcinisan" className="ml-3">
@@ -412,7 +410,7 @@ const CreateAdoptPost = () => {
                 <input
                   type="radio"
                   name="vakcinisan"
-                  value="ne"
+                  value="false"
                   className="radio radio-error ml-5"
                 />
                 <label htmlFor="vakcinisan" className="ml-3">
@@ -429,7 +427,7 @@ const CreateAdoptPost = () => {
                 <input
                   type="radio"
                   name="cipovan"
-                  value="da"
+                  value="true"
                   className="radio radio-info"
                 />
                 <label htmlFor="cipovan" className="ml-3">
@@ -439,7 +437,7 @@ const CreateAdoptPost = () => {
                 <input
                   type="radio"
                   name="cipovan"
-                  value="ne"
+                  value="false"
                   className="radio radio-error ml-5"
                 />
                 <label htmlFor="cipovan" className="ml-3">
@@ -456,7 +454,7 @@ const CreateAdoptPost = () => {
                 <input
                   type="radio"
                   name="pasos"
-                  value="da"
+                  value="true"
                   className="radio radio-info"
                 />
                 <label htmlFor="pasos" className="ml-3">
@@ -466,7 +464,7 @@ const CreateAdoptPost = () => {
                 <input
                   type="radio"
                   name="pasos"
-                  value="ne"
+                  value="false"
                   className="radio radio-error ml-5"
                 />
                 <label htmlFor="pasos" className="ml-3">

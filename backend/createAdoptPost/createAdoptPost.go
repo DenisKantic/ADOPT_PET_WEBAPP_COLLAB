@@ -59,6 +59,10 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	email := r.FormValue("email")
 	username := r.FormValue("username")
 
+	fmt.Println("CIPOVAN VALUE BEFORE", cipovan)
+	fmt.Println("PASOS VALUE BEFORE", pasos)
+	fmt.Println("VAKCINISAN VALUE BEFORE", vakcinisan)
+
 	missingFields := []string{}
 
 	if category == "" {
@@ -100,31 +104,35 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 
 	if len(missingFields) > 0 {
 		fmt.Printf("JBG: %v\n", missingFields)
-		http.Error(w, fmt.Sprintf("Niste ispunili sva polja:"), http.StatusBadRequest)
+		http.Error(w, fmt.Sprintf("Niste ispunili sva polja"), http.StatusBadRequest)
 		return
 	}
 
 	// Validate the boolean strings
-	_, err = stringToBool(vakcinisan)
+	vakcinisanValue, err := stringToBool(vakcinisan)
 	if err != nil {
 		fmt.Println("INVALID BOOLEAN VALUE FOR vakcinisan")
 		http.Error(w, "Desila se greška", http.StatusBadRequest)
 		return
 	}
 
-	_, err = stringToBool(cipovan)
+	cipovanValue, err := stringToBool(cipovan)
 	if err != nil {
 		fmt.Println("INVALID BOOLEAN VALUE FOR cipovan")
 		http.Error(w, "Desila se greška", http.StatusBadRequest)
 		return
 	}
 
-	_, err = stringToBool(pasos)
+	pasosValue, err := stringToBool(pasos)
 	if err != nil {
 		fmt.Println("INVALID BOOLEAN VALUE FOR pasos")
 		http.Error(w, "Desila se greška", http.StatusBadRequest)
 		return
 	}
+
+	fmt.Println("CIPOVAN VALUE after", cipovanValue)
+	fmt.Println("PASOS VALUE BEFORE", pasosValue)
+	fmt.Println("VAKCINISAN VALUE BEFORE", vakcinisanValue)
 
 	if len(images) == 0 {
 		http.Error(w, "Niste objavili fotografije", http.StatusBadRequest)

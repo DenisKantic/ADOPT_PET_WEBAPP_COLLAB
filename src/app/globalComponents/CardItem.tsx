@@ -53,7 +53,7 @@ export default async function CardItem() {
             className="relative bg-[#fafafa] rounded-xl my-5 w-full pb-2 shadow-2xl overflow-hidden group"
             key={item.id}
           >
-            <Link href={`/adoptPet/${item.slug}`} className="">
+            <Link href={`/adoptPet/${item.slug}`}>
               {firstImagePath && (
                 <Image
                   src={`http://localhost:8080/${firstImagePath}`}
@@ -85,7 +85,9 @@ export default async function CardItem() {
                     ) : (
                       <IoMaleFemale className="text-red-600 text-xl" />
                     )}
-                    <span className="pl-3">Spol: {item.spol}</span>
+                    <span className="pl-3">
+                      Spol: {item.spol === 'musko' ? 'muško' : 'žensko'}
+                    </span>
                   </li>
                   <li className="flex items-center">
                     <IoLocationOutline className="text-black text-lg" />
@@ -102,12 +104,13 @@ export default async function CardItem() {
                 </p>
               </div> */}
             </Link>
-            <p
+            <Link
+              href={`/adoptPet/${item.slug}`}
               className="btn text-center ml-4 mt-4 mb-2 w-[90%] overflow-hidden rounded-xl border-[#2F5382] bg-[#2F5382] text-lg text-white 
             hover:bg-white hover:text-[#2F5382] hover:cursor-pointer hover:border-[1px] hover:border-[#2F5382]"
             >
               Pročitaj više...
-            </p>
+            </Link>
           </div>
         )
       })}

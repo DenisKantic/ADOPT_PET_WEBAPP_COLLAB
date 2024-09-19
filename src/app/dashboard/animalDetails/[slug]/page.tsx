@@ -5,6 +5,7 @@ import { IoIosMale } from 'react-icons/io'
 import { IoMaleFemale } from 'react-icons/io5'
 import { MdOutlinePets } from 'react-icons/md'
 import { PiSyringe } from 'react-icons/pi'
+import { IoLocationOutline } from 'react-icons/io5'
 import { GrCircleInformation } from 'react-icons/gr'
 import { TbEPassport } from 'react-icons/tb'
 import { getOneAdoptPost } from '../../../../../actions/getAdoptPost'
@@ -88,11 +89,11 @@ export default async function AnimalDetails({ params: { slug } }: Props) {
             <div className="flex flex-row justify-between items-center bg-[#2F53821F] text-black p-5 h-[3rem] rounded-full">
               <div className="flex items-center">
                 <MdOutlinePets />
-                <span className="ml-2">Ime</span>
+                <span className="ml-2">Čipovan</span>
               </div>
               <div>
                 <span className="font-bold text-[#2F5382]">
-                  {usernameLength(post.petname)}
+                  {post.cipovan ? 'Da' : 'Ne'}
                 </span>
               </div>
             </div>
@@ -104,7 +105,7 @@ export default async function AnimalDetails({ params: { slug } }: Props) {
               </div>
               <div>
                 <span className="font-bold text-[#2F5382]">
-                  {post.vakcinisan ? 'DA' : 'NE'}
+                  {post.vakcinisan ? 'Da' : 'Ne'}
                 </span>
               </div>
             </div>
@@ -115,7 +116,10 @@ export default async function AnimalDetails({ params: { slug } }: Props) {
                 <span className="ml-2">Starost</span>
               </div>
               <div>
-                <span className="font-bold text-[#2F5382]">{post.starost}</span>
+                <span className="font-bold text-[#2F5382]">
+                  {' '}
+                  {post.starost === 'mladje' ? 'mlađe' : post.starost}
+                </span>
               </div>
             </div>
 
@@ -126,7 +130,7 @@ export default async function AnimalDetails({ params: { slug } }: Props) {
               </div>
               <div>
                 <span className="font-bold text-[#2F5382]">
-                  {post.pasos ? 'DA' : 'NE'}
+                  {post.pasos ? 'Da' : 'Ne'}
                 </span>
               </div>
             </div>
@@ -137,12 +141,15 @@ export default async function AnimalDetails({ params: { slug } }: Props) {
                 <span className="ml-2">Spol</span>
               </div>
               <div>
-                <span className="font-bold text-[#2F5382]">{post.spol}</span>
+                <span className="font-bold text-[#2F5382]">
+                  {post.spol === 'musko' ? 'muško' : 'žensko'}
+                </span>
               </div>
             </div>
 
             <div className="flex flex-row justify-between items-center bg-[#2F53821F] text-black p-5 h-[3rem] rounded-full">
               <div className="flex items-center">
+                <IoLocationOutline />
                 <span className="ml-2">Lokacija</span>
               </div>
               <div>
