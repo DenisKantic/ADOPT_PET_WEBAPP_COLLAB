@@ -109,9 +109,8 @@ export default async function Home() {
       </div>
 
       <div
-        className="relative w-full xxs:min-h-[20svh] overflow-hidden bg-center bg-contain bg-repeat-y  mt-20"
+        className="relative w-full xxs:min-h-[20svh] overflow-hidden bg-blue-bg bg-center bg-contain bg-repeat-y  mt-20"
         style={{
-          backgroundImage: "url('images/blue_bg_picture.svg')",
           backgroundSize: 'cover',
         }}
       >
