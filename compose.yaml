@@ -13,6 +13,14 @@ services:
       - ./images/donationPostImages:/app/donationPostImages
     networks:
       - my_network
+    develop:
+      watch:
+        - action: rebuild
+          path: ./backend
+          target: /app/backend
+          ignore:
+            - vendor/
+            - .git/
 
   postgres:
     image: postgres:16
@@ -24,7 +32,7 @@ services:
     ports:
       - '5434:5434'
     volumes:
-      - petvolume:/var/lib/postgresql/data
+      - petbackup:/var/lib/postgresql/data
     networks:
       - my_network
 
@@ -32,4 +40,5 @@ networks:
   my_network:
 
 volumes:
-  petvolume:
+  petbackup:
+    external: true

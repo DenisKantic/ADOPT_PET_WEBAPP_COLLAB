@@ -58,11 +58,20 @@ export async function createAdoptPost(
         },
       }
     )
-    console.log(response)
-    return { success: true }
+    return { success: true, message: 'Objava je uspješno kreirana' }
   } catch (error: any) {
-    console.error('Error occurred:', error.response || error.message || error)
-    alert('An error occurred. Please try again.')
-    return { success: false, message: 'An error occurred' }
+    if (error.response && error.response.status === 400) {
+      const errorMessage = error.response.data // This will contain the message from the backend
+      return {
+        success: false,
+        message: errorMessage,
+      }
+    }
+
+    // Generic error handling for other statuses
+    return {
+      success: false,
+      message: 'Desila se greška prilikom kreiranja objave',
+    }
   }
 }

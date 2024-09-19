@@ -50,7 +50,7 @@ export default async function CardItem() {
 
         return (
           <div
-            className="relative rounded-xl my-5 w-full pb-2 shadow-2xl overflow-hidden group"
+            className="relative bg-[#fafafa] rounded-xl my-5 w-full pb-2 shadow-2xl overflow-hidden group"
             key={item.id}
           >
             <Link href={`/adoptPet/${item.slug}`} className="">
@@ -61,44 +61,53 @@ export default async function CardItem() {
                   height={50}
                   width={50}
                   unoptimized
-                  className="object-cover rounded-t-2xl xxs:h-[20vh] shadow-lg w-full"
+                  className="object-cover rounded-t-2xl xxs:h-[20vh] xl:h-[15vh] shadow-lg w-full"
                 />
               )}
-              <div className="w-full px-5">
-                <ul className="text-black mt-2 flex flex-col">
+              <div className="w-[90%] border-[1px] border-[#f2f3f5] mx-auto p-2 rounded-xl mt-4 bg-[#ffffff]">
+                <ul className="text-[#2F5382] flex flex-col">
                   <li className="flex items-center">
                     {item.category == 'true' ? (
-                      <PiDogBold className="text-[#2F5382] text-lg" />
+                      <PiDogBold className="text-black text-lg" />
                     ) : item.category == 'macka' ? (
-                      <FaCat className="text-[#2F5382] text-lg" />
+                      <FaCat className="text-black text-lg" />
                     ) : (
-                      <SiAnimalplanet className="text-[#2F5382] text-xl" />
+                      <SiAnimalplanet className="text-black text-lg" />
                     )}
                     <span className="pl-3">
-                      {item.petname.substring(0, 20)}
+                      Ime: {item.petname.substring(0, 20)}
                       {item.petname.length > 10 ? '...' : ''}
                     </span>
                   </li>
                   <li className="flex items-center">
                     {item.spol == 'musko' ? (
-                      <IoIosMale className="text-[#2F5382] text-lg" />
+                      <IoIosMale className="text-black text-lg" />
                     ) : (
                       <IoMaleFemale className="text-red-600 text-xl" />
                     )}
-                    <span className="pl-3">{item.spol}</span>
+                    <span className="pl-3">Spol: {item.spol}</span>
                   </li>
                   <li className="flex items-center">
-                    <IoLocationOutline className="text-[#2F5382] text-lg" />
-                    <span className="pl-3">{locationName(item.location)}</span>
+                    <IoLocationOutline className="text-black text-lg" />
+                    <span className="pl-3">
+                      Lokacija: {locationName(item.location)}
+                    </span>
                   </li>
                 </ul>
               </div>
-              <div className="absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+
+              {/* <div className="absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <p className="btn border-[#2F5382] bg-[#2F5382] text-lg text-white hover:bg-white hover:text-[#2F5382]">
                   Pročitaj više...
                 </p>
-              </div>
+              </div> */}
             </Link>
+            <p
+              className="btn text-center ml-4 mt-4 mb-2 w-[90%] overflow-hidden rounded-xl border-[#2F5382] bg-[#2F5382] text-lg text-white 
+            hover:bg-white hover:text-[#2F5382] hover:cursor-pointer hover:border-[1px] hover:border-[#2F5382]"
+            >
+              Pročitaj više...
+            </p>
           </div>
         )
       })}

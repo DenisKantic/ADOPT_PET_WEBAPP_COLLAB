@@ -99,8 +99,8 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(missingFields) > 0 {
-		fmt.Printf("MISSING REQUIRED FIELDS: %v\n", missingFields)
-		http.Error(w, fmt.Sprintf("Missing required fields: %v", missingFields), http.StatusBadRequest)
+		fmt.Printf("JBG: %v\n", missingFields)
+		http.Error(w, fmt.Sprintf("Niste ispunili sva polja:"), http.StatusBadRequest)
 		return
 	}
 
@@ -108,32 +108,33 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	_, err = stringToBool(vakcinisan)
 	if err != nil {
 		fmt.Println("INVALID BOOLEAN VALUE FOR vakcinisan")
-		http.Error(w, "Invalid boolean value for vakcinisan", http.StatusBadRequest)
+		http.Error(w, "Desila se greška", http.StatusBadRequest)
 		return
 	}
 
 	_, err = stringToBool(cipovan)
 	if err != nil {
 		fmt.Println("INVALID BOOLEAN VALUE FOR cipovan")
-		http.Error(w, "Invalid boolean value for cipovan", http.StatusBadRequest)
+		http.Error(w, "Desila se greška", http.StatusBadRequest)
 		return
 	}
 
 	_, err = stringToBool(pasos)
 	if err != nil {
 		fmt.Println("INVALID BOOLEAN VALUE FOR pasos")
-		http.Error(w, "Invalid boolean value for pasos", http.StatusBadRequest)
+		http.Error(w, "Desila se greška", http.StatusBadRequest)
 		return
 	}
 
 	if len(images) == 0 {
-		http.Error(w, "No images uploaded", http.StatusBadRequest)
+		http.Error(w, "Niste objavili fotografije", http.StatusBadRequest)
 		return
 	}
 
 	database, err := db.DbConnect()
 	if err != nil {
-		http.Error(w, "Problem with connecting to database", http.StatusInternalServerError)
+		fmt.Println("Error connecting with database")
+		http.Error(w, "Desio se problem", http.StatusInternalServerError)
 		return
 	}
 
@@ -148,7 +149,8 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 
 	err = database.QueryRow("SELECT COUNT(*) FROM adoptpost WHERE user_email = $1", email).Scan(&totalCountPost)
 	if err != nil {
-		http.Error(w, "Error counting the created post", http.StatusInternalServerError)
+		fmt.Println("Error counting the created post")
+		http.Error(w, "Desila se greška", http.StatusInternalServerError)
 		return
 	}
 
@@ -161,7 +163,8 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusForbidden)
 		if err := json.NewEncoder(w).Encode(response); err != nil {
-			http.Error(w, "Error encoding response", http.StatusInternalServerError)
+			fmt.Println("Error encoding response")
+			http.Error(w, "Desila se greška", http.StatusInternalServerError)
 			return
 		}
 		return
@@ -181,7 +184,8 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 
 	err = os.MkdirAll(slugFolderPath, os.ModePerm)
 	if err != nil {
-		http.Error(w, "Error creating directory for slug", http.StatusInternalServerError)
+		fmt.Println("Error creating directory for slug")
+		http.Error(w, "Desila se greška", http.StatusInternalServerError)
 		return
 	}
 
@@ -192,7 +196,8 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 		// open the uploaded images
 		src, err := file.Open()
 		if err != nil {
-			http.Error(w, "Error opening the images", http.StatusInternalServerError)
+			fmt.Println("Error opening the images")
+			http.Error(w, "Desila se greška", http.StatusInternalServerError)
 			return
 		}
 
@@ -210,7 +215,8 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 		dstPath := filepath.Join(slugFolderPath, newFileName)
 		dst, err := os.Create(dstPath)
 		if err != nil {
-			http.Error(w, "Error creating a new file in the server", http.StatusInternalServerError)
+			fmt.Println("Error creating a new file in the server")
+			http.Error(w, "Desila se greška", http.StatusInternalServerError)
 			return
 		}
 
@@ -219,7 +225,8 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 		// copy the uploaded file to the server
 		_, err = io.Copy(dst, src)
 		if err != nil {
-			http.Error(w, "Error uploading file in the server", http.StatusInternalServerError)
+			fmt.Println("Error uploading file in the server")
+			http.Error(w, "Desila se greška", http.StatusInternalServerError)
 			return
 		}
 

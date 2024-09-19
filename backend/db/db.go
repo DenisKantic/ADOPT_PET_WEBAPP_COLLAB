@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-const DB_CONNECT = "postgresql://petuser:wild12life48@localhost:5434/petdatabase?sslmode=disable"
+const DB_CONNECT = "postgresql://petuser:wild12life48@postgres:5434/petdatabase?sslmode=disable"
 
 // DB_CONNECT variable for reading from .env file
 //var (

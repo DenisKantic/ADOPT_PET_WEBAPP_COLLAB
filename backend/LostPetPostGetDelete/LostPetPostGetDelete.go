@@ -263,7 +263,7 @@ func DeleteLostPetPost(w http.ResponseWriter, r *http.Request) {
 		}
 	}(database)
 
-	_, err = database.Exec("DELETE FROM adoptPost WHERE id = $1", id)
+	_, err = database.Exec("DELETE FROM lostPetPost WHERE id = $1", id)
 	if err != nil {
 		http.Error(w, "Error deleting post", http.StatusInternalServerError)
 		return

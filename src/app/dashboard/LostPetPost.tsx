@@ -146,9 +146,9 @@ export default function LostPetPost() {
                   console.log('ID TEST', item.id)
                   const response = await DeleteLostPetPost(item.id)
                   if (response?.success) {
-                    router.push('/dashboard')
+                    window.location.reload()
                   } else {
-                    alert('shit')
+                    alert('Desila se greska')
                   }
                 }}
               >
