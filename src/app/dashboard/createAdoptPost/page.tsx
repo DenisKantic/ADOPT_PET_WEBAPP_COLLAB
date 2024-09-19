@@ -6,6 +6,7 @@ import { createAdoptPost } from '@public/actions/createAdoptPost'
 import Image from 'next/image'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination } from 'swiper/modules'
+import { AxiosError } from 'axios'
 
 // Import Swiper styles
 import 'swiper/css'
@@ -191,14 +192,9 @@ const CreateAdoptPost = () => {
     event.preventDefault()
 
     const formData = new FormData(event.target as HTMLFormElement)
-    console.log(
-      'FORM DATA TO BE SENT',
-      formData,
-      'MAIL',
-      email,
-      'USERNAME',
-      username
-    )
+
+    const formDataEntries = Array.from(formData.entries())
+    console.log('Form Data Entries:', formDataEntries)
 
     startTransition(async () => {
       try {
@@ -208,18 +204,32 @@ const CreateAdoptPost = () => {
           email,
           username
         )
+
         if (response?.success) {
+          // Navigate to the dashboard on success
           router.push('/dashboard')
-          router.refresh()
+          window.location.reload()
+        } else {
+          // Handle failure case where success is false
+          setNewError(true)
+          alert(response?.message || 'Desila se greška.')
         }
-      } catch (error) {
+      } catch (error: unknown) {
         setNewError(true)
-        alert('Desila se greska.')
-        console.log('error happened', error)
+
+        if (error instanceof AxiosError && error.response) {
+          // If the error is from Axios and has a response, display the backend message
+          alert(error.response.data.message || 'Desila se greška.')
+        } else if (error instanceof Error) {
+          // Generic error handling
+          alert(error.message || 'Desila se greška.')
+        } else {
+          // Fallback for unknown errors
+          alert('Desila se greška.')
+        }
       }
     })
   }
-
   return (
     <div className="min-h-screen w-full bg-gray-200 xxs:px-4 md:px-10 py-5">
       <div
@@ -378,7 +388,6 @@ const CreateAdoptPost = () => {
             name="name"
             type="text"
             placeholder="Upišite ime ljubimca"
-            required
           />
           <br />
 
@@ -391,7 +400,7 @@ const CreateAdoptPost = () => {
                 <input
                   type="radio"
                   name="vakcinisan"
-                  value="da"
+                  value="true"
                   className="radio radio-info"
                 />
                 <label htmlFor="vakcinisan" className="ml-3">
@@ -401,7 +410,7 @@ const CreateAdoptPost = () => {
                 <input
                   type="radio"
                   name="vakcinisan"
-                  value="ne"
+                  value="false"
                   className="radio radio-error ml-5"
                 />
                 <label htmlFor="vakcinisan" className="ml-3">
@@ -418,7 +427,7 @@ const CreateAdoptPost = () => {
                 <input
                   type="radio"
                   name="cipovan"
-                  value="da"
+                  value="true"
                   className="radio radio-info"
                 />
                 <label htmlFor="cipovan" className="ml-3">
@@ -428,7 +437,7 @@ const CreateAdoptPost = () => {
                 <input
                   type="radio"
                   name="cipovan"
-                  value="ne"
+                  value="false"
                   className="radio radio-error ml-5"
                 />
                 <label htmlFor="cipovan" className="ml-3">
@@ -445,7 +454,7 @@ const CreateAdoptPost = () => {
                 <input
                   type="radio"
                   name="pasos"
-                  value="da"
+                  value="true"
                   className="radio radio-info"
                 />
                 <label htmlFor="pasos" className="ml-3">
@@ -455,7 +464,7 @@ const CreateAdoptPost = () => {
                 <input
                   type="radio"
                   name="pasos"
-                  value="ne"
+                  value="false"
                   className="radio radio-error ml-5"
                 />
                 <label htmlFor="pasos" className="ml-3">
@@ -542,7 +551,6 @@ const CreateAdoptPost = () => {
             name="phoneNumber"
             type="text"
             placeholder="Upišite broj telefona"
-            required
           />
           <br />
 
@@ -550,7 +558,6 @@ const CreateAdoptPost = () => {
             Kratak opis
           </label>
           <textarea
-            required
             name="description"
             maxLength={2000}
             className="textarea border-[#2F5382] resize-none bg-white mt-3 w-full h-[20vh] text-lg

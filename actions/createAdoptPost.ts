@@ -15,7 +15,7 @@ export async function createAdoptPost(
   const description = formData.get('description')?.toString() || ''
   const vakcinisan = formData.get('vakcinisan') === 'true' || false
   const cipovan = formData.get('cipovan') === 'true' || false
-  const pasos = formData.get('pasos')?.toString() || ''
+  const pasos = formData.get('pasos') === 'true' || false
   const spol = formData.get('spol')?.toString() || ''
   const starost = formData.get('starost')?.toString() || ''
   const location = locationPost
@@ -28,12 +28,14 @@ export async function createAdoptPost(
   formDataToSend.append('description', description)
   formDataToSend.append('vakcinisan', vakcinisan.toString())
   formDataToSend.append('cipovan', cipovan.toString())
-  formDataToSend.append('pasos', pasos)
+  formDataToSend.append('pasos', pasos.toString())
   formDataToSend.append('spol', spol)
   formDataToSend.append('starost', starost)
   formDataToSend.append('location', location)
   formDataToSend.append('email', email)
   formDataToSend.append('username', name)
+
+  console.log('VAKCINISAN', vakcinisan, 'CIPOVAN', cipovan, 'PASOS', pasos)
 
   if (images.length === 0) {
     return {
@@ -42,11 +44,18 @@ export async function createAdoptPost(
     }
   }
 
+  if (location === 'Izaberite') {
+    return {
+      success: false,
+      message: 'Niste izabrali grad',
+    }
+  }
+
   images.forEach((image) => {
     formDataToSend.append('images', image)
   })
 
-  console.log('FORM TO BE SENT', formDataToSend)
+  // console.log('FORM TO BE SENT', formDataToSend)
 
   try {
     const response = await axios.post('https://www.petconnectbosnia.com/api/createAdoptPost', formDataToSend, {
@@ -54,10 +63,20 @@ export async function createAdoptPost(
         'Content-Type': 'multipart/form-data',
       },
     })
-    console.log(response)
-    return { success: true }
+    return { success: true, message: 'Objava je uspješno kreirana' }
   } catch (error: any) {
-    alert(error)
-    return error.status
+    if (error.response && error.response.status === 400) {
+      const errorMessage = error.response.data // This will contain the message from the backend
+      return {
+        success: false,
+        message: errorMessage,
+      }
+    }
+
+    // Generic error handling for other statuses
+    return {
+      success: false,
+      message: 'Desila se greška prilikom kreiranja objave',
+    }
   }
 }

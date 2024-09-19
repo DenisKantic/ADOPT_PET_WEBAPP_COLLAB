@@ -7,18 +7,17 @@ import SecondNavigation from './globalComponents/navbar/SecondNavigation'
 import LostPet from './globalComponents/LostPet'
 import { FaFacebookSquare } from 'react-icons/fa'
 import { FaInstagram } from 'react-icons/fa'
-
 import './bgcss.css'
 import DonationPost from './globalComponents/DonationPost'
 
 export default async function Home() {
   return (
-    <div className="min-h-[100svh] overflow-hidden bg-[#f1f4f5] w-full text-black xxs:px-5 md:px-14">
+    <div className="min-h-[100svh] overflow-hidden bg-[#f1f4f5] w-full text-black">
       <SecondNavigation />
       {/* hero section */}
-      <div className="flex justify-between bg-[#2F5382] rounded-b-xl rounded-sm xxs:mt-5 md:mt-0 xxs:min-h-[30svh]">
-        {/* left side */}
-        <div className="flex flex-col justify-center items-start xxs:w-full xl:w-[60%] p-5 overflow-hidden">
+      {/* <div className="flex justify-between bg-[#2F5382] rounded-b-xl rounded-sm xxs:mt-5 md:mt-0 xxs:min-h-[30svh]"> */}
+      {/* left side */}
+      {/* <div className="flex flex-col justify-center items-start xxs:w-full xl:w-[60%] p-5 overflow-hidden">
           <Image
             src="/images/logo.png"
             alt="logo"
@@ -61,12 +60,12 @@ export default async function Home() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
-        {/* right side */}
-        <div className="w-[40%] min-h-[30svh] flex flex-col items-center justify-center bg-white overflow-hidden clip-path xxs:hidden xl:flex">
-          {/* Content */}
-          <div className="relative z-10">
+      {/* right side */}
+      {/* <div className="w-[40%] min-h-[30svh] flex flex-col items-center justify-center bg-white overflow-hidden clip-path xxs:hidden xl:flex"> */}
+      {/* Content */}
+      {/* <div className="relative z-10">
             <Image
               src="/images/logo.png"
               alt="hero-dog"
@@ -89,21 +88,41 @@ export default async function Home() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       {/* end of hero section */}
 
-      <div className="flex justify-between items-center pt-20 xxs:flex-row">
-        <p className="xxs:text-md md:text-2xl">Udomi svog ljubimca</p>
+      <div className="flex justify-between items-center pt-20 xxs:flex-row xxs:px-5 md:px-14">
+        <p className="xxs:text-md md:text-2xl font-bold text-[#2F5382]">
+          Udomi svog ljubimca
+        </p>
         <Link
           href="/adoptPet"
-          className="badge py-4 px-4 bg-[#2F5382] text-md text-white rounded-full
-                                    hover:bg-white hover:border-[#2F5382] hover:text-[#2F5382]"
+          // className="badge py-4 px-4 bg-[#2F5382] text-md text-white rounded-full
+          //                           hover:bg-white hover:border-[#2F5382] hover:text-[#2F5382]"
+          className="text-[#2F5382] underline"
         >
-          Pogledaj sve
+          Pregledaj sve
         </Link>
       </div>
-      <div className="grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-5">
+      <div className="grid gap-10 xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-6 xxs:px-5 md:px-14">
         <CardItem />
+      </div>
+
+      <div
+        className="relative w-full xxs:min-h-[20svh] overflow-hidden bg-center bg-contain bg-repeat-y  mt-20"
+        style={{
+          backgroundImage: "url('images/blue_bg_picture.svg')",
+          backgroundSize: 'cover',
+        }}
+      >
+        <p className="py-5 absolute inset-0 h-full min-h-[20svh] xxs:w-[90%] sm:w-[60%] xxs:text-sm mx-auto text-center flex flex-col items-center justify-center text-white md:text-xl">
+          <span className="font-bold">Podrži našu misiju!</span> <br />
+          Hvala što koristiš našu aplikaciju za pomoć pri udomljavanju
+          životinja. Svaka donacija pomaže nam da unaprijedimo platformu,
+          podržimo rad s volonterima i omogućimo još bolju brigu za napuštene
+          ljubimce. Uz tvoju podršku, možemo zajedno mijenjati živote životinja
+          i ljudi. Svaka pomoć je važna!
+        </p>
       </div>
 
       {/* <div className="flex justify-between items-center pt-10 xxs:flex-row">

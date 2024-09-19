@@ -162,7 +162,7 @@ export default function AllAnimals() {
                   console.log('ID TEST', item.id)
                   const response = await DeleteAdoptPost(item.id)
                   if (response?.success) {
-                    router.refresh()
+                    window.location.reload()
                   } else {
                     alert('Desila se greška sa brisanjem.')
                   }

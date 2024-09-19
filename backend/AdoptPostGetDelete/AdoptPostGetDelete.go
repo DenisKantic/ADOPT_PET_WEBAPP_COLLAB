@@ -52,7 +52,7 @@ func GetFiveAdoptPost(w http.ResponseWriter, r *http.Request) {
 
 	defer database.Close()
 
-	query := "SELECT ID, image_paths, category, phonenumber, petname, spol, starost, location, slug, created_at FROM adoptPost ORDER BY created_at DESC LIMIT 5"
+	query := "SELECT ID, image_paths, category, phonenumber, petname, spol, starost, location, slug, created_at FROM adoptPost ORDER BY created_at DESC LIMIT 6"
 	rows, err := database.Query(query)
 	if err != nil {
 		http.Error(w, "Error querying the database", http.StatusInternalServerError)

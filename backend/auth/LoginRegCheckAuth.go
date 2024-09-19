@@ -278,7 +278,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	// database initialization
 	database, err := db.DbConnect()
 	if err != nil {
-		http.Error(w, "Error proccessing database connection", http.StatusInternalServerError)
+		http.Error(w, "Error proccessing here database connection", http.StatusInternalServerError)
 		return
 	}
 

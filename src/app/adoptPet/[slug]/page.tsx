@@ -1,6 +1,7 @@
 'use server'
 import React from 'react'
 import Image from 'next/image'
+import { IoLocationOutline } from 'react-icons/io5'
 import { IoIosMale } from 'react-icons/io'
 import { IoMaleFemale } from 'react-icons/io5'
 import { MdOutlinePets } from 'react-icons/md'
@@ -55,6 +56,7 @@ export default async function AnimalDetails({ params: { slug } }: Props) {
 
   try {
     const response = await getOneAdoptPost(slug)
+    console.log('TEST', response)
     const postItem = response.adopt_post
 
     const imagePaths =
@@ -78,7 +80,7 @@ export default async function AnimalDetails({ params: { slug } }: Props) {
   }
 
   return (
-    <div className="min-h-screen xxs:px-4 md:px-20 bg-white overflow-hidden">
+    <div className="min-h-[100svh] xxs:px-4 md:px-20 bg-white overflow-hidden">
       <p className="pt-5 text-[#2F5382] text-xl font-bold">{post.petname}</p>
 
       <div className="h-full w-full mx-auto py-5 flex justify-between xxs:flex-col xl:flex-row ">
@@ -88,11 +90,12 @@ export default async function AnimalDetails({ params: { slug } }: Props) {
             <div className="flex flex-row justify-between items-center bg-[#2F53821F] text-black p-5 h-[3rem] rounded-full">
               <div className="flex items-center">
                 <MdOutlinePets />
-                <span className="ml-2">Ime</span>
+                <span className="ml-2">Čipovan</span>
               </div>
               <div>
                 <span className="font-bold text-[#2F5382]">
-                  {usernameLength(post.petname)}
+                  {/* {usernameLength(post.petname)} */}
+                  {post.cipovan ? 'Da' : 'Ne'}
                 </span>
               </div>
             </div>
@@ -104,7 +107,7 @@ export default async function AnimalDetails({ params: { slug } }: Props) {
               </div>
               <div>
                 <span className="font-bold text-[#2F5382]">
-                  {post.vakcinisan ? 'DA' : 'NE'}
+                  {post.vakcinisan ? 'Da' : 'Ne'}
                 </span>
               </div>
             </div>
@@ -115,7 +118,9 @@ export default async function AnimalDetails({ params: { slug } }: Props) {
                 <span className="ml-2">Starost</span>
               </div>
               <div>
-                <span className="font-bold text-[#2F5382]">{post.starost}</span>
+                <span className="font-bold text-[#2F5382]">
+                  {post.starost === 'mladje' ? 'mlađe' : post.starost}
+                </span>
               </div>
             </div>
 
@@ -126,7 +131,7 @@ export default async function AnimalDetails({ params: { slug } }: Props) {
               </div>
               <div>
                 <span className="font-bold text-[#2F5382]">
-                  {post.pasos ? 'DA' : 'NE'}
+                  {post.pasos ? 'Da' : 'Ne'}
                 </span>
               </div>
             </div>
@@ -137,12 +142,15 @@ export default async function AnimalDetails({ params: { slug } }: Props) {
                 <span className="ml-2">Spol</span>
               </div>
               <div>
-                <span className="font-bold text-[#2F5382]">{post.spol}</span>
+                <span className="font-bold text-[#2F5382]">
+                  {post.spol === 'musko' ? 'muško' : 'žensko'}
+                </span>
               </div>
             </div>
 
             <div className="flex flex-row justify-between items-center bg-[#2F53821F] text-black p-5 h-[3rem] rounded-full">
               <div className="flex items-center">
+                <IoLocationOutline />
                 <span className="ml-2">Lokacija</span>
               </div>
               <div>
@@ -155,10 +163,10 @@ export default async function AnimalDetails({ params: { slug } }: Props) {
           <p className="text-xl text-[#2F5382] pb-5 font-bold">
             Detaljan opis:
           </p>
-          <div className="w-full shadow-2xl min-h-[10vh] border-t-[#2F5382] border-2">
+          <div className="w-full shadow-2xl min-h-[25vh] border-t-[#2F5382] border-2">
             <textarea
               value={post.description}
-              className="w-full p-3 rounded-2xl h-[20vh] text-lg bg-white resize-none text-gray-800 overflow-hidden"
+              className="w-full p-3 rounded-2xl min-h-[25vh] text-lg bg-white resize-none text-gray-800"
               disabled
             />
           </div>

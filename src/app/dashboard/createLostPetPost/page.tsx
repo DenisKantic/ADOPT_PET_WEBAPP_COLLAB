@@ -20,7 +20,7 @@ import { UseAuth } from '@/app/AuthContext'
 
 const ImageUpload = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
-  const [location, setLocation] = useState<string>('Izaberite')
+  const [location, setLocation] = useState<string>('Lokacija')
   const [dropdown, setDropdown] = useState<boolean>(false)
   const [previewUrls, setPreviewUrls] = useState<string[]>([])
   const [error, setError] = useState<string | null>(null)
@@ -181,6 +181,9 @@ const ImageUpload = () => {
     const formData = new FormData(event.target as HTMLFormElement)
 
     startTransition(async () => {
+      if (location === 'Lokacija') {
+        return alert('Niste izabrali lokaciju')
+      }
       try {
         const response = await createLostPost(formData, location, email)
         if (response?.success) {
@@ -297,6 +300,10 @@ const ImageUpload = () => {
                     : 'hidden'
                 }
               >
+                <li className="p-3 text-md text-gray-500 cursor-default">
+                  Izaberite grad
+                </li>
+                {/* Default text */}
                 {cities.map((city, index) => (
                   <li
                     className="p-3 cursor-pointer text-md text-black hover:bg-[#2F5382] rounded-xl hover:text-white "

@@ -17,7 +17,7 @@ export async function DeleteLostPetPost(id: number) {
   try {
     const response = await axios.delete(`https://www.petconnectbosnia.com/api/deleteLostPetPost?id=${id}`)
     console.log('POST WITH ID', id, 'IS DELETED')
-    return { success: true }
+    return { success: true, data: response.data }
   } catch (error) {
     console.log('ERROR DELETING ADOPT POST', error)
   }
