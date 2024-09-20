@@ -36,7 +36,7 @@ backend/adoptPostImages
 backend/lostPetImages
 
 #ignore local images
-images
+images/adoptPostImages
 # vercel
 .vercel
 
