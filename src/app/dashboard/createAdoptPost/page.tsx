@@ -318,8 +318,7 @@ const CreateAdoptPost = () => {
               </Swiper>
             </div>
 
-            <p className='text-2xl font-bold text-[#2F5382] py-5 tracking-tight'>Osnovne informacije</p>
-
+            <p className='text-2xl font-bold  text-[#506e95] py-5 tracking-tight'>Osnovne informacije</p>
             <label className="text-[0.9em] pt-2" htmlFor="name">
             Ime ljubimca*
           </label>
@@ -379,11 +378,11 @@ const CreateAdoptPost = () => {
               </ul>
             </div>
 
-            <label htmlFor="category" className="py-2 font-bold text-[#2F5382] tracking-tight">
+            <label htmlFor="category" className="py-2 font-bold text-[#506e95] tracking-tight">
               Vrsta ljubimca
             </label>
             <div className="grid grid-cols-3 gap-10 py-2 overflow-hidden">
-            <label htmlFor="category" className="w-full text-lg text-ellipsisxt-center  btn bg-white text-[#2F5382] flex items-center justify-center">
+            <label htmlFor="category" className="w-full font-normal text-lg text-ellipsisxt-center  btn bg-white  text-[#506e95] flex items-center justify-center">
               <input
                 type="radio"
                 name="category"
@@ -394,7 +393,7 @@ const CreateAdoptPost = () => {
                 Pas
               </label>
 
-              <label htmlFor="category" className="w-full text-lg text-center btn bg-white text-[#2F5382] flex items-center justify-center">
+              <label htmlFor="category" className="w-full font-normal text-lg text-center btn bg-white  text-[#506e95] flex items-center justify-center">
 
               <input
                 type="radio"
@@ -405,7 +404,7 @@ const CreateAdoptPost = () => {
                 Mačka
               </label>
 
-              <label htmlFor="category" className="text-center text-lg btn bg-white text-[#2F5382]  flex items-center justify-center">
+              <label htmlFor="category" className="text-center font-normal text-lg btn bg-white  text-[#506e95]  flex items-center justify-center">
               <input
                 type="radio"
                 name="category"
@@ -420,11 +419,11 @@ const CreateAdoptPost = () => {
           
           <div className="flex flex-col w-full items-start">
             <div className="flex w-full flex-col py-2">
-              <label htmlFor="vakcinisan" className="text-[#2F5382] font-bold tracking-tight text-xl py-2">
+              <label htmlFor="vakcinisan" className=" text-[#506e95] font-bold tracking-tight text-xl py-2">
                 Vakcinisan:
               </label>
               <div className="grid grid-cols-3 gap-10 overflow-hidden py-2">
-              <label htmlFor="category" className="w-full  text-lg text-center btn bg-white text-[#2F5382] flex items-center justify-center">
+              <label htmlFor="category" className="w-full font-normal text-lg text-center btn bg-white  text-[#506e95] flex items-center justify-center">
 
                 <input
                   type="radio"
@@ -435,7 +434,7 @@ const CreateAdoptPost = () => {
                   Da
                 </label>
 
-                <label htmlFor="category" className="text-lg text-center btn bg-white text-[#2F5382] flex items-center justify-center">
+                <label htmlFor="category" className="text-lg font-normal text-center btn bg-white  text-[#506e95] flex items-center justify-center">
 
                 <input
                   type="radio"
@@ -448,119 +447,130 @@ const CreateAdoptPost = () => {
               </div>
             </div>
 
-            <div className="flex flex-col py-2">
-              <label htmlFor="cipovan" className="py-2">
+            <div className="flex w-full flex-col py-2">
+              <label htmlFor="cipovan" className=" text-[#506e95] font-bold tracking-tight text-xl py-2">
                 Čipovan:
               </label>
-              <div className="flex items-center py-2">
+              <div className="grid gap-10 grid-cols-3 py-2">
+              <label htmlFor="cipovan" className="w-full font-normal text-lg btn bg-white  text-[#506e95] cursor-pointer flex items-center justify-center"
+                >
                 <input
                   type="radio"
                   name="cipovan"
                   value="true"
-                  className="radio radio-info"
+                  className="hidden"
                 />
-                <label htmlFor="cipovan" className="ml-3">
                   Da
                 </label>
 
+                <label htmlFor="cipovan" className="w-full font-normal text-lg btn bg-white  text-[#506e95]  cursor-pointer flex items-center justify-center"
+                >
                 <input
                   type="radio"
                   name="cipovan"
                   value="false"
-                  className="radio radio-error ml-5"
+                  className="hidden"
                 />
-                <label htmlFor="cipovan" className="ml-3">
                   Ne
                 </label>
               </div>
             </div>
 
-            <div className="flex flex-col py-2">
-              <label htmlFor="pasos" className="py-2">
+            <div className="flex w-full flex-col py-2">
+              <label htmlFor="pasos" className=" text-[#506e95] font-bold tracking-tight text-xl py-2">
                 Pasoš:
               </label>
-              <div className="flex items-center py-2">
+              <div className="grid grid-cols-3 gap-10 py-2">
+              <label htmlFor="pasos" className="w-full font-normal text-lg btn bg-white  text-[#506e95]  cursor-pointer flex items-center justify-center"
+                >
                 <input
                   type="radio"
                   name="pasos"
                   value="true"
-                  className="radio radio-info"
+                  className="hidden"
                 />
-                <label htmlFor="pasos" className="ml-3">
+              
                   Da
                 </label>
 
+                <label htmlFor="pasos" className="w-full font-normal text-lg btn bg-white  text-[#506e95]  cursor-pointer flex items-center justify-center"
+                >
                 <input
                   type="radio"
                   name="pasos"
                   value="false"
-                  className="radio radio-error ml-5"
+                  className="hidden"
                 />
-                <label htmlFor="pasos" className="ml-3">
+                
                   Ne
                 </label>
               </div>
             </div>
 
-            <div className="flex flex-col py-2">
-              <label htmlFor="spol" className="py-2">
+            <div className="flex w-full flex-col py-2">
+              <label htmlFor="spol" className=" text-[#506e95] font-bold tracking-tight text-xl py-2">
                 Spol:
               </label>
-              <div className="flex items-center py-2">
+              <div className="grid gap-10 grid-cols-3 gpa-10 py-2">
+              <label htmlFor="spol" className="w-full text-lg btn font-normal bg-white  text-[#506e95]  cursor-pointer flex items-center justify-center">
+
                 <input
                   type="radio"
                   name="spol"
                   value="musko"
-                  className="radio radio-info"
+                  className="hidden"
                 />
-                <label htmlFor="spol" className="ml-3">
                   Muško
                 </label>
+
+                <label htmlFor="spol"  className="w-full text-lg font-normal btn bg-white  text-[#506e95]  cursor-pointer flex items-center justify-center">
 
                 <input
                   type="radio"
                   name="spol"
                   value="zensko"
-                  className="radio radio-error ml-5"
+                  className="hidden"
                 />
-                <label htmlFor="spol" className="ml-3">
                   Žensko
                 </label>
               </div>
             </div>
 
-            <div className="flex flex-col py-2">
-              <label htmlFor="starost" className="py-2">
+            <div className="flex w-full flex-col py-2">
+              <label htmlFor="starost" className=" text-[#506e95] font-bold tracking-tight text-xl py-2">
                 Starost:
               </label>
-              <div className="flex items-center py-2">
+              <div className="grid gap-10 grid-cols-3 py-2">
+              <label htmlFor="starost" className="w-full text-lg btn bg-white  text-[#506e95] font-normal  cursor-pointer flex items-center justify-center">
+
                 <input
                   type="radio"
                   name="starost"
                   value="mladje"
-                  className="radio radio-info"
+                  className="hidden"
                 />
-                <label htmlFor="starost" className="ml-3">
                   Mlađe
                 </label>
+
+                <label htmlFor="starost" className="w-full font-normal text-lg btn bg-white  text-[#506e95]  cursor-pointer flex items-center justify-center">
 
                 <input
                   type="radio"
                   name="starost"
                   value="odraslo"
-                  className="radio radio-info ml-5"
+                  className="hidden"
                 />
-                <label htmlFor="starost" className="ml-3">
                   Odraslo
                 </label>
+
+                <label htmlFor="starost" className="w-full font-normal text-lg btn bg-white  text-[#506e95]  cursor-pointer flex items-center justify-center">
 
                 <input
                   type="radio"
                   name="starost"
                   value="starije"
-                  className="radio radio-info ml-5"
+                  className="hidden"
                 />
-                <label htmlFor="starost" className="ml-3">
                   Starije
                 </label>
               </div>
@@ -570,7 +580,7 @@ const CreateAdoptPost = () => {
           <br />
 
          
-          <label className="text-lg" htmlFor="description">
+          <label className=" text-[#506e95] font-bold tracking-tight text-xl py-2" htmlFor="description">
             Kratak opis
           </label>
           <textarea
@@ -584,10 +594,10 @@ const CreateAdoptPost = () => {
 
           <button
             disabled={isPending}
-            className="btn px-6 bg-[#2F5382] text-md text-white rounded-full mt-5 text-lg
+            className="btn w-full bg-[#2F5382] text-md text-white rounded-lg mt-5 text-lg
             hover:bg-white hover:border-[#2F5382] hover:text-[#2F5382] mx-auto"
           >
-            Kreiraj Oglas
+            Objavi Oglas
             {isPending && (
               <span className="loading loading-dots loading-lg bg-[#2F5382]"></span>
             )}
