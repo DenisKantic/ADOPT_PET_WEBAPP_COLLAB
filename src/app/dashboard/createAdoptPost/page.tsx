@@ -33,12 +33,12 @@ const CreateAdoptPost = () => {
 
   console.log('CREATE POST EMAIL', email.toString())
 
-  useEffect(() => {
-    // Retry fetching email if it doesn't exist
-    if (!loading && !email) {
-      window.location.reload()
-    }
-  }, [loading, email])
+  // useEffect(() => {
+  //   // Retry fetching email if it doesn't exist
+  //   if (!loading && !email) {
+  //     window.location.reload()
+  //   }
+  // }, [loading, email])
 
   const cities = [
     'Banja Luka',
@@ -231,13 +231,13 @@ const CreateAdoptPost = () => {
     })
   }
   return (
-    <div className="min-h-screen w-full bg-gray-200 xxs:px-4 md:px-10 py-5">
+    <div className="min-h-screen w-full bg-white xxs:px-4 md:px-10 py-5">
       <div
-        className="w-[50%] bg-gray-100 mx-auto min-h-[50vh] shadow-2xl rounded-md
+        className="w-[50%] bg-white mx-auto min-h-[50vh] rounded-md
                         xxs:w-full md:w-[60%] xl:w-[50%]"
       >
         <h1 className="text-2xl text-black text-center py-10 font-bold tracking-wide">
-          Kreiraj objavu
+          Kreiraj objavu - Udomi ljubimca
         </h1>
 
         <form
@@ -246,13 +246,18 @@ const CreateAdoptPost = () => {
         >
           <div className="flex flex-col py-3 w-full">
             <div
-              className="btn bg-[#2F5382] text-md text-white rounded-xl
+              className="btn border-2 border-dashed h-[20svh] bg-white text-md text-white rounded-xl
                            hover:bg-white hover:border-[#2F5382] hover:text-[#2F5382]"
             >
+              <div className='px-20'>
+              <p className='text-lg text-black'>Odaberite fotografiju klikom na dugme</p>
+             <p className='text-sm text-gray-400 py-2'>Moguce postaviti vise fotografija*</p>
               <label
                 htmlFor="fileUpload"
-                className="w-full cursor-pointer flex items-center justify-center"
+                className="w-full btn bg-[#2F5382] text-white cursor-pointer flex items-center justify-center"
               >
+
+                
                 <p className="w-full text-lg">
                   {fileName ? fileName : 'Izaberite fotografiju'}
                 </p>
@@ -267,6 +272,7 @@ const CreateAdoptPost = () => {
                 onChange={handleFileChange}
                 className="hidden"
               />
+              </div>
             </div>
             {error && <p className="text-red-600 py-3">{error}</p>}
 
@@ -312,8 +318,39 @@ const CreateAdoptPost = () => {
               </Swiper>
             </div>
 
-            <p className="text-xl pt-5">Lokacija</p>
-            <div className="dropdown dropdown-bottom">
+            <p className='text-2xl font-bold text-[#2F5382] py-5 tracking-tight'>Osnovne informacije</p>
+
+            <label className="text-[0.9em] pt-2" htmlFor="name">
+            Ime ljubimca*
+          </label>
+          <input
+            className="input input-bordered border-[#2F5382] bg-white rounded-lg py-6 mt-2 p-5 w-full text-lg
+                focus:border-2 focus:border-[#2F5382]"
+            maxLength={15}
+            name="name"
+            type="text"
+            placeholder="Upišite ime ljubimca"
+          />
+          <br />
+
+          <label className="text-[0.9em]" htmlFor="phoneNumber">
+            Broj mobitela*
+            <span className="text-sm text-gray-600">{'(061 - xxx -...)'}</span>
+          </label>
+          <input
+            className="input input-bordered border-[#2F5382] bg-white rounded-lg mt-2 p-5 w-full text-lg
+                focus:border-2 focus:border-[#2F5382]"
+            maxLength={15}
+            name="phoneNumber"
+            type="text"
+            placeholder="Upišite broj telefona"
+          />
+          <br />
+
+
+
+            <p className="text-xl">Lokacija</p>
+            <div className="dropdown w-full dropdown-bottom">
               <div
                 tabIndex={0}
                 role="button"
@@ -342,78 +379,70 @@ const CreateAdoptPost = () => {
               </ul>
             </div>
 
-            <label htmlFor="category" className="py-2">
-              Kategorija:
+            <label htmlFor="category" className="py-2 font-bold text-[#2F5382] tracking-tight">
+              Vrsta ljubimca
             </label>
-            <div className="flex items-center py-2">
+            <div className="grid grid-cols-3 gap-10 py-2 overflow-hidden">
+            <label htmlFor="category" className="w-full text-lg text-ellipsisxt-center  btn bg-white text-[#2F5382] flex items-center justify-center">
               <input
                 type="radio"
                 name="category"
                 value="pas"
-                className="radio radio-info"
+                className="hidden"
               />
-              <label htmlFor="category" className="ml-3">
+             
                 Pas
               </label>
+
+              <label htmlFor="category" className="w-full text-lg text-center btn bg-white text-[#2F5382] flex items-center justify-center">
 
               <input
                 type="radio"
                 name="category"
                 value="macka"
-                className="radio radio-info ml-5"
+                className="hidden"
               />
-              <label htmlFor="category" className="ml-3">
                 Mačka
               </label>
 
+              <label htmlFor="category" className="text-center text-lg btn bg-white text-[#2F5382]  flex items-center justify-center">
               <input
                 type="radio"
                 name="category"
                 value="ostalo"
-                className="radio radio-info ml-5"
+                className="hidden"
               />
-              <label htmlFor="category" className="ml-3">
                 Ostalo
               </label>
             </div>
           </div>
 
-          <label className="text-lg pt-2" htmlFor="name">
-            Ime ljubimca
-          </label>
-          <input
-            className="input input-bordered border-[#2F5382] bg-white rounded-full mt-2 p-5 w-full text-lg
-                focus:border-2 focus:border-[#2F5382]"
-            maxLength={15}
-            name="name"
-            type="text"
-            placeholder="Upišite ime ljubimca"
-          />
-          <br />
-
-          <div className="flex flex-col items-start">
-            <div className="flex flex-col py-2">
-              <label htmlFor="vakcinisan" className="py-2">
+          
+          <div className="flex flex-col w-full items-start">
+            <div className="flex w-full flex-col py-2">
+              <label htmlFor="vakcinisan" className="text-[#2F5382] font-bold tracking-tight text-xl py-2">
                 Vakcinisan:
               </label>
-              <div className="flex items-center py-2">
+              <div className="grid grid-cols-3 gap-10 overflow-hidden py-2">
+              <label htmlFor="category" className="w-full  text-lg text-center btn bg-white text-[#2F5382] flex items-center justify-center">
+
                 <input
                   type="radio"
                   name="vakcinisan"
                   value="true"
-                  className="radio radio-info"
+                  className="hidden"
                 />
-                <label htmlFor="vakcinisan" className="ml-3">
                   Da
                 </label>
+
+                <label htmlFor="category" className="text-lg text-center btn bg-white text-[#2F5382] flex items-center justify-center">
 
                 <input
                   type="radio"
                   name="vakcinisan"
                   value="false"
-                  className="radio radio-error ml-5"
+                  className="hidden"
                 />
-                <label htmlFor="vakcinisan" className="ml-3">
                   Ne
                 </label>
               </div>
@@ -540,20 +569,7 @@ const CreateAdoptPost = () => {
 
           <br />
 
-          <label className="text-lg" htmlFor="phoneNumber">
-            Broj telefona{' '}
-            <span className="text-sm text-gray-600">{'(061 - xxx -...)'}</span>
-          </label>
-          <input
-            className="input input-bordered border-[#2F5382] bg-white rounded-full mt-2 p-5 w-full text-lg
-                focus:border-2 focus:border-[#2F5382]"
-            maxLength={15}
-            name="phoneNumber"
-            type="text"
-            placeholder="Upišite broj telefona"
-          />
-          <br />
-
+         
           <label className="text-lg" htmlFor="description">
             Kratak opis
           </label>
